@@ -243,7 +243,7 @@ const PRODUCTS = [
       { type: "video", slot: "Video product review", src: "03-video-review.mp4" },
       { type: "video", slot: "Hands-on video", src: "04-hands-on.mp4" },
       { type: "image", slot: "Front photo, on mannequin", src: "05-front-maneken.jpg" },
-      { type: "image", slot: "Side photo 1, on mannequin", src: null }, // awaiting photo from Lena — see read-me-first / chat 2026-07-23
+      { type: "image", slot: "Side photo 1, on mannequin", src: "06-side-maneken-1.jpg" },
       { type: "image", slot: "Side photo 2, on mannequin", src: "07-side-maneken-2.jpg" },
       { type: "image", slot: "Back photo, on mannequin", src: "08-back.jpg" },
       { type: "image", slot: "Inside photo", src: "09-inside.jpg" },
