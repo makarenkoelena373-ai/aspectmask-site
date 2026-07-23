@@ -37,8 +37,12 @@
     if (item.type === "text") {
       const bgSrc = item.src ? mediaPath(product.id, item.src) : null;
       const bullets = item.bullets || [];
+      // focusY: per-photo eye-position calibration (see text-slide-template-spec.md).
+      // Defaults to 41% (ruby-dune's value) when a product doesn't specify one.
+      const focusY = item.focusY != null ? item.focusY : 41;
+      const focusStyle = ` style="object-position:center ${focusY}%; transform-origin:center ${focusY}%;"`;
       return `<div class="carousel-slide"><div class="text-slide">
-        ${bgSrc ? `<div class="text-slide-photo"><img src="${bgSrc}" alt="" /><div class="text-slide-photo-scrim"></div></div>` : ""}
+        ${bgSrc ? `<div class="text-slide-photo"><img src="${bgSrc}" alt=""${focusStyle} /><div class="text-slide-photo-scrim"></div></div>` : ""}
         <img class="text-slide-watermark" src="assets/brand/logo-mark.png" alt="" aria-hidden="true" />
         <div class="text-slide-content">
           ${item.heading ? `<p class="text-slide-heading">${item.heading}</p>` : ""}
