@@ -274,6 +274,51 @@ const PRODUCTS = [
     ],
   },
 
+  {
+    id: "wine-heart",
+    name: "Wine Heart Mask",
+    price: "$ 290", // confirmed 2026-07-23, Notion price list
+    inStock: true,
+    tagline: "Hand-sculpted wine-red wire mask — a heart traced in thread",
+    description:
+      "One-of-one hand-sculpted piece — no two Aspect masks are ever the same.",
+    media: [
+      { type: "image", slot: "Hero photo", src: "01-hero.jpg" },
+      { type: "video", slot: "Hero video", src: "02-hero-video.mp4" },
+      { type: "video", slot: "Video product review", src: "03-video-review.mp4" },
+      { type: "video", slot: "Hands-on video", src: "04-hands-on.mp4" },
+      { type: "image", slot: "Front photo, on mannequin", src: "05-front-maneken.jpg" },
+      { type: "image", slot: "Side photo 1, on mannequin", src: "06-side-maneken-1.jpg" },
+      { type: "image", slot: "Side photo 2, on mannequin", src: "07-side-maneken-2.jpg" },
+      { type: "image", slot: "Back photo, on mannequin", src: "08-back.jpg" },
+      { type: "image", slot: "Inside photo", src: "09-inside.jpg" },
+      { type: "image", slot: "Macro detail 1", src: "10-macro-1.jpg" },
+      { type: "image", slot: "Macro detail 2", src: "11-macro-2.jpg" },
+      {
+        type: "text",
+        slot: "Brand statement",
+        src: "12-text-slide.jpg",
+        focusY: 30, // eye-position calibration for THIS photo — see text-slide-template-spec.md
+        heading: "One of one",
+        subheading:
+          "Designer handmade accessory<br>one-of-a-kind piece - one for the whole world.",
+        bullets: [
+          "Bends by hand to fit any face.",
+          "Lightweight. Wear it all night.",
+          "Travels easily — weighs next to nothing, box included.",
+          "Soft against your skin, not wire.",
+        ],
+      },
+      {
+        type: "cta",
+        slot: "Order CTA",
+        src: "13-cta-hero.jpg",
+        ctaTitle: "Ready to ship",
+        ctaSub: "Claim it for your look.<br>Make your entrance.",
+      },
+    ],
+  },
+
   /* ---- TEMPLATE — copy this block to add your next product ------------
   {
     id: "your-product-id",
