@@ -144,6 +144,10 @@ button { font-family: inherit; cursor: pointer; }
 }
 .text-slide-photo { position: relative; width: 100%; height: 33%; flex-shrink: 0; overflow: hidden; }
 .text-slide-photo img {
+  /* object-position / transform-origin are set inline per-product (js/app.js, `focusY` field
+     on the text-slide item in products.js) — the eye-position crop point differs per photo.
+     scale(1.81) stays fixed for every product — do not change it. Fallback values below only
+     apply if a product's text-slide item somehow has no inline style. */
   display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 41%;
   transform: scale(1.81); transform-origin: center 41%;
 }
