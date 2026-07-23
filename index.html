@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>ASPECT — Handmade Designer Masks & Headpieces | In Stock, Ships Worldwide</title>
+<meta name="description" content="One-of-one handmade masks and headpieces for Burning Man, stage performance and red-carpet dress codes. In stock now, ships worldwide." />
+
+<!-- Open Graph (for when the link is shared in bio / stories / DMs) -->
+<meta property="og:title" content="ASPECT — Handmade Designer Masks & Headpieces" />
+<meta property="og:description" content="One-of-one pieces, in stock now. Ships worldwide." />
+<meta property="og:image" content="assets/brand/og-cover.jpg" />
+<meta property="og:type" content="website" />
+
+<link rel="icon" type="image/png" href="assets/brand/logo.png">
+
+<!-- Gilroy is self-hosted (assets/brand/fonts/) and loaded via @font-face in css/style.css — no external font request needed -->
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="wrap header-inner">
+    <img class="logo" src="assets/brand/logo.png" alt="ASPECT MASK" />
+    <a class="header-ig" id="header-ig-link" href="#" target="_blank" rel="noopener">Message us</a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow" id="hero-eyebrow">IN STOCK — READY TO SHIP WORLDWIDE</p>
+    <h1 id="hero-title">Turn Every Room Into Your Runway</h1>
+    <p class="hero-sub" id="hero-subtitle">
+      One-of-one, hand-sculpted masks &amp; headpieces for Burning Man, stage performance and red-carpet dress codes.
+    </p>
+    <ul class="hero-bullets" id="hero-bullets"></ul>
+    <a href="#catalog" class="btn btn-primary hero-cta">See what's in stock</a>
+  </div>
+</section>
+
+<!-- ============ CATALOG ============ -->
+<section class="catalog" id="catalog">
+  <div class="wrap">
+    <h2 id="section-title">Available Now</h2>
+    <p class="section-sub" id="section-subtitle">Everything below is in stock and ready to ship today.</p>
+    <div class="grid" id="product-grid"><!-- cards injected by js/app.js --></div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <img class="footer-brand" src="assets/brand/logo.png" alt="ASPECT MASK" />
+    <p class="footer-line">Handmade in one copy. Ships worldwide.</p>
+    <a id="footer-ig-link" href="#" target="_blank" rel="noopener" class="footer-ig">@aspect.mask</a>
+  </div>
+</footer>
+
+<!-- ============ PRODUCT MODAL ============ -->
+<div class="modal" id="product-modal" aria-hidden="true">
+  <div class="modal-inner">
+    <div class="carousel-wrap">
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+      <div class="carousel" id="modal-carousel"></div>
+      <button class="carousel-arrow carousel-arrow-prev" id="carousel-prev" aria-label="Previous">‹</button>
+      <button class="carousel-arrow carousel-arrow-next" id="carousel-next" aria-label="Next">›</button>
+    </div>
+    <div class="carousel-dots" id="modal-dots"></div>
+
+    <div class="modal-body">
+      <div class="price-row">
+        <p class="modal-price" id="modal-price"></p>
+        <button class="btn btn-order" id="order-btn">Order this unique piece</button>
+      </div>
+
+      <h3 id="modal-name"></h3>
+      <p class="modal-tagline" id="modal-tagline"></p>
+      <p class="shipping-line" id="shipping-line">Ships worldwide — 7–10 days, shipping runs up to $35.</p>
+
+      <ul class="trust-list">
+        <li>Unique design — an authorial piece for your wardrobe</li>
+        <li>Universal fit — flexible frame, adjust it yourself to any face</li>
+        <li>Lightweight — soft yarn over flexible aluminum wire, wear it all day</li>
+        <li>Travels easily — weighs next to nothing, travel box included</li>
+      </ul>
+
+      <p class="question-line">
+        <svg class="chat-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M9.5 4h9A2.5 2.5 0 0 1 21 6.5v6A2.5 2.5 0 0 1 18.5 15H16v3.2l-3.6-3.2H9.5A2.5 2.5 0 0 1 7 12.5v-6A2.5 2.5 0 0 1 9.5 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M14.5 9h-9A2.5 2.5 0 0 0 3 11.5v6A2.5 2.5 0 0 0 5.5 20H8v3.2l3.6-3.2h2.9A2.5 2.5 0 0 0 17 17.5v-1.5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="var(--bg-card)"/>
+        </svg>
+        <span>Have a question? <a href="#" id="question-ig-link" target="_blank" rel="noopener">Text me</a></span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ORDER POPUP (bottom sheet — dimmed backdrop, closes on outside tap) ============ -->
+<div class="modal modal-order" id="order-modal" aria-hidden="true">
+  <div class="modal-inner modal-inner-small">
+    <div class="sheet-grabber"></div>
+    <button class="modal-close" id="order-modal-close" aria-label="Close">✕</button>
+
+    <h3 id="order-title">How to order</h3>
+    <p class="order-explainer" id="order-explainer"></p>
+
+    <div class="order-step">
+      <span class="order-step-num">1</span>
+      <button type="button" class="btn btn-ghost btn-block" id="copy-btn">Tap to copy link</button>
+    </div>
+    <p class="copy-hint" id="copy-hint">✓ Link copied to your clipboard</p>
+
+    <div class="order-step">
+      <span class="order-step-num">2</span>
+      <a class="btn btn-primary btn-block" id="order-ig-btn" href="#" target="_blank" rel="noopener">
+        Send link in Instagram Direct
+      </a>
+    </div>
+    <a class="btn btn-ghost btn-block" id="order-wa-btn" href="#" target="_blank" rel="noopener" style="display:none">
+      Message on WhatsApp
+    </a>
+
+    <input type="text" id="copy-field" class="sr-copy-field" readonly tabindex="-1" aria-hidden="true" />
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/products.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
