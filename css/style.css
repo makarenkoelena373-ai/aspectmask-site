@@ -204,7 +204,7 @@ button { font-family: inherit; cursor: pointer; }
 .card-btn {
   width: 100%; text-align: center; font-size: 11px; padding: 10px;
   border: 1px solid var(--fg); background: transparent; color: var(--fg);
-  border-radius: var(--radius); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+  border-radius: var(--radius); font-weight: 500; letter-spacing: 0.06em; text-transform: none;
   margin-top: auto;
 }
 
