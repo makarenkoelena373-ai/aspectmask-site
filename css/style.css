@@ -77,20 +77,42 @@ button { font-family: inherit; cursor: pointer; }
 }
 .header-ig:active { border-color: var(--accent-text); }
 
-/* ---------- hero ---------- */
-.hero { padding: 44px 0 36px; text-align: left; }
-.eyebrow {
-  font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--accent-text); margin-bottom: 14px;
+/* ---------- hero photo banner ---------- */
+/* Full-bleed horizontal banner above the hero copy — hands/tools/mask on a
+   table, black background matching the site. Placeholder shown until
+   SITE.heroPhoto is set (js/app.js swaps in the real <img> once it exists). */
+.hero-photo-banner {
+  width: 100%;
+  max-width: 900px; /* keeps the banner from ballooning in height on wide desktop windows — mobile is the real target */
+  margin: 0 auto;
+  aspect-ratio: 9 / 10; /* ~half of a standard mobile screen height (390x844) — crops top/bottom of hero-banner.jpg symmetrically via object-fit:cover below, no stretching/distortion */
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
 }
-.hero h1 { font-size: 34px; line-height: 1.12; margin-bottom: 14px; }
-.hero-sub { color: var(--muted); font-size: 15.5px; line-height: 1.55; margin-bottom: 18px; }
-.hero-bullets { display: flex; flex-direction: column; gap: 8px; margin-bottom: 26px; }
-.hero-bullets li {
+.hero-photo-banner img { width: 100%; height: 100%; object-fit: cover; }
+.hero-photo-placeholder-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- hero ---------- */
+.hero { padding: 32px 0 36px; text-align: left; }
+.hero h1 { font-size: 34px; line-height: 1.12; margin-bottom: 14px; text-align: center; }
+.hero-sub { color: var(--muted); font-size: 15.5px; line-height: 1.55; margin-bottom: 26px; text-align: center; }
+
+.hero-wear-for-heading {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--accent-text); margin-bottom: 12px;
+}
+.hero-wear-for-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 26px; }
+.hero-wear-for-list li {
   font-size: 13.5px; color: var(--fg); display: flex; gap: 8px; align-items: baseline;
 }
-.hero-bullets li::before { content: "—"; color: var(--accent-text); flex: none; }
-.hero-cta { display: inline-block; }
+.hero-wear-for-list li::before { content: "—"; color: var(--accent-text); flex: none; }
+
+.hero-unique-paragraph { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
 
 /* ---------- buttons ---------- */
 .btn {
@@ -104,9 +126,9 @@ button { font-family: inherit; cursor: pointer; }
 .btn-block { display: flex; width: 100%; margin-top: 10px; }
 
 /* ---------- catalog section ---------- */
-.catalog { padding: 8px 0 60px; border-top: 1px solid var(--line); margin-top: 8px; }
-.catalog h2 { font-size: 22px; padding-top: 32px; }
-.section-sub { color: var(--muted); font-size: 13.5px; margin-top: 6px; margin-bottom: 22px; }
+/* section-title/section-sub removed 2026-07-27 (Lena) — grid follows straight
+   after the hero paragraph, so give it a bit of its own breathing room. */
+.catalog { padding: 32px 0 60px; border-top: 1px solid var(--line); margin-top: 8px; }
 
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .card { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: rgba(233,238,242,0.15); }
