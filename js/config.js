@@ -15,17 +15,38 @@ const SITE = {
 
   whatsappNumber: "", // optional, e.g. "15551234567" — leave "" to hide the WhatsApp option
 
-  heroEyebrow: "IN STOCK — READY TO SHIP WORLDWIDE",
-  heroTitle: "Turn Every Room Into Your Runway",
-  heroSubtitle:
-    "One-of-one, hand-sculpted masks & headpieces for Burning Man, stage performance and red-carpet dress codes. Made once. Never repeated. No one else will ever wear yours.",
-  heroBullets: [
-    "One-of-one — never repeated",
-    "Fits any face — flexible, adjust it yourself",
-    "Lightweight, all-day wearable",
-    "Ships worldwide",
+  // Hero banner photo — close-up, eyes visible through the mask, black
+  // background. Replaced 2026-07-27 (previous version was hands+tools on
+  // a burgundy background — see hero-banner-hands-OLD.jpg for that one).
+  // Portrait 3:4 — css .hero-photo-banner aspect-ratio matches it exactly.
+  heroPhoto: "assets/brand/hero-banner.jpg",
+
+  heroTitle: "Feel insane.",
+  heroSubtitle: "At the event. On camera. Inside out.",
+
+  // "Wear it for" — occasion-recognition list, approved 2026-07-27.
+  // Order matters: "Wow content" first (broadest, most universally understood
+  // value), then specific occasions. Do not reorder without asking Lena.
+  heroWearForHeading: "Fashion avant-garde masks for:",
+  heroWearFor: [
+    "Wow content",
+    "Burning Man & festival looks",
+    "Red carpet & gala dress codes",
+    "Stage performance & music videos",
+    "Masquerade & fantasy nights",
+    "Boudoir shoots & intimate content",
   ],
 
+  // Uniqueness/urgency/price-anchor paragraph — approved 2026-07-27.
+  // "Only 6 pieces" / "$255" reflect the CURRENT catalog — update this text
+  // by hand whenever a product is added/removed or the cheapest price changes,
+  // it is not computed automatically.
+  heroUniqueParagraph:
+    "Designer, hand-sculpted masks & headpieces, one of one. Once one is claimed, it's gone for good. In stock and ready to ship today, worldwide. Pieces from $255. Only 6 pieces exist in the world right now — Own yours now.",
+
+  // NOT rendered on the page anymore — removed 2026-07-27 per Lena
+  // ("Available Now" heading + subtitle above the catalog grid). Left here
+  // in case she wants them back later; js/app.js no longer reads these.
   sectionTitle: "Available Now",
   sectionSubtitle: "Everything below is in stock and ready to ship today.",
 

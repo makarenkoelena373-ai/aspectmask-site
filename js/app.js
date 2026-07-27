@@ -11,18 +11,23 @@
   // ---------- fill in text from config.js ----------
   document.getElementById("footer-ig-link").textContent = SITE.instagramHandleDisplay;
   document.getElementById("footer-ig-link").href = igLink();
-  document.getElementById("header-ig-link").href = igLink();
   document.getElementById("question-ig-link").href = igLink();
 
-  document.getElementById("hero-eyebrow").textContent = SITE.heroEyebrow;
+  if (SITE.heroPhoto) {
+    document.getElementById("hero-photo-banner").innerHTML =
+      `<img src="${SITE.heroPhoto}" alt="Hand-sculpting a mask — tools and finished piece on the table" />`;
+  }
+  // else: leave the CSS placeholder (photo not shot yet) as-is
+
   document.getElementById("hero-title").textContent = SITE.heroTitle;
   document.getElementById("hero-subtitle").textContent = SITE.heroSubtitle;
-  document.getElementById("hero-bullets").innerHTML = SITE.heroBullets
+
+  document.getElementById("hero-wear-for-heading").textContent = SITE.heroWearForHeading;
+  document.getElementById("hero-wear-for-list").innerHTML = SITE.heroWearFor
     .map((b) => `<li>${b}</li>`)
     .join("");
 
-  document.getElementById("section-title").textContent = SITE.sectionTitle;
-  document.getElementById("section-subtitle").textContent = SITE.sectionSubtitle;
+  document.getElementById("hero-unique-paragraph").textContent = SITE.heroUniqueParagraph;
 
   document.getElementById("order-title").textContent = SITE.orderPopupTitle;
   document.getElementById("order-explainer").textContent = SITE.orderPopupExplainer;
