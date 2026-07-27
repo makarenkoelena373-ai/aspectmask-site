@@ -14,20 +14,19 @@
   document.getElementById("question-ig-link").href = igLink();
 
   if (SITE.heroPhoto) {
-    document.getElementById("hero-photo-banner").innerHTML =
-      `<img src="${SITE.heroPhoto}" alt="Hand-sculpting a mask — tools and finished piece on the table" />`;
+    document.getElementById("hero-photo-img-slot").innerHTML =
+      `<img src="${SITE.heroPhoto}" alt="Model wearing an ASPECT mask — eyes visible through the design" />`;
   }
   // else: leave the CSS placeholder (photo not shot yet) as-is
 
   document.getElementById("hero-title").textContent = SITE.heroTitle;
   document.getElementById("hero-subtitle").textContent = SITE.heroSubtitle;
 
-  document.getElementById("hero-wear-for-heading").textContent = SITE.heroWearForHeading;
-  document.getElementById("hero-wear-for-list").innerHTML = SITE.heroWearFor
-    .map((b) => `<li>${b}</li>`)
+  document.getElementById("hero-tagline-lines").innerHTML = SITE.heroTaglineLines
+    .map((line) => `<p>${line}</p>`)
     .join("");
 
-  document.getElementById("hero-unique-paragraph").textContent = SITE.heroUniqueParagraph;
+  document.getElementById("hero-scarcity-number").textContent = SITE.heroScarcityNumber;
 
   document.getElementById("order-title").textContent = SITE.orderPopupTitle;
   document.getElementById("order-explainer").textContent = SITE.orderPopupExplainer;

@@ -24,25 +24,36 @@ const SITE = {
   heroTitle: "Feel insane.",
   heroSubtitle: "At the event. On camera. Inside out.",
 
-  // "Wear it for" — occasion-recognition list, approved 2026-07-27.
-  // Order matters: "Wow content" first (broadest, most universally understood
-  // value), then specific occasions. Do not reorder without asking Lena.
+  // REMOVED from the main page 2026-07-27 per Lena — the occasion list was
+  // slowing down the "see what's in stock" path for a cold visitor. This
+  // content should move to a dedicated card/section on each PRODUCT page
+  // instead (not built yet — future task). Data kept here for reuse then.
   heroWearForHeading: "Fashion avant-garde masks for:",
   heroWearFor: [
     "Wow content",
     "Burning Man & festival looks",
-    "Red carpet & gala dress codes",
     "Stage performance & music videos",
     "Masquerade & fantasy nights",
     "Boudoir shoots & intimate content",
+    "Red carpet & gala dress codes",
   ],
 
-  // Uniqueness/urgency/price-anchor paragraph — approved 2026-07-27.
-  // "Only 6 pieces" / "$255" reflect the CURRENT catalog — update this text
-  // by hand whenever a product is added/removed or the cheapest price changes,
-  // it is not computed automatically.
-  heroUniqueParagraph:
-    "Designer, hand-sculpted masks & headpieces, one of one. Once one is claimed, it's gone for good. In stock and ready to ship today, worldwide. Pieces from $255. Only 6 pieces exist in the world right now — Own yours now.",
+  // 3rd (quietest) attention tier — plain/quiet 3-line block, sits FIRST.
+  // "Fashion avant-garde masks" is plain text here, not a heading — the
+  // heading treatment is on "Only 6 pieces exist now:" below instead.
+  heroTaglineLines: [
+    "Fashion avant-garde masks",
+    "Designer, hand-sculpted, one of one.",
+    "Ready to ship today, worldwide.",
+  ],
+
+  // Scarcity callout — the emphasized heading of this section, sits right
+  // above the catalog grid. No subtitle under it anymore (removed per
+  // Lena 2026-07-27 — "exist in the world right now — Own yours now" is
+  // gone, the number + "exist now:" says it all on its own).
+  // "6" reflects the CURRENT catalog — update by hand when the assortment
+  // changes, not computed automatically.
+  heroScarcityNumber: "Only 6 pieces exist now:",
 
   // NOT rendered on the page anymore — removed 2026-07-27 per Lena
   // ("Available Now" heading + subtitle above the catalog grid). Left here
