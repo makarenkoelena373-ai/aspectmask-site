@@ -101,7 +101,6 @@
     return `
       <div class="card" data-id="${p.id}">
         <div class="card-media">
-          ${p.inStock ? '<span class="card-badge">In stock</span>' : ""}
           ${coverHTML}
         </div>
         <div class="card-info">
