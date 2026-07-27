@@ -106,7 +106,7 @@
         <div class="card-info">
           <p class="card-name">${p.name}</p>
           ${p.price ? `<p class="card-price">${p.price}</p>` : ""}
-          <button class="card-btn" type="button">View piece</button>
+          <button class="card-btn" type="button">view piece</button>
         </div>
       </div>`;
   }).join("");
