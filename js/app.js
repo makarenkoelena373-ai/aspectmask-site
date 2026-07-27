@@ -105,7 +105,6 @@
         </div>
         <div class="card-info">
           <p class="card-name">${p.name}</p>
-          <p class="card-tagline">${p.tagline}</p>
           ${p.price ? `<p class="card-price">${p.price}</p>` : ""}
           <button class="card-btn" type="button">View piece</button>
         </div>
