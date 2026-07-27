@@ -24,18 +24,24 @@
      hero photo, no bar/logo above it. -->
 
 <!-- ============ HERO ============ -->
+<!-- Title/subtitle overlaid on the photo (bottom, over a gradient scrim) —
+     matches Lena's Figma mockup 2026-07-27, replacing the earlier stacked
+     version where they sat below the photo as a separate block. -->
 <div class="hero-photo-banner" id="hero-photo-banner">
-  <span class="hero-photo-placeholder-label">Photo coming soon</span>
+  <div class="hero-photo-img-slot" id="hero-photo-img-slot">
+    <span class="hero-photo-placeholder-label">Photo coming soon</span>
+  </div>
+  <div class="hero-photo-scrim"></div>
+  <div class="hero-photo-overlay-text">
+    <h1 id="hero-title">Feel insane.</h1>
+    <p class="hero-sub" id="hero-subtitle">At the event. On camera. Inside out.</p>
+  </div>
 </div>
 <section class="hero">
   <div class="wrap">
-    <h1 id="hero-title">Feel insane.</h1>
-    <p class="hero-sub" id="hero-subtitle">At the event. On camera. Inside out.</p>
+    <div class="hero-tagline-lines" id="hero-tagline-lines"></div>
 
-    <p class="hero-wear-for-heading" id="hero-wear-for-heading"></p>
-    <ul class="hero-wear-for-list" id="hero-wear-for-list"></ul>
-
-    <p class="hero-unique-paragraph" id="hero-unique-paragraph"></p>
+    <p class="hero-scarcity-number" id="hero-scarcity-number"></p>
   </div>
 </section>
 
