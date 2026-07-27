@@ -348,7 +348,7 @@ button { font-family: inherit; cursor: pointer; }
 
 /* level 1 of attention: price + the order button, same row */
 .price-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
-.modal-price { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--fg); letter-spacing: 0.035em; }
+.modal-price { font-family: var(--font-display); font-size: 32px; font-weight: 400; color: var(--fg); letter-spacing: 0.035em; }
 .btn-order {
   display: inline-flex; align-items: center; justify-content: center; flex: 0 0 46%; text-align: center;
   padding: 13px 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase;
@@ -358,7 +358,7 @@ button { font-family: inherit; cursor: pointer; }
 .btn-order:active { opacity: 0.75; }
 
 /* level 2: product name */
-.modal-body h3 { font-size: 21px; margin-bottom: 4px; }
+.modal-body h3 { font-size: 21px; font-weight: 400; margin-bottom: 4px; }
 .modal-tagline { color: var(--muted); font-size: 13.5px; margin-bottom: 10px; }
 
 /* plain-text line about shipping, right after name/tagline — pre-empts the #1 cross-border objection
