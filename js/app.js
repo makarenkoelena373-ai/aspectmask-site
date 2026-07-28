@@ -8,10 +8,29 @@
   const igLink = (extra) =>
     `https://ig.me/m/${encodeURIComponent(SITE.instagramUsername)}`;
 
+  // ---------- GA4 event tracking ----------
+  // Small guard wrapper: gtag may be missing (ad blocker, offline gtag.js load failure) —
+  // never let analytics break the page.
+  function track(name, params) {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", name, params || {});
+    }
+  }
+
   // ---------- fill in text from config.js ----------
   document.getElementById("footer-ig-link").textContent = SITE.instagramHandleDisplay;
   document.getElementById("footer-ig-link").href = igLink();
+  document.getElementById("footer-ig-link").addEventListener("click", () => {
+    track("contact_click", { source: "footer" });
+  });
   document.getElementById("question-ig-link").href = igLink();
+  document.getElementById("question-ig-link").addEventListener("click", () => {
+    track("contact_click", {
+      source: "product_modal",
+      product_id: currentProduct ? currentProduct.id : null,
+      product_name: currentProduct ? currentProduct.name : null,
+    });
+  });
 
   if (SITE.heroPhoto) {
     document.getElementById("hero-photo-img-slot").innerHTML =
@@ -134,7 +153,14 @@
   }).join("");
 
   grid.querySelectorAll(".card").forEach((card) => {
-    card.addEventListener("click", () => openProduct(card.dataset.id, true));
+    card.addEventListener("click", () => {
+      const product = PRODUCTS.find((p) => p.id === card.dataset.id);
+      track("card_click", {
+        product_id: card.dataset.id,
+        product_name: product ? product.name : card.dataset.id,
+      });
+      openProduct(card.dataset.id, true);
+    });
   });
 
   // ---------- product modal ----------
@@ -142,11 +168,36 @@
   const carouselEl = document.getElementById("modal-carousel");
   const dotsEl = document.getElementById("modal-dots");
   let currentProduct = null;
+  // per-product-view carousel-progress tracking (for GA4 slide_view / product_view_end):
+  // maxSlideIndex is the furthest slide (0-based) reached in the CURRENT modal viewing,
+  // reset every time a product is opened. viewEndSent guards against firing the summary
+  // event twice (explicit close + pagehide) for the same viewing.
+  let maxSlideIndex = 0;
+  let viewEndSent = true;
+
+  function trackViewEnd() {
+    if (viewEndSent || !currentProduct) return;
+    viewEndSent = true;
+    const total = currentProduct.media.length;
+    track("product_view_end", {
+      product_id: currentProduct.id,
+      product_name: currentProduct.name,
+      max_slide_reached: maxSlideIndex + 1,
+      slide_total: total,
+      reached_end: maxSlideIndex >= total - 1,
+    });
+  }
+  // covers the case where the visitor closes the tab / navigates away without
+  // tapping the ✕ — otherwise that viewing's drop-off point would never be recorded
+  window.addEventListener("pagehide", trackViewEnd);
 
   function openProduct(id, pushHash) {
     const product = PRODUCTS.find((p) => p.id === id);
     if (!product) return;
+    trackViewEnd(); // flush the previous product's viewing, if any, before switching
     currentProduct = product;
+    maxSlideIndex = 0;
+    viewEndSent = false;
 
     carouselEl.innerHTML = product.media.map((m) => slideHTML(product, m)).join("");
     dotsEl.innerHTML = product.media.map((_, i) => `<span class="${i === 0 ? "active" : ""}"></span>`).join("");
@@ -164,6 +215,14 @@
     productModal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
 
+    track("slide_view", {
+      product_id: product.id,
+      product_name: product.name,
+      slide_index: 1,
+      slide_total: product.media.length,
+      slide_type: product.media[0] ? (product.media[0].type || "photo") : "photo",
+    });
+
     // wrapped in try/catch: some browsers (notably Safari on a file:// page,
     // e.g. a locally-saved preview opened straight from the Files app) refuse
     // to let history.pushState change the URL and throw a SecurityError —
@@ -174,6 +233,7 @@
   }
 
   function closeProduct(popHash) {
+    trackViewEnd();
     productModal.classList.remove("open");
     productModal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
@@ -187,6 +247,21 @@
   carouselEl.addEventListener("scroll", () => {
     const idx = Math.round(carouselEl.scrollLeft / carouselEl.clientWidth);
     dotsEl.querySelectorAll("span").forEach((d, i) => d.classList.toggle("active", i === idx));
+
+    // fire slide_view only the first time a given slide index is reached in this
+    // viewing (not on every back-and-forth swipe) — gives a clean per-product
+    // "how far did they get" funnel in GA4
+    if (currentProduct && idx > maxSlideIndex) {
+      maxSlideIndex = idx;
+      const item = currentProduct.media[idx];
+      track("slide_view", {
+        product_id: currentProduct.id,
+        product_name: currentProduct.name,
+        slide_index: idx + 1,
+        slide_total: currentProduct.media.length,
+        slide_type: item ? (item.type || "photo") : "photo",
+      });
+    }
   });
 
   // ---------- carousel prev/next arrows (mouse-friendly — swipe still works on touch) ----------
@@ -222,6 +297,10 @@
 
   document.getElementById("order-btn").addEventListener("click", () => {
     if (!currentProduct) return;
+    track("order_button_click", {
+      product_id: currentProduct.id,
+      product_name: currentProduct.name,
+    });
     const url = `${location.origin}${location.pathname}#p-${currentProduct.id}`;
     const message = `${currentProduct.name} — ${url}`;
     copyField.value = message;
@@ -242,6 +321,22 @@
 
     orderModal.classList.add("open");
     orderModal.setAttribute("aria-hidden", "false");
+  });
+
+  document.getElementById("copy-btn").addEventListener("click", () => {
+    if (currentProduct) {
+      track("order_copy_link_click", { product_id: currentProduct.id, product_name: currentProduct.name });
+    }
+  });
+  orderIgBtn.addEventListener("click", () => {
+    if (currentProduct) {
+      track("order_instagram_click", { product_id: currentProduct.id, product_name: currentProduct.name });
+    }
+  });
+  orderWaBtn.addEventListener("click", () => {
+    if (currentProduct) {
+      track("order_whatsapp_click", { product_id: currentProduct.id, product_name: currentProduct.name });
+    }
   });
 
   function closeOrderModal() {
