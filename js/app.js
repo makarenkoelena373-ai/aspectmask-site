@@ -8,13 +8,29 @@
   const igLink = (extra) =>
     `https://ig.me/m/${encodeURIComponent(SITE.instagramUsername)}`;
 
-  // ---------- GA4 event tracking ----------
-  // Small guard wrapper: gtag may be missing (ad blocker, offline gtag.js load failure) —
-  // never let analytics break the page.
+  // ---------- GA4 + Meta Pixel event tracking ----------
+  // Small guard wrappers: gtag / fbq may be missing (ad blocker, offline script load
+  // failure) — never let analytics break the page.
   function track(name, params) {
     if (typeof window.gtag === "function") {
       window.gtag("event", name, params || {});
     }
+  }
+  // isStandard=true uses fbq('track', ...) for Meta's built-in event names (ViewContent,
+  // InitiateCheckout, Contact, ...) — these feed Meta's ad tools (retargeting, lookalikes).
+  // isStandard=false uses fbq('trackCustom', ...) for our own event names, mirroring the
+  // GA4 events above one-for-one.
+  function fbTrack(name, params, isStandard) {
+    if (typeof window.fbq === "function") {
+      window.fbq(isStandard ? "track" : "trackCustom", name, params || {});
+    }
+  }
+  // pulls a plain number out of a price string like "$ 255" — used for Meta's value/currency
+  // event params, which power ad-spend optimization
+  function parsePrice(priceStr) {
+    if (!priceStr) return undefined;
+    const n = parseFloat(String(priceStr).replace(/[^0-9.]/g, ""));
+    return isNaN(n) ? undefined : n;
   }
 
   // ---------- fill in text from config.js ----------
@@ -22,6 +38,7 @@
   document.getElementById("footer-ig-link").href = igLink();
   document.getElementById("footer-ig-link").addEventListener("click", () => {
     track("contact_click", { source: "footer" });
+    fbTrack("Contact", { source: "footer" }, true);
   });
   document.getElementById("question-ig-link").href = igLink();
   document.getElementById("question-ig-link").addEventListener("click", () => {
@@ -30,6 +47,10 @@
       product_id: currentProduct ? currentProduct.id : null,
       product_name: currentProduct ? currentProduct.name : null,
     });
+    fbTrack("Contact", {
+      source: "product_modal",
+      product_id: currentProduct ? currentProduct.id : null,
+    }, true);
   });
 
   if (SITE.heroPhoto) {
@@ -159,6 +180,10 @@
         product_id: card.dataset.id,
         product_name: product ? product.name : card.dataset.id,
       });
+      fbTrack("CardClick", {
+        product_id: card.dataset.id,
+        product_name: product ? product.name : card.dataset.id,
+      }, false);
       openProduct(card.dataset.id, true);
     });
   });
@@ -179,13 +204,15 @@
     if (viewEndSent || !currentProduct) return;
     viewEndSent = true;
     const total = currentProduct.media.length;
-    track("product_view_end", {
+    const params = {
       product_id: currentProduct.id,
       product_name: currentProduct.name,
       max_slide_reached: maxSlideIndex + 1,
       slide_total: total,
       reached_end: maxSlideIndex >= total - 1,
-    });
+    };
+    track("product_view_end", params);
+    fbTrack("ProductViewEnd", params, false);
   }
   // covers the case where the visitor closes the tab / navigates away without
   // tapping the ✕ — otherwise that viewing's drop-off point would never be recorded
@@ -222,6 +249,20 @@
       slide_total: product.media.length,
       slide_type: product.media[0] ? (product.media[0].type || "photo") : "photo",
     });
+    fbTrack("SlideView", {
+      product_id: product.id,
+      product_name: product.name,
+      slide_index: 1,
+      slide_total: product.media.length,
+    }, false);
+    // Meta's standard "viewed a product" event — feeds retargeting/lookalike audiences
+    fbTrack("ViewContent", {
+      content_name: product.name,
+      content_ids: [product.id],
+      content_type: "product",
+      value: parsePrice(product.price),
+      currency: "USD",
+    }, true);
 
     // wrapped in try/catch: some browsers (notably Safari on a file:// page,
     // e.g. a locally-saved preview opened straight from the Files app) refuse
@@ -261,6 +302,12 @@
         slide_total: currentProduct.media.length,
         slide_type: item ? (item.type || "photo") : "photo",
       });
+      fbTrack("SlideView", {
+        product_id: currentProduct.id,
+        product_name: currentProduct.name,
+        slide_index: idx + 1,
+        slide_total: currentProduct.media.length,
+      }, false);
     }
   });
 
@@ -301,6 +348,15 @@
       product_id: currentProduct.id,
       product_name: currentProduct.name,
     });
+    // Meta's standard "started a purchase flow" event — the highest-intent signal we have,
+    // most useful one for ad-conversion optimization
+    fbTrack("InitiateCheckout", {
+      content_name: currentProduct.name,
+      content_ids: [currentProduct.id],
+      content_type: "product",
+      value: parsePrice(currentProduct.price),
+      currency: "USD",
+    }, true);
     const url = `${location.origin}${location.pathname}#p-${currentProduct.id}`;
     const message = `${currentProduct.name} — ${url}`;
     copyField.value = message;
@@ -325,17 +381,23 @@
 
   document.getElementById("copy-btn").addEventListener("click", () => {
     if (currentProduct) {
-      track("order_copy_link_click", { product_id: currentProduct.id, product_name: currentProduct.name });
+      const p = { product_id: currentProduct.id, product_name: currentProduct.name };
+      track("order_copy_link_click", p);
+      fbTrack("OrderStepClick", { ...p, step: "copy_link" }, false);
     }
   });
   orderIgBtn.addEventListener("click", () => {
     if (currentProduct) {
-      track("order_instagram_click", { product_id: currentProduct.id, product_name: currentProduct.name });
+      const p = { product_id: currentProduct.id, product_name: currentProduct.name };
+      track("order_instagram_click", p);
+      fbTrack("OrderStepClick", { ...p, step: "instagram" }, false);
     }
   });
   orderWaBtn.addEventListener("click", () => {
     if (currentProduct) {
-      track("order_whatsapp_click", { product_id: currentProduct.id, product_name: currentProduct.name });
+      const p = { product_id: currentProduct.id, product_name: currentProduct.name };
+      track("order_whatsapp_click", p);
+      fbTrack("OrderStepClick", { ...p, step: "whatsapp" }, false);
     }
   });
 
