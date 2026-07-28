@@ -149,6 +149,10 @@
 
 <script src="js/config.js"></script>
 <script src="js/products.js"></script>
-<script src="js/app.js"></script>
+<!-- cache-busting version query on app.js: GitHub Pages' CDN caches this file aggressively
+     (observed 2026-07-28: stale copy served for several minutes after a fresh commit even
+     though the origin already had the new content) — bump ?v= on every app.js change so
+     visitors always get the current file instead of waiting out the CDN cache -->
+<script src="js/app.js?v=20260728a"></script>
 </body>
 </html>
