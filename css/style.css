@@ -218,13 +218,17 @@ button { font-family: inherit; cursor: pointer; }
 .placeholder-slide .ph-icon { font-size: 22px; opacity: 0.5; }
 .placeholder-slide .ph-label { font-weight: 600; color: var(--fg); font-size: 12px; }
 
-/* ---------- text slide: top-third photo crop (dimmed) + graphite panel with copy + bullets ---------- */
+/* ---------- text slide: top-half photo crop (dimmed) + graphite panel with logo + bullets ----------
+   Redesigned 2026-07-28 per Lena's new Figma mockup (node 21:3) — heading + subheading dropped
+   entirely, photo grows from 33% to ~54% of the slide, and the "aspect" watermark moves down to
+   sit in the gap between the photo and the bullets instead of straddling the photo edge. Bullets
+   themselves are unchanged (same copy, same type scale). */
 .text-slide {
   position: relative; width: 100%; height: 100%; display: flex; flex-direction: column;
   background: var(--bg-card); /* graphite black from the palette */
   overflow: hidden;
 }
-.text-slide-photo { position: relative; width: 100%; height: 33%; flex-shrink: 0; overflow: hidden; }
+.text-slide-photo { position: relative; width: 100%; height: 53.7%; flex-shrink: 0; overflow: hidden; }
 .text-slide-photo img {
   /* object-position / transform-origin are set inline per-product (js/app.js, `focusY` field
      on the text-slide item in products.js) — the eye-position crop point differs per photo.
@@ -235,52 +239,43 @@ button { font-family: inherit; cursor: pointer; }
 }
 .text-slide-photo-scrim { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: rgba(3,2,8,0.45); }
 
-/* brand watermark — low-opacity "aspect" mark, approved 2026-07-23. Position/size calibrated
-   directly from Lena's Canva mockup (design DAHQHrrkykk) via the Canva API: read the logo
-   element's exact containerElement (top:388.35 left:427.34 w:721.06 h:405.59 on a 1080x1350
-   canvas) plus the tight visible-glyph bbox fraction of the source PNG, then mapped
-   proportionally (independent x%/y%) onto this site's own 390x520 text-slide box. Not
-   eyeballed — do not "nudge to taste" without re-deriving from the mockup the same way.
-   Absolutely positioned against .text-slide, out of normal flow — doesn't push the
-   heading/subheading/bullets stack down like an inline logo would. Same position/size for
-   every product — only the background photo behind it changes. */
+/* brand watermark — low-opacity "aspect" mark. Repositioned 2026-07-28 to sit right below the
+   (now taller) photo, right-of-center — same right-of-center placement Lena's original Canva
+   mockup used, just recalibrated for the new photo height. Absolutely positioned against
+   .text-slide, out of normal flow. Same position/size for every product — only the background
+   photo behind it changes. */
 .text-slide .text-slide-watermark {
   position: absolute; z-index: 3; pointer-events: none;
-  top: 188px; right: 47px; width: 121px; height: auto; opacity: 0.3; object-fit: contain;
+  top: 294px; right: 65px; width: 97px; height: auto; opacity: 0.3; object-fit: contain;
 }
 
 .text-slide-content {
   flex: 1; display: flex; flex-direction: column; align-items: center;
-  padding: 20px 18px 8px;
+  padding: 89px 18px 8px; /* 89px clears the photo + watermark above (out-of-flow), tight per Figma */
 }
-/* level 1 — the headline: boldest, brightest, biggest. Left-aligned now (was centered) to
-   match the subheading/bullets below. Its large margin-top is what actually pushes the
-   headline itself below the fixed-position nav arrows — needed because, unlike the old
-   centered short headline, a left-aligned one starts at the same x as the left arrow and
-   would otherwise sit behind it. Never move the arrows — give the text more room instead
-   (same fix pattern used for the subheading originally). */
-.text-slide-heading {
-  font-family: var(--font-display); font-weight: 700; font-size: 25px; letter-spacing: 0.03em;
-  text-transform: uppercase; color: var(--fg); text-align: left; margin: 96px auto 0;
-  width: 340px;
-}
-/* level 2 — the subheading: still legible/bright, one step down from the headline — wide enough to sit on ~2 lines */
-.text-slide-subheading {
-  font-size: 15px; line-height: 1.4; color: var(--fg); text-align: left;
-  width: 340px; margin: 10px auto 0;
-}
-/* level 3 — bullets: quietest tier, muted color. Gaps tightened (from 30/10 to 12/6) to make
-   room for the brand mark + bigger heading gap added above, without letting the block spill
-   past the bottom of the fixed 3:4 slide (it's clipped there, so overflow is invisible, not
-   just untidy — this budget is genuinely tight on a 4-bullet product). */
+/* bullets: quietest tier, muted color — now the only content in this panel (heading/subheading
+   removed 2026-07-28). Copy/type scale unchanged. */
 .text-slide-bullets {
-  margin: 12px auto 0; width: 340px; list-style: none; padding: 0;
+  margin: 0 auto; width: 340px; list-style: none; padding: 0;
   display: flex; flex-direction: column; gap: 6px;
 }
 .text-slide-bullets li {
   font-size: 14px; line-height: 1.45; color: var(--muted); padding-left: 16px; position: relative;
 }
 .text-slide-bullets li::before { content: "—"; position: absolute; left: 0; color: var(--accent-text); }
+
+/* ---------- proof slide: full-bleed process photo + short proof-of-craft text, sits right after
+   the text slide (added 2026-07-28 per Lena's Figma mockup, node 21:26). Same text on every
+   product — only the background photo changes (a photo of the piece actually being made). ---------- */
+.proof-slide { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.proof-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.proof-slide-scrim { position: absolute; inset: 0; background: rgba(3,2,8,0.6); } /* 2026-07-28: bumped from 0.45 — proof photos are much brighter than text-slide's, same 0.45 read as barely-there */
+.proof-slide-content { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 25px 48px; }
+.proof-slide-heading {
+  font-family: var(--font-display); font-weight: 500; font-size: 25px; letter-spacing: 0.03em;
+  text-transform: uppercase; color: var(--fg); text-align: left; margin: 0 0 12px;
+}
+.proof-slide-body p { font-size: 15px; line-height: 21px; color: #efefef; margin: 0; text-align: left; } /* brightened per Lena's Figma update 2026-07-28 — was var(--muted) */
 
 /* ---------- cta slide (hero photo + overlay copy, final carousel slide) ---------- */
 .cta-slide { position: relative; width: 100%; height: 100%; }
@@ -292,9 +287,9 @@ button { font-family: inherit; cursor: pointer; }
   background: linear-gradient(180deg, rgba(3,2,8,0) 0%, rgba(3,2,8,0.78) 25%, rgba(3,2,8,0.94) 60%, rgba(3,2,8,0.96) 100%);
 }
 .cta-slide-title {
-  font-family: var(--font-display); font-weight: 700; font-size: 38px; line-height: 1.05;
+  font-family: var(--font-display); font-weight: 400; font-size: 38px; line-height: 1.05;
   color: var(--fg); margin-bottom: 10px; width: 100%; text-align: center;
-}
+} /* not bold — same weight as the product name, per Lena 2026-07-28 (was 700) */
 .cta-slide-sub {
   font-family: var(--font-body); font-size: 19.5px; line-height: 1.3; color: var(--accent-text);
   font-weight: 400; text-align: center;
@@ -351,10 +346,10 @@ button { font-family: inherit; cursor: pointer; }
 .modal-price { font-family: var(--font-display); font-size: 32px; font-weight: 400; color: var(--fg); letter-spacing: 0.035em; }
 .btn-order {
   display: inline-flex; align-items: center; justify-content: center; flex: 0 0 46%; text-align: center;
-  padding: 13px 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase;
+  padding: 13px 10px; font-size: 11px; font-weight: 400; letter-spacing: 0.02em; text-transform: none;
   border-radius: var(--radius); border: none; background: var(--accent-bright); color: #fff; line-height: 1.3;
   transition: opacity .15s ease;
-}
+} /* not bold, not caps — per Lena 2026-07-28 (was font-weight:700, text-transform:uppercase) */
 .btn-order:active { opacity: 0.75; }
 
 /* level 2: product name */
@@ -380,6 +375,21 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 13px; color: var(--fg); padding-left: 16px; position: relative; line-height: 1.4;
 }
 .trust-list li::before { content: "—"; position: absolute; left: 0; color: var(--accent-text); }
+
+/* occasion list — added 2026-07-28 per Lena, sits after the trust bullets and before the
+   "Have a question?" block. Same text on every product, static markup (not per-product data). */
+.modal-occasions-heading {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(233, 238, 242, 0.68); margin: 22px 0 12px;
+}
+.modal-occasions-list {
+  display: grid; grid-template-columns: 1fr 1fr;
+  column-gap: 14px; row-gap: 10px; margin: 0; padding: 0; list-style: none;
+}
+.modal-occasions-list li {
+  font-size: 13px; line-height: 1.4; color: var(--fg); padding-left: 16px; position: relative;
+}
+.modal-occasions-list li::before { content: "—"; position: absolute; left: 0; color: var(--accent-text); }
 
 /* ---------- order popup: lightweight bottom sheet, not a full-screen takeover ----------
    dimmed backdrop over the product card behind it; tap the backdrop or ✕ to dismiss */
