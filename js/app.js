@@ -72,8 +72,17 @@
   document.getElementById("order-explainer").textContent = SITE.orderPopupExplainer;
 
   // ---------- helpers ----------
+  // Root-absolute so it resolves the same whether the current page is "/"
+  // (homepage) or a nested static product page like "/products/<id>" —
+  // see js/app.js routing changes, session #10 (2026-07-28).
   function mediaPath(productId, filename) {
-    return `assets/products/${productId}/${filename}`;
+    return `/assets/products/${productId}/${filename}`;
+  }
+
+  // Real per-product URL path (no trailing slash — matches vercel.json's
+  // "trailingSlash": false so we never fight the host's own redirect).
+  function productPath(id) {
+    return `/products/${id}`;
   }
 
   function slideHTML(product, item) {
@@ -92,7 +101,7 @@
       const focusStyle = ` style="object-position:center ${focusY}%; transform-origin:center ${focusY}%; transform:scale(${scale});"`;
       return `<div class="carousel-slide"><div class="text-slide">
         ${bgSrc ? `<div class="text-slide-photo"><img src="${bgSrc}" alt=""${focusStyle} /><div class="text-slide-photo-scrim"></div></div>` : ""}
-        <img class="text-slide-watermark" src="assets/brand/logo-mark.png" alt="" aria-hidden="true" />
+        <img class="text-slide-watermark" src="/assets/brand/logo-mark.png" alt="" aria-hidden="true" />
         <div class="text-slide-content">
           ${bullets.length ? `<ul class="text-slide-bullets">${bullets.map((b) => `<li>${b}</li>`).join("")}</ul>` : ""}
         </div>
@@ -218,13 +227,20 @@
   // tapping the ✕ — otherwise that viewing's drop-off point would never be recorded
   window.addEventListener("pagehide", trackViewEnd);
 
-  function openProduct(id, pushHash) {
+  function openProduct(id, updateUrl) {
     const product = PRODUCTS.find((p) => p.id === id);
     if (!product) return;
     trackViewEnd(); // flush the previous product's viewing, if any, before switching
     currentProduct = product;
     maxSlideIndex = 0;
     viewEndSent = false;
+
+    // browser-tab title while this product's modal is open — reset to the
+    // homepage default (SITE.homeTitle, not document.title at parse time —
+    // on a standalone /products/<id> page the parsed title is already that
+    // product's own SEO title, so capturing it here would be wrong to
+    // restore on close) in closeProduct() below
+    document.title = `${product.name} — ${SITE.brandName}`;
 
     carouselEl.innerHTML = product.media.map((m) => slideHTML(product, m)).join("");
     dotsEl.innerHTML = product.media.map((_, i) => `<span class="${i === 0 ? "active" : ""}"></span>`).join("");
@@ -268,18 +284,19 @@
     // e.g. a locally-saved preview opened straight from the Files app) refuse
     // to let history.pushState change the URL and throw a SecurityError —
     // the card/modal must still open even if the URL can't be updated
-    if (pushHash) {
-      try { history.pushState({ product: id }, "", `#p-${id}`); } catch (e) {}
+    if (updateUrl) {
+      try { history.pushState({ product: id }, "", productPath(id)); } catch (e) {}
     }
   }
 
-  function closeProduct(popHash) {
+  function closeProduct(updateUrl) {
     trackViewEnd();
     productModal.classList.remove("open");
     productModal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
-    if (popHash && location.hash) {
-      try { history.pushState({}, "", location.pathname); } catch (e) {}
+    document.title = SITE.homeTitle;
+    if (updateUrl) {
+      try { history.pushState({}, "", "/"); } catch (e) {}
     }
   }
 
@@ -323,17 +340,52 @@
   document.getElementById("carousel-prev").addEventListener("click", () => goToSlide(currentSlideIndex() - 1));
   document.getElementById("carousel-next").addEventListener("click", () => goToSlide(currentSlideIndex() + 1));
 
-  // ---------- open product directly from a shared link (#p-slug) ----------
-  function openFromHash() {
-    const m = location.hash.match(/^#p-(.+)$/);
-    if (m) openProduct(m[1], false);
+  // ---------- routing: open the right product for the current URL ----------
+  // Real per-product URLs (added session #10, 2026-07-28 — see
+  // claude/seo-semantic-core-brief.md) so each mask is a separately
+  // crawlable/shareable page: /products/<id>. A static copy of this same
+  // page is generated at that path for every product (scripts/generate_product_pages.py)
+  // with its own title/description/OG/JSON-LD — this routing logic is what
+  // makes that static page actually open the right modal on load, and what
+  // makes clicking a card from "/" navigate there without a full reload.
+  function productIdFromPath() {
+    const m = location.pathname.match(/^\/products\/([^\/]+)\/?$/);
+    return m ? decodeURIComponent(m[1]) : null;
   }
-  window.addEventListener("hashchange", openFromHash);
-  window.addEventListener("popstate", () => {
-    if (!location.hash) closeProduct(false);
-    else openFromHash();
-  });
-  openFromHash();
+
+  function openFromLocation() {
+    const id = productIdFromPath();
+    if (id) openProduct(id, false);
+    else closeProduct(false);
+  }
+
+  // Back-compat: earlier versions of this site (before session #10) used
+  // "#p-<id>" hash links for sharing/deep-linking instead of a real path —
+  // upgrade any such link transparently to the new path so nothing anyone
+  // already copied/sent stops working. Returns true if it handled (and
+  // opened) a legacy link, so the caller knows not to also run the normal
+  // path-based routing below.
+  function upgradeLegacyHashLink() {
+    const m = location.hash.match(/^#p-(.+)$/);
+    if (m && location.pathname === "/") {
+      const id = decodeURIComponent(m[1]);
+      try { history.replaceState({}, "", productPath(id)); } catch (e) {}
+      openProduct(id, false);
+      return true;
+    }
+    return false;
+  }
+
+  window.addEventListener("popstate", openFromLocation);
+  // covers the (rarer) case where a legacy "#p-<id>" link is pasted into the
+  // address bar of a tab that already has the site open — same-document hash
+  // navigation fires "hashchange", not "popstate"/a full reload, so the
+  // one-time check at the bottom of this file wouldn't otherwise re-run
+  window.addEventListener("hashchange", upgradeLegacyHashLink);
+
+  if (!upgradeLegacyHashLink()) {
+    openFromLocation();
+  }
 
   // ---------- order popup ----------
   const orderModal = document.getElementById("order-modal");
@@ -357,7 +409,7 @@
       value: parsePrice(currentProduct.price),
       currency: "USD",
     }, true);
-    const url = `${location.origin}${location.pathname}#p-${currentProduct.id}`;
+    const url = `${location.origin}${productPath(currentProduct.id)}`;
     const message = `${currentProduct.name} — ${url}`;
     copyField.value = message;
     copyHint.classList.remove("show"); // reset — copying is now an explicit step the buyer taps below, not silent

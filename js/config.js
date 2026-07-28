@@ -6,6 +6,14 @@
 const SITE = {
   brandName: "ASPECT",
 
+  // Fixed strings used by js/app.js to restore the browser tab title when a
+  // product modal is closed (client-side pushState navigation back to "/").
+  // Keep these in sync with the <title>/<meta name="description"> in the
+  // SEO-META block of index.html — added 2026-07-28 (session #10) when
+  // product pages got their own real URLs (/products/<id>).
+  homeTitle: "ASPECT — Handmade Designer Masks & Headpieces | In Stock, Ships Worldwide",
+  homeDescription: "One-of-one handmade masks and headpieces for Burning Man, stage performance and red-carpet dress codes. In stock now, ships worldwide.",
+
   // Your Instagram username WITHOUT the @ — used to build the
   // one-tap "message us" link (https://ig.me/m/<username>)
   instagramUsername: "aspect_mask", // confirmed real handle — instagram.com/aspect_mask
