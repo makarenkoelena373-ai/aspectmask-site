@@ -37,7 +37,8 @@
   }
 
   function slideHTML(product, item) {
-    // "text" slides: optional photo strip up top (src), heading + subheading + left-aligned bullets below
+    // "text" slides: photo strip up top (src, ~54% of slide height), then the "aspect" watermark,
+    // then left-aligned bullets. Redesigned 2026-07-28 — heading/subheading dropped entirely.
     if (item.type === "text") {
       const bgSrc = item.src ? mediaPath(product.id, item.src) : null;
       const bullets = item.bullets || [];
@@ -53,9 +54,30 @@
         ${bgSrc ? `<div class="text-slide-photo"><img src="${bgSrc}" alt=""${focusStyle} /><div class="text-slide-photo-scrim"></div></div>` : ""}
         <img class="text-slide-watermark" src="assets/brand/logo-mark.png" alt="" aria-hidden="true" />
         <div class="text-slide-content">
-          ${item.heading ? `<p class="text-slide-heading">${item.heading}</p>` : ""}
-          ${item.subheading ? `<p class="text-slide-subheading">${item.subheading}</p>` : ""}
           ${bullets.length ? `<ul class="text-slide-bullets">${bullets.map((b) => `<li>${b}</li>`).join("")}</ul>` : ""}
+        </div>
+      </div></div>`;
+    }
+
+    // "proof" slides: full-bleed process photo (proof of handmade craft) with a short text
+    // overlay at the bottom. Added 2026-07-28, sits right after the text slide. Same heading/
+    // bodyLines on every product — only the background photo changes.
+    if (item.type === "proof") {
+      const bgSrc = item.src ? mediaPath(product.id, item.src) : null;
+      if (!bgSrc) {
+        return `<div class="carousel-slide"><div class="placeholder-slide">
+          <span class="ph-icon">📷</span>
+          <span class="ph-label">${item.slot}</span>
+          <span>add file to<br>assets/products/${product.id}/</span>
+        </div></div>`;
+      }
+      const bodyLines = item.bodyLines || [];
+      return `<div class="carousel-slide"><div class="proof-slide">
+        <img src="${bgSrc}" alt="${product.name} — ${item.slot}" loading="lazy" decoding="async" />
+        <div class="proof-slide-scrim"></div>
+        <div class="proof-slide-content">
+          ${item.heading ? `<p class="proof-slide-heading">${item.heading}</p>` : ""}
+          <div class="proof-slide-body">${bodyLines.map((l) => `<p>${l}</p>`).join("")}</div>
         </div>
       </div></div>`;
     }

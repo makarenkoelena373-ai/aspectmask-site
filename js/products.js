@@ -11,7 +11,7 @@
       the site will show a labeled placeholder instead of breaking.
    5. Save the file. That's it — the new card appears automatically.
 
-   CAROUSEL SLIDE ORDER (updated 2026-07-20):
+   CAROUSEL SLIDE ORDER (updated 2026-07-28):
     1. image — Hero photo
     2. video — Hero video
     3. video — Video product review
@@ -22,21 +22,29 @@
     8. image — Back photo, on mannequin
     9. image — Inside photo
     10-11. image — Macro / detail photos (2-3 of them)
-    12. text  — brand statement slide (no photo — see `type: "text"` below)
-    13. cta   — hero photo + overlay copy, nudges toward the Order button
+    12. text  — brand statement slide (no heading/subheading anymore — see `type: "text"` below)
+    13. proof — proof-of-process slide, right after the text slide (see `type: "proof"` below)
+    14. cta   — hero photo + overlay copy, nudges toward the Order button
 
    SLIDE TYPES:
    - { type: "image", slot, src }                — a normal photo
    - { type: "video", slot, src }                 — a normal video (muted, autoplay, loop)
-   - { type: "text",  slot, src, heading, subheading, bullets }
-                                                   — brand-copy slide, template APPROVED 2026-07-22.
-                                                     heading/subheading/bullets are the SAME on every
+   - { type: "text",  slot, src, focusY, bullets } — brand-copy slide, redesigned 2026-07-28 (heading/
+                                                     subheading REMOVED per Lena's new Figma mockup —
+                                                     see node-id=21-3). `bullets` is the SAME on every
                                                      product — do not change the copy. `src` is the ONLY
                                                      thing that changes per product (a photo of that
                                                      product's mask, framed so the eyes read clearly in
                                                      the top-third crop). Full positioning spec is saved
                                                      in the Claude project doc "text-slide-template-spec.md"
                                                      — read it before touching this slide's CSS/JS/copy.
+   - { type: "proof", slot, src, heading, bodyLines } — NEW 2026-07-28, template APPROVED via Lena's
+                                                     Figma mockup (node-id=21-27). heading/bodyLines are
+                                                     the SAME on every product — do not change the copy.
+                                                     `src` is the ONLY thing that changes per product (a
+                                                     photo proving the piece is hand-made — process shot,
+                                                     full-bleed). Full spec in the Claude project doc
+                                                     "proof-slide-template-spec.md".
    - { type: "cta",   slot, src, ctaTitle, ctaSub } — template APPROVED 2026-07-22.
                                                      ctaTitle/ctaSub are the SAME on every
                                                      product ("Ready to ship" / "Claim it for
@@ -72,14 +80,22 @@ const PRODUCTS = [
         slot: "Brand statement",
         src: "12-text-slide.jpg",
         focusY: 41, // eye-position calibration for THIS photo — see text-slide-template-spec.md
-        heading: "One of one",
-        subheading:
-          "Designer handmade accessory<br>one-of-a-kind piece - one for the whole world.",
         bullets: [
           "Bends by hand to fit any face.",
           "Lightweight. Wear it all night.",
-          "Travels easily — weighs next to nothing, box included.",
+          "Travels easily — weighs next to nothing, box&nbsp;included.",
           "Soft against your skin, not wire.",
+        ],
+      },
+      {
+        type: "proof",
+        slot: "Proof of process",
+        src: "14-proof.jpg", // process photo added 2026-07-28 (Lena, direct upload)
+        heading: "One of one",
+        bodyLines: [
+          "Authored.",
+          "Hand-sculptured.",
+          "Once one is claimed, it's gone for good",
         ],
       },
       {
@@ -117,14 +133,22 @@ const PRODUCTS = [
         slot: "Brand statement",
         src: "12-text-slide.jpg",
         focusY: 23.3, // eye-position calibration for THIS photo — see text-slide-template-spec.md
-        heading: "One of one",
-        subheading:
-          "Designer handmade accessory<br>one-of-a-kind piece - one for the whole world.",
         bullets: [
           "Bends by hand to fit any face.",
           "Lightweight. Wear it all night.",
-          "Travels easily — weighs next to nothing, box included.",
+          "Travels easily — weighs next to nothing, box&nbsp;included.",
           "Soft against your skin, not wire.",
+        ],
+      },
+      {
+        type: "proof",
+        slot: "Proof of process",
+        src: "14-proof.jpg", // process photo added 2026-07-28 (Lena, direct upload)
+        heading: "One of one",
+        bodyLines: [
+          "Authored.",
+          "Hand-sculptured.",
+          "Once one is claimed, it's gone for good",
         ],
       },
       {
@@ -161,16 +185,24 @@ const PRODUCTS = [
         type: "text",
         slot: "Brand statement",
         src: "12-text-slide.jpg",
-        focusY: 40, // final, approved 2026-07-23 (picked from 4-way comparison grid) — see text-slide-template-spec.md
-        scale: 1.54, // -15% vs the shared 1.81, per Lena's request 2026-07-23
-        heading: "One of one",
-        subheading:
-          "Designer handmade accessory<br>one-of-a-kind piece - one for the whole world.",
+        focusY: 40, // reverted per Lena 2026-07-28 — the 58 attempt pushed the crop too far up (opposite of what she wanted)
+        scale: 1.77, // +15% vs previous 1.54, per Lena 2026-07-28
         bullets: [
           "Bends by hand to fit any face.",
           "Lightweight. Wear it all night.",
-          "Travels easily — weighs next to nothing, box included.",
+          "Travels easily — weighs next to nothing, box&nbsp;included.",
           "Soft against your skin, not wire.",
+        ],
+      },
+      {
+        type: "proof",
+        slot: "Proof of process",
+        src: "14-proof.jpg", // process photo added 2026-07-28 (Lena, direct upload)
+        heading: "One of one",
+        bodyLines: [
+          "Authored.",
+          "Hand-sculptured.",
+          "Once one is claimed, it's gone for good",
         ],
       },
       {
@@ -209,14 +241,22 @@ const PRODUCTS = [
         src: "12-text-slide.jpg",
         focusY: 26, // eye-position calibration for THIS photo — see text-slide-template-spec.md
         scale: 1.27, // -30% vs the default 1.81, per Lena's request 2026-07-23 (same X/Y center — focusY unchanged)
-        heading: "One of one",
-        subheading:
-          "Designer handmade accessory<br>one-of-a-kind piece - one for the whole world.",
         bullets: [
           "Bends by hand to fit any face.",
           "Lightweight. Wear it all night.",
-          "Travels easily — weighs next to nothing, box included.",
+          "Travels easily — weighs next to nothing, box&nbsp;included.",
           "Soft against your skin, not wire.",
+        ],
+      },
+      {
+        type: "proof",
+        slot: "Proof of process",
+        src: "14-proof.jpg", // process photo added 2026-07-28 (Lena, direct upload)
+        heading: "One of one",
+        bodyLines: [
+          "Authored.",
+          "Hand-sculptured.",
+          "Once one is claimed, it's gone for good",
         ],
       },
       {
@@ -254,14 +294,22 @@ const PRODUCTS = [
         slot: "Brand statement",
         src: "12-text-slide.jpg",
         focusY: 40, // eye-position calibration for THIS photo — see text-slide-template-spec.md
-        heading: "One of one",
-        subheading:
-          "Designer handmade accessory<br>one-of-a-kind piece - one for the whole world.",
         bullets: [
           "Bends by hand to fit any face.",
           "Lightweight. Wear it all night.",
-          "Travels easily — weighs next to nothing, box included.",
+          "Travels easily — weighs next to nothing, box&nbsp;included.",
           "Soft against your skin, not wire.",
+        ],
+      },
+      {
+        type: "proof",
+        slot: "Proof of process",
+        src: "14-proof.jpg", // process photo added 2026-07-28 (Lena, direct upload)
+        heading: "One of one",
+        bodyLines: [
+          "Authored.",
+          "Hand-sculptured.",
+          "Once one is claimed, it's gone for good",
         ],
       },
       {
@@ -298,15 +346,24 @@ const PRODUCTS = [
         type: "text",
         slot: "Brand statement",
         src: "12-text-slide.jpg",
-        focusY: 30, // eye-position calibration for THIS photo — see text-slide-template-spec.md
-        heading: "One of one",
-        subheading:
-          "Designer handmade accessory<br>one-of-a-kind piece - one for the whole world.",
+        focusY: 35, // raised eye level slightly per Lena 2026-07-28 (was 30)
+        scale: 2.08, // +15% vs default 1.81, per Lena 2026-07-28
         bullets: [
           "Bends by hand to fit any face.",
           "Lightweight. Wear it all night.",
-          "Travels easily — weighs next to nothing, box included.",
+          "Travels easily — weighs next to nothing, box&nbsp;included.",
           "Soft against your skin, not wire.",
+        ],
+      },
+      {
+        type: "proof",
+        slot: "Proof of process",
+        src: "14-proof.jpg", // process photo added 2026-07-28 (Lena, direct upload)
+        heading: "One of one",
+        bodyLines: [
+          "Authored.",
+          "Hand-sculptured.",
+          "Once one is claimed, it's gone for good",
         ],
       },
       {
@@ -341,17 +398,24 @@ const PRODUCTS = [
       { type: "image", slot: "Macro detail 2", src: null },
       // text-slide copy is APPROVED and identical for every product — only change `src`
       // (a photo of THIS product's mask, cropped/zoomed per text-slide-template-spec.md
-      // so the eyes read clearly in the top third). Do not edit heading/subheading/bullets.
-      // focusY: eye-position % for THIS photo, calculated per the formula in
-      // text-slide-template-spec.md — every product needs its own value (photos differ).
-      { type: "text", slot: "Brand statement", src: null, focusY: 41, heading: "One of one",
-        subheading:
-          "Designer handmade accessory<br>one-of-a-kind piece - one for the whole world.",
+      // so the eyes read clearly in the top third). Do not edit bullets. No heading/subheading
+      // anymore (removed 2026-07-28). focusY: eye-position % for THIS photo, calculated per the
+      // formula in text-slide-template-spec.md — every product needs its own value (photos differ).
+      { type: "text", slot: "Brand statement", src: null, focusY: 41,
         bullets: [
           "Bends by hand to fit any face.",
           "Lightweight. Wear it all night.",
-          "Travels easily — weighs next to nothing, box included.",
+          "Travels easily — weighs next to nothing, box&nbsp;included.",
           "Soft against your skin, not wire.",
+        ] },
+      // proof-slide copy is APPROVED and identical for every product — only change `src`
+      // (a full-bleed photo proving the piece is genuinely hand-made — a process shot: hands,
+      // tools, work-in-progress). Full spec: Claude project doc "proof-slide-template-spec.md".
+      { type: "proof", slot: "Proof of process", src: null, heading: "One of one",
+        bodyLines: [
+          "Authored.",
+          "Hand-sculptured.",
+          "Once one is claimed, it's gone for good",
         ] },
       // cta-slide copy is APPROVED and identical for every product — only change `src`
       // (a photo of THIS product's mask; the bottom third gets covered by a graphite
