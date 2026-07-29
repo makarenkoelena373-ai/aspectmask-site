@@ -95,8 +95,18 @@
   // delaying LCP (PageSpeed Insights flagged this exact element, 2026-07-29: "Не
   // используйте loading=lazy для ресурсов LCP" / "Требуется fetchpriority=high"). Every
   // other slide keeps loading="lazy" as before, since it's genuinely off-screen at open.
+  // FIX (2026-07-29, same day): the first version of this dropped decoding="async" for
+  // the eager branch, which made the browser decode this (large, full-res) photo
+  // SYNCHRONOUSLY on the main thread right as app.js is also busy building the whole
+  // grid+modal DOM — measured on the live site via repeated PageSpeed Insights mobile
+  // runs: LCP got WORSE after the fetchpriority fix shipped (4.9s baseline → consistently
+  // 5.9-7.4s across 4 runs), while CLS's one bad reading (0.347) turned out to be lab
+  // noise (layout-shift-culprits table showed only 0.006 total real shift, and reran at
+  // 0.004 then 0 on two follow-up passes — no fix needed there). decoding="async" costs
+  // nothing (doesn't affect fetch priority or when the image starts downloading) and
+  // lets the browser paint without blocking on decode — restoring it here.
   function slideImgAttrs(isFirst) {
-    return isFirst ? `fetchpriority="high"` : `loading="lazy" decoding="async"`;
+    return isFirst ? `fetchpriority="high" decoding="async"` : `loading="lazy" decoding="async"`;
   }
 
   function slideHTML(product, item, isFirst) {
