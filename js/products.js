@@ -63,6 +63,14 @@ const PRODUCTS = [
     tagline: "Hand-sculpted red wire mask — veins of thread tracing the face",
     description:
       "One-of-one hand-sculpted piece — no two Aspect masks are ever the same.",
+    // SEO/link-preview description ONLY — used by scripts/generate_product_pages.py for
+    // <meta name="description">/og:description/twitter:description/JSON-LD. Does NOT
+    // touch the visible on-page tagline/description above (those stay frozen per
+    // card-body-below-carousel-spec.md). Approved by Lena 2026-07-29 — combines the
+    // product's craft/visual details with the homepage's keyword layer, kept under
+    // ~159 chars so Google doesn't truncate it, and always states the color.
+    metaDescription:
+      "Designer fashion avant-garde red wire mask — hand-sculpted, veins of thread tracing the face. One-of-one piece for Burning Man, festival and stage performance.",
     media: [
       { type: "image", slot: "Hero photo", src: "01-hero.jpg" },
       { type: "video", slot: "Hero video", src: "02-hero-video.mp4" },
@@ -116,6 +124,8 @@ const PRODUCTS = [
     tagline: "Hand-woven black thread mask — a raven's gaze traced in wire",
     description:
       "One-of-one hand-sculpted piece — no two Aspect masks are ever the same.",
+    metaDescription:
+      "Designer fashion avant-garde black wire mask — hand-woven, a raven's gaze traced in wire. One-of-one piece for Burning Man, stage performance and music video.",
     media: [
       { type: "image", slot: "Hero photo", src: "01-hero.jpg" },
       { type: "video", slot: "Hero video", src: "02-hero-video.mp4" },
@@ -169,6 +179,8 @@ const PRODUCTS = [
     tagline: "Hand-sculpted black wire crown — flames traced in thread",
     description:
       "One-of-one hand-sculpted piece — no two Aspect masks are ever the same.",
+    metaDescription:
+      "Designer fashion avant-garde black wire crown — hand-sculpted, flames traced in thread. One-of-one piece for Burning Man, festival and stage performance.",
     media: [
       { type: "image", slot: "Hero photo", src: "01-hero.jpg" },
       { type: "video", slot: "Hero video", src: "02-hero-video.mp4" },
@@ -223,6 +235,8 @@ const PRODUCTS = [
     tagline: "Hand-sculpted blue wire mask — currents traced in thread",
     description:
       "One-of-one hand-sculpted piece — no two Aspect masks are ever the same.",
+    metaDescription:
+      "Designer fashion avant-garde blue wire mask — hand-sculpted, currents traced in thread. One-of-one piece for gala, red-carpet and stage performance.",
     media: [
       { type: "image", slot: "Hero photo", src: "01-hero.jpg" },
       { type: "video", slot: "Hero video", src: "02-hero-video.mp4" },
@@ -277,6 +291,8 @@ const PRODUCTS = [
     tagline: "Hand-sculpted red wire mask — sparks traced in thread",
     description:
       "One-of-one hand-sculpted piece — no two Aspect masks are ever the same.",
+    metaDescription:
+      "Designer fashion avant-garde red wire mask — hand-sculpted, sparks traced in thread. One-of-one piece for Burning Man, festival and music video.",
     media: [
       { type: "image", slot: "Hero photo", src: "01-hero.jpg" },
       { type: "video", slot: "Hero video", src: "02-hero-video.mp4" },
@@ -330,6 +346,8 @@ const PRODUCTS = [
     tagline: "Hand-sculpted wine-red wire mask — a heart traced in thread",
     description:
       "One-of-one hand-sculpted piece — no two Aspect masks are ever the same.",
+    metaDescription:
+      "Designer fashion avant-garde wine-red wire mask — hand-sculpted, a heart traced in thread. One-of-one piece for gala, red-carpet and dress-code party.",
     media: [
       { type: "image", slot: "Hero photo", src: "01-hero.jpg" },
       { type: "video", slot: "Hero video", src: "02-hero-video.mp4" },
