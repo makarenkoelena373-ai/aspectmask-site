@@ -91,6 +91,56 @@ def parse_products():
         m = re.search(pattern, block)
         return m.group(1) if m else default
 
+    def extract_image_srcs(block):
+        """Pull every non-video media src from this product's `media: [...]` array,
+        for the image sitemap (session #10, 2026-07-29 — added when photos/videos
+        were renamed with SEO filenames). Skips video slides — image sitemaps are
+        for images only; a video sitemap would be a separate future addition.
+        Bracket-depth-matches the media array itself (it contains nested arrays
+        like `bullets`/`bodyLines`, so a naive regex would stop at the first `]`)."""
+        media_start = block.find("media:")
+        if media_start == -1:
+            return []
+        arr_start = block.find("[", media_start)
+        if arr_start == -1:
+            return []
+        depth = 0
+        arr_end = None
+        for i in range(arr_start, len(block)):
+            if block[i] == "[":
+                depth += 1
+            elif block[i] == "]":
+                depth -= 1
+                if depth == 0:
+                    arr_end = i
+                    break
+        if arr_end is None:
+            return []
+        media_text = block[arr_start + 1 : arr_end]
+
+        # split into individual {...} slide objects (brace-depth aware)
+        slides = []
+        depth = 0
+        start = None
+        for i, ch in enumerate(media_text):
+            if ch == "{":
+                if depth == 0:
+                    start = i
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0 and start is not None:
+                    slides.append(media_text[start : i + 1])
+                    start = None
+
+        srcs = []
+        for slide in slides:
+            type_m = re.search(r'type:\s*"([^"]*)"', slide)
+            src_m = re.search(r'src:\s*"([^"]+\.(?:jpg|jpeg|png|webp))"', slide)
+            if type_m and src_m and type_m.group(1) != "video":
+                srcs.append(src_m.group(1))
+        return srcs
+
     products = []
     for block in blocks:
         pid = field(r'id:\s*"([^"]*)"', block)
@@ -114,6 +164,7 @@ def parse_products():
         in_stock = "inStock: false" not in block
         first_src_match = re.search(r'src:\s*"([^"]+\.(?:jpg|jpeg|png|webp))"', block)
         cover = first_src_match.group(1) if first_src_match else None
+        image_srcs = extract_image_srcs(block)
         products.append(
             {
                 "id": pid,
@@ -124,6 +175,7 @@ def parse_products():
                 "metaDescription": meta_description.replace("\\n", " ") if meta_description else None,
                 "inStock": in_stock,
                 "cover": cover,
+                "image_srcs": image_srcs,
             }
         )
     return products
@@ -245,26 +297,38 @@ def main():
     out_dir = ROOT / "products"
     out_dir.mkdir(exist_ok=True)
 
-    urls = [f"{SITE_ORIGIN}/"]
+    # (url, [image_urls]) pairs — homepage has no per-product images list here,
+    # its own hero image is added separately below.
+    url_entries = [(f"{SITE_ORIGIN}/", [f"{SITE_ORIGIN}/assets/brand/og-cover.jpg"])]
     for product in products:
         page = replace_between(base_html, SEO_START, SEO_END, build_seo_block(product))
         page = replace_between(page, NOSCRIPT_START, NOSCRIPT_END, build_noscript_block(product))
         product_dir = out_dir / product["id"]
         product_dir.mkdir(parents=True, exist_ok=True)
         (product_dir / "index.html").write_text(page, encoding="utf-8")
-        urls.append(f"{SITE_ORIGIN}/products/{product['id']}")
-        print(f"wrote products/{product['id']}/index.html")
+        image_urls = [
+            f"{SITE_ORIGIN}/assets/products/{product['id']}/{fname}"
+            for fname in product.get("image_srcs", [])
+        ]
+        url_entries.append((f"{SITE_ORIGIN}/products/{product['id']}", image_urls))
+        print(f"wrote products/{product['id']}/index.html ({len(image_urls)} images in sitemap)")
 
-    sitemap_entries = "\n".join(
-        f"  <url><loc>{u}</loc></url>" for u in urls
-    )
+    def render_url_entry(loc, image_urls):
+        images_xml = "".join(
+            f"\n    <image:image><image:loc>{img}</image:loc></image:image>"
+            for img in image_urls
+        )
+        return f"  <url>\n    <loc>{loc}</loc>{images_xml}\n  </url>"
+
+    sitemap_entries = "\n".join(render_url_entry(loc, imgs) for loc, imgs in url_entries)
     sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 {sitemap_entries}
 </urlset>
 """
     (ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8")
-    print(f"wrote sitemap.xml ({len(urls)} URLs)")
+    print(f"wrote sitemap.xml ({len(url_entries)} URLs, with per-product image entries)")
 
 
 if __name__ == "__main__":
