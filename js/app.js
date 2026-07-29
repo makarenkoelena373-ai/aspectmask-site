@@ -79,10 +79,14 @@
     return `/assets/products/${productId}/${filename}`;
   }
 
-  // Real per-product URL path (no trailing slash — matches vercel.json's
-  // "trailingSlash": false so we never fight the host's own redirect).
+  // Real per-product URL path, WITH trailing slash — matches what GitHub
+  // Pages actually serves (products/<id>/index.html), so pushState/share
+  // links never trigger the host's own no-slash→slash redirect (session
+  // #12, 2026-07-29 trailing-slash cleanup; vercel.json — the old reasoning
+  // for the no-slash form — was removed since GitHub Pages, not Vercel,
+  // serves this site).
   function productPath(id) {
-    return `/products/${id}`;
+    return `/products/${id}/`;
   }
 
   function slideHTML(product, item) {
