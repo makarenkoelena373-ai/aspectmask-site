@@ -104,6 +104,13 @@ def parse_products():
         # via adjacent lines — collapse whitespace between quote fragments.
         desc_match = re.search(r'description:\s*\n?\s*"((?:[^"\\]|\\.)*)"', block)
         description = desc_match.group(1) if desc_match else ""
+        # metaDescription is OPTIONAL — an explicit SEO/link-preview override (session
+        # #11, 2026-07-29) so we can write link-preview copy without touching the
+        # visible on-page tagline/description fields above. Falls back to the old
+        # tagline+description formula in build_seo_block() when absent, so any future
+        # product that doesn't set it still gets a sane description.
+        meta_desc_match = re.search(r'metaDescription:\s*\n?\s*"((?:[^"\\]|\\.)*)"', block)
+        meta_description = meta_desc_match.group(1) if meta_desc_match else None
         in_stock = "inStock: false" not in block
         first_src_match = re.search(r'src:\s*"([^"]+\.(?:jpg|jpeg|png|webp))"', block)
         cover = first_src_match.group(1) if first_src_match else None
@@ -114,6 +121,7 @@ def parse_products():
                 "price": price,
                 "tagline": tagline.replace("\\n", " "),
                 "description": description.replace("\\n", " "),
+                "metaDescription": meta_description.replace("\\n", " ") if meta_description else None,
                 "inStock": in_stock,
                 "cover": cover,
             }
@@ -132,10 +140,19 @@ def price_to_number(price_str):
 def build_seo_block(product):
     url = f"{SITE_ORIGIN}/products/{product['id']}"
     title = f"{product['name']} — ASPECT | Fashion Avant-Garde Designer Mask"
-    # meta description: tagline + a fixed brand line, kept under ~155 chars
-    desc = f"{product['tagline']}. {product['description']}".strip()
-    if len(desc) > 155:
-        desc = desc[:152].rsplit(" ", 1)[0] + "…"
+    # meta description: prefer the explicit metaDescription override (session #11,
+    # 2026-07-29 — Lena-approved copy combining product craft details + homepage
+    # keywords, hand-tuned by hand to fit Google's ~159-char practical display limit
+    # and always stating the color). This text is already exactly as long as Lena
+    # wants it, so skip the auto-truncate for it — only the old tagline+description
+    # fallback formula (used for any future product that doesn't set metaDescription)
+    # gets auto-truncated, since that formula can run arbitrarily long.
+    if product["metaDescription"]:
+        desc = product["metaDescription"]
+    else:
+        desc = f"{product['tagline']}. {product['description']}".strip()
+        if len(desc) > 155:
+            desc = desc[:152].rsplit(" ", 1)[0] + "…"
     desc_attr = html.escape(desc, quote=True)
     title_attr = html.escape(title, quote=True)
     name_attr = html.escape(product["name"], quote=True)
