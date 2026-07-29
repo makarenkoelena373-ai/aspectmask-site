@@ -72,21 +72,33 @@ const PRODUCTS = [
     metaDescription:
       "Designer fashion avant-garde red wire mask — hand-sculpted, veins of thread tracing the face. One-of-one piece for Burning Man, festival and stage performance.",
     media: [
-      { type: "image", slot: "Hero photo", src: "01-hero.jpg" },
-      { type: "video", slot: "Hero video", src: "02-hero-video.mp4" },
-      { type: "video", slot: "Video product review", src: "03-video-review.mp4" },
-      { type: "video", slot: "Hands-on video", src: "04-hands-on.mp4" },
-      { type: "image", slot: "Front photo, on mannequin", src: "05-front-maneken.jpg" },
-      { type: "image", slot: "Side photo 1, on mannequin", src: "06-side-maneken-1.jpg" },
-      { type: "image", slot: "Side photo 2, on mannequin", src: "07-side-maneken-2.jpg" },
-      { type: "image", slot: "Back photo, on mannequin", src: "08-back.jpg" },
-      { type: "image", slot: "Inside photo", src: "09-inside.jpg" },
-      { type: "image", slot: "Macro detail 1", src: "10-macro-1.jpg" },
-      { type: "image", slot: "Macro detail 2", src: "11-macro-2.jpg" },
+      { type: "image", slot: "Hero photo", src: "aspect-ruby-dune-red-fashion-mask-headpiece-hero.jpg",
+      alt: "Ruby Dune Mask — fashion avant-garde red mask for performance and party looks", },
+      { type: "video", slot: "Hero video", src: "aspect-ruby-dune-red-fashion-mask-headpiece-hero-video.mp4",
+      alt: "Ruby Dune Mask — video preview of the red fashion mask, performance-ready", },
+      { type: "video", slot: "Video product review", src: "aspect-ruby-dune-red-fashion-mask-headpiece-review-video.mp4",
+      alt: "Ruby Dune Mask — full review video of the red avant-garde headpiece", },
+      { type: "video", slot: "Hands-on video", src: "aspect-ruby-dune-red-fashion-mask-headpiece-hands-on-video.mp4",
+      alt: "Ruby Dune Mask — hands-on video showing how the red mask fits the face", },
+      { type: "image", slot: "Front photo, on mannequin", src: "aspect-ruby-dune-red-fashion-mask-headpiece-front.jpg",
+      alt: "Ruby Dune Mask — red mask worn on display form, front view", },
+      { type: "image", slot: "Side photo 1, on mannequin", src: "aspect-ruby-dune-red-fashion-mask-headpiece-side-1.jpg",
+      alt: "Ruby Dune Mask — red headpiece worn on display form, side view", },
+      { type: "image", slot: "Side photo 2, on mannequin", src: "aspect-ruby-dune-red-fashion-mask-headpiece-side-2.jpg",
+      alt: "Ruby Dune Mask — red mask worn on display form, other side view", },
+      { type: "image", slot: "Back photo, on mannequin", src: "aspect-ruby-dune-red-fashion-mask-headpiece-back.jpg",
+      alt: "Ruby Dune Mask — back view of the red mask construction", },
+      { type: "image", slot: "Inside photo", src: "aspect-ruby-dune-red-fashion-mask-headpiece-inside.jpg",
+      alt: "Ruby Dune Mask — inside view showing the mask's structure", },
+      { type: "image", slot: "Macro detail 1", src: "aspect-ruby-dune-red-fashion-mask-headpiece-detail-1.jpg",
+      alt: "Ruby Dune Mask — macro detail of the hand-sculpted red design", },
+      { type: "image", slot: "Macro detail 2", src: "aspect-ruby-dune-red-fashion-mask-headpiece-detail-2.jpg",
+      alt: "Ruby Dune Mask — close-up detail of the red headpiece texture", },
       {
         type: "text",
         slot: "Brand statement",
-        src: "12-text-slide.jpg",
+        src: "aspect-ruby-dune-red-fashion-mask-headpiece-brand-story.jpg",
+        alt: "Ruby Dune Mask — one-of-one handmade red fashion mask",
         focusY: 41, // eye-position calibration for THIS photo — see text-slide-template-spec.md
         bullets: [
           "Bends by hand to fit any face.",
@@ -98,7 +110,8 @@ const PRODUCTS = [
       {
         type: "proof",
         slot: "Proof of process",
-        src: "14-proof.jpg", // process photo added 2026-07-28 (Lena, direct upload)
+        src: "aspect-ruby-dune-red-fashion-mask-headpiece-handmade-proof.jpg",
+        alt: "Ruby Dune Mask — proof of handmade craftsmanship, red mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
         heading: "One of one",
         bodyLines: [
           "Authored.",
@@ -109,7 +122,8 @@ const PRODUCTS = [
       {
         type: "cta",
         slot: "Order CTA",
-        src: "13-cta-hero.jpg",
+        src: "aspect-ruby-dune-red-fashion-mask-headpiece-ready-to-ship.jpg",
+        alt: "Ruby Dune Mask — ready to ship red mask, festival and red carpet ready",
         ctaTitle: "Ready to ship",
         ctaSub: "Claim it for your look.<br>Make your entrance.",
       },
@@ -127,21 +141,33 @@ const PRODUCTS = [
     metaDescription:
       "Designer fashion avant-garde black wire mask — hand-woven, a raven's gaze traced in wire. One-of-one piece for Burning Man, stage performance and music video.",
     media: [
-      { type: "image", slot: "Hero photo", src: "01-hero.jpg" },
-      { type: "video", slot: "Hero video", src: "02-hero-video.mp4" },
-      { type: "video", slot: "Video product review", src: "03-video-review.mp4" },
-      { type: "video", slot: "Hands-on video", src: "04-hands-on.mp4" },
-      { type: "image", slot: "Front photo, on mannequin", src: "05-front-maneken.jpg" },
-      { type: "image", slot: "Side photo 1, on mannequin", src: "06-side-maneken-1.jpg" },
-      { type: "image", slot: "Side photo 2, on mannequin", src: "07-side-maneken-2.jpg" },
-      { type: "image", slot: "Back photo, on mannequin", src: "08-back.jpg" },
-      { type: "image", slot: "Inside photo", src: "09-inside.jpg" },
-      { type: "image", slot: "Macro detail 1", src: "10-macro-1.jpg" },
-      { type: "image", slot: "Macro detail 2", src: "11-macro-2.jpg" },
+      { type: "image", slot: "Hero photo", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-hero.jpg",
+      alt: "Black Bird Eye Mask — fashion avant-garde black mask for performance and party looks", },
+      { type: "video", slot: "Hero video", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-hero-video.mp4",
+      alt: "Black Bird Eye Mask — video preview of the black fashion mask, performance-ready", },
+      { type: "video", slot: "Video product review", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-review-video.mp4",
+      alt: "Black Bird Eye Mask — full review video of the black avant-garde headpiece", },
+      { type: "video", slot: "Hands-on video", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-hands-on-video.mp4",
+      alt: "Black Bird Eye Mask — hands-on video showing how the black mask fits the face", },
+      { type: "image", slot: "Front photo, on mannequin", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-front.jpg",
+      alt: "Black Bird Eye Mask — black mask worn on display form, front view", },
+      { type: "image", slot: "Side photo 1, on mannequin", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-side-1.jpg",
+      alt: "Black Bird Eye Mask — black headpiece worn on display form, side view", },
+      { type: "image", slot: "Side photo 2, on mannequin", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-side-2.jpg",
+      alt: "Black Bird Eye Mask — black mask worn on display form, other side view", },
+      { type: "image", slot: "Back photo, on mannequin", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-back.jpg",
+      alt: "Black Bird Eye Mask — back view of the black mask construction", },
+      { type: "image", slot: "Inside photo", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-inside.jpg",
+      alt: "Black Bird Eye Mask — inside view showing the mask's structure", },
+      { type: "image", slot: "Macro detail 1", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-detail-1.jpg",
+      alt: "Black Bird Eye Mask — macro detail of the hand-sculpted black design", },
+      { type: "image", slot: "Macro detail 2", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-detail-2.jpg",
+      alt: "Black Bird Eye Mask — close-up detail of the black headpiece texture", },
       {
         type: "text",
         slot: "Brand statement",
-        src: "12-text-slide.jpg",
+        src: "aspect-black-bird-eye-black-fashion-mask-headpiece-brand-story.jpg",
+        alt: "Black Bird Eye Mask — one-of-one handmade black fashion mask",
         focusY: 23.3, // eye-position calibration for THIS photo — see text-slide-template-spec.md
         bullets: [
           "Bends by hand to fit any face.",
@@ -153,7 +179,8 @@ const PRODUCTS = [
       {
         type: "proof",
         slot: "Proof of process",
-        src: "14-proof.jpg", // process photo added 2026-07-28 (Lena, direct upload)
+        src: "aspect-black-bird-eye-black-fashion-mask-headpiece-handmade-proof.jpg",
+        alt: "Black Bird Eye Mask — proof of handmade craftsmanship, black mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
         heading: "One of one",
         bodyLines: [
           "Authored.",
@@ -164,7 +191,8 @@ const PRODUCTS = [
       {
         type: "cta",
         slot: "Order CTA",
-        src: "13-cta-hero.jpg",
+        src: "aspect-black-bird-eye-black-fashion-mask-headpiece-ready-to-ship.jpg",
+        alt: "Black Bird Eye Mask — ready to ship black mask, festival and red carpet ready",
         ctaTitle: "Ready to ship",
         ctaSub: "Claim it for your look.<br>Make your entrance.",
       },
@@ -182,21 +210,33 @@ const PRODUCTS = [
     metaDescription:
       "Designer fashion avant-garde black wire crown — hand-sculpted, flames traced in thread. One-of-one piece for Burning Man, festival and stage performance.",
     media: [
-      { type: "image", slot: "Hero photo", src: "01-hero.jpg" },
-      { type: "video", slot: "Hero video", src: "02-hero-video.mp4" },
-      { type: "video", slot: "Video product review", src: "03-video-review.mp4" },
-      { type: "video", slot: "Hands-on video", src: "04-hands-on.mp4" },
-      { type: "image", slot: "Front photo, on mannequin", src: "05-front-maneken.jpg" },
-      { type: "image", slot: "Side photo 1, on mannequin", src: "06-side-maneken-1.jpg" },
-      { type: "image", slot: "Side photo 2, on mannequin", src: "07-side-maneken-2.jpg" },
-      { type: "image", slot: "Back photo, on mannequin", src: "08-back.jpg" },
-      { type: "image", slot: "Inside photo", src: "09-inside.jpg" },
-      { type: "image", slot: "Macro detail 1", src: "10-macro-1.jpg" },
-      { type: "image", slot: "Macro detail 2", src: "11-macro-2.jpg" },
+      { type: "image", slot: "Hero photo", src: "aspect-black-fire-black-fashion-mask-headpiece-hero.jpg",
+      alt: "Black Fire Mask — fashion avant-garde black mask for performance and party looks", },
+      { type: "video", slot: "Hero video", src: "aspect-black-fire-black-fashion-mask-headpiece-hero-video.mp4",
+      alt: "Black Fire Mask — video preview of the black fashion mask, performance-ready", },
+      { type: "video", slot: "Video product review", src: "aspect-black-fire-black-fashion-mask-headpiece-review-video.mp4",
+      alt: "Black Fire Mask — full review video of the black avant-garde headpiece", },
+      { type: "video", slot: "Hands-on video", src: "aspect-black-fire-black-fashion-mask-headpiece-hands-on-video.mp4",
+      alt: "Black Fire Mask — hands-on video showing how the black mask fits the face", },
+      { type: "image", slot: "Front photo, on mannequin", src: "aspect-black-fire-black-fashion-mask-headpiece-front.jpg",
+      alt: "Black Fire Mask — black mask worn on display form, front view", },
+      { type: "image", slot: "Side photo 1, on mannequin", src: "aspect-black-fire-black-fashion-mask-headpiece-side-1.jpg",
+      alt: "Black Fire Mask — black headpiece worn on display form, side view", },
+      { type: "image", slot: "Side photo 2, on mannequin", src: "aspect-black-fire-black-fashion-mask-headpiece-side-2.jpg",
+      alt: "Black Fire Mask — black mask worn on display form, other side view", },
+      { type: "image", slot: "Back photo, on mannequin", src: "aspect-black-fire-black-fashion-mask-headpiece-back.jpg",
+      alt: "Black Fire Mask — back view of the black mask construction", },
+      { type: "image", slot: "Inside photo", src: "aspect-black-fire-black-fashion-mask-headpiece-inside.jpg",
+      alt: "Black Fire Mask — inside view showing the mask's structure", },
+      { type: "image", slot: "Macro detail 1", src: "aspect-black-fire-black-fashion-mask-headpiece-detail-1.jpg",
+      alt: "Black Fire Mask — macro detail of the hand-sculpted black design", },
+      { type: "image", slot: "Macro detail 2", src: "aspect-black-fire-black-fashion-mask-headpiece-detail-2.jpg",
+      alt: "Black Fire Mask — close-up detail of the black headpiece texture", },
       {
         type: "text",
         slot: "Brand statement",
-        src: "12-text-slide.jpg",
+        src: "aspect-black-fire-black-fashion-mask-headpiece-brand-story.jpg",
+        alt: "Black Fire Mask — one-of-one handmade black fashion mask",
         focusY: 40, // reverted per Lena 2026-07-28 — the 58 attempt pushed the crop too far up (opposite of what she wanted)
         scale: 1.77, // +15% vs previous 1.54, per Lena 2026-07-28
         bullets: [
@@ -209,7 +249,8 @@ const PRODUCTS = [
       {
         type: "proof",
         slot: "Proof of process",
-        src: "14-proof.jpg", // process photo added 2026-07-28 (Lena, direct upload)
+        src: "aspect-black-fire-black-fashion-mask-headpiece-handmade-proof.jpg",
+        alt: "Black Fire Mask — proof of handmade craftsmanship, black mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
         heading: "One of one",
         bodyLines: [
           "Authored.",
@@ -220,7 +261,8 @@ const PRODUCTS = [
       {
         type: "cta",
         slot: "Order CTA",
-        src: "13-cta-hero.jpg",
+        src: "aspect-black-fire-black-fashion-mask-headpiece-ready-to-ship.jpg",
+        alt: "Black Fire Mask — ready to ship black mask, festival and red carpet ready",
         ctaTitle: "Ready to ship",
         ctaSub: "Claim it for your look.<br>Make your entrance.",
       },
@@ -238,21 +280,33 @@ const PRODUCTS = [
     metaDescription:
       "Designer fashion avant-garde blue wire mask — hand-sculpted, currents traced in thread. One-of-one piece for gala, red-carpet and stage performance.",
     media: [
-      { type: "image", slot: "Hero photo", src: "01-hero.jpg" },
-      { type: "video", slot: "Hero video", src: "02-hero-video.mp4" },
-      { type: "video", slot: "Video product review", src: "03-video-review.mp4" },
-      { type: "video", slot: "Hands-on video", src: "04-hands-on.mp4" },
-      { type: "image", slot: "Front photo, on mannequin", src: "05-front-maneken.jpg" },
-      { type: "image", slot: "Side photo 1, on mannequin", src: "06-side-maneken-1.jpg" },
-      { type: "image", slot: "Side photo 2, on mannequin", src: "07-side-maneken-2.jpg" },
-      { type: "image", slot: "Back photo, on mannequin", src: "08-back.jpg" },
-      { type: "image", slot: "Inside photo", src: "09-inside.jpg" },
-      { type: "image", slot: "Macro detail 1", src: "10-macro-1.jpg" },
-      { type: "image", slot: "Macro detail 2", src: "11-macro-2.jpg" },
+      { type: "image", slot: "Hero photo", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-hero.jpg",
+      alt: "Deep Ocean Mask — fashion avant-garde blue mask for performance and party looks", },
+      { type: "video", slot: "Hero video", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-hero-video.mp4",
+      alt: "Deep Ocean Mask — video preview of the blue fashion mask, performance-ready", },
+      { type: "video", slot: "Video product review", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-review-video.mp4",
+      alt: "Deep Ocean Mask — full review video of the blue avant-garde headpiece", },
+      { type: "video", slot: "Hands-on video", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-hands-on-video.mp4",
+      alt: "Deep Ocean Mask — hands-on video showing how the blue mask fits the face", },
+      { type: "image", slot: "Front photo, on mannequin", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-front.jpg",
+      alt: "Deep Ocean Mask — blue mask worn on display form, front view", },
+      { type: "image", slot: "Side photo 1, on mannequin", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-side-1.jpg",
+      alt: "Deep Ocean Mask — blue headpiece worn on display form, side view", },
+      { type: "image", slot: "Side photo 2, on mannequin", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-side-2.jpg",
+      alt: "Deep Ocean Mask — blue mask worn on display form, other side view", },
+      { type: "image", slot: "Back photo, on mannequin", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-back.jpg",
+      alt: "Deep Ocean Mask — back view of the blue mask construction", },
+      { type: "image", slot: "Inside photo", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-inside.jpg",
+      alt: "Deep Ocean Mask — inside view showing the mask's structure", },
+      { type: "image", slot: "Macro detail 1", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-detail-1.jpg",
+      alt: "Deep Ocean Mask — macro detail of the hand-sculpted blue design", },
+      { type: "image", slot: "Macro detail 2", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-detail-2.jpg",
+      alt: "Deep Ocean Mask — close-up detail of the blue headpiece texture", },
       {
         type: "text",
         slot: "Brand statement",
-        src: "12-text-slide.jpg",
+        src: "aspect-deep-ocean-blue-fashion-mask-headpiece-brand-story.jpg",
+        alt: "Deep Ocean Mask — one-of-one handmade blue fashion mask",
         focusY: 26, // eye-position calibration for THIS photo — see text-slide-template-spec.md
         scale: 1.27, // -30% vs the default 1.81, per Lena's request 2026-07-23 (same X/Y center — focusY unchanged)
         bullets: [
@@ -265,7 +319,8 @@ const PRODUCTS = [
       {
         type: "proof",
         slot: "Proof of process",
-        src: "14-proof.jpg", // process photo added 2026-07-28 (Lena, direct upload)
+        src: "aspect-deep-ocean-blue-fashion-mask-headpiece-handmade-proof.jpg",
+        alt: "Deep Ocean Mask — proof of handmade craftsmanship, blue mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
         heading: "One of one",
         bodyLines: [
           "Authored.",
@@ -276,7 +331,8 @@ const PRODUCTS = [
       {
         type: "cta",
         slot: "Order CTA",
-        src: "13-cta-hero.jpg",
+        src: "aspect-deep-ocean-blue-fashion-mask-headpiece-ready-to-ship.jpg",
+        alt: "Deep Ocean Mask — ready to ship blue mask, festival and red carpet ready",
         ctaTitle: "Ready to ship",
         ctaSub: "Claim it for your look.<br>Make your entrance.",
       },
@@ -294,21 +350,33 @@ const PRODUCTS = [
     metaDescription:
       "Designer fashion avant-garde red wire mask — hand-sculpted, sparks traced in thread. One-of-one piece for Burning Man, festival and music video.",
     media: [
-      { type: "image", slot: "Hero photo", src: "01-hero.jpg" },
-      { type: "video", slot: "Hero video", src: "02-hero-video.mp4" },
-      { type: "video", slot: "Video product review", src: "03-video-review.mp4" },
-      { type: "video", slot: "Hands-on video", src: "04-hands-on.mp4" },
-      { type: "image", slot: "Front photo, on mannequin", src: "05-front-maneken.jpg" },
-      { type: "image", slot: "Side photo 1, on mannequin", src: "06-side-maneken-1.jpg" },
-      { type: "image", slot: "Side photo 2, on mannequin", src: "07-side-maneken-2.jpg" },
-      { type: "image", slot: "Back photo, on mannequin", src: "08-back.jpg" },
-      { type: "image", slot: "Inside photo", src: "09-inside.jpg" },
-      { type: "image", slot: "Macro detail 1", src: "10-macro-1.jpg" },
-      { type: "image", slot: "Macro detail 2", src: "11-macro-2.jpg" },
+      { type: "image", slot: "Hero photo", src: "aspect-electric-fire-red-fashion-mask-headpiece-hero.jpg",
+      alt: "Electric Fire Mask — fashion avant-garde red mask for performance and party looks", },
+      { type: "video", slot: "Hero video", src: "aspect-electric-fire-red-fashion-mask-headpiece-hero-video.mp4",
+      alt: "Electric Fire Mask — video preview of the red fashion mask, performance-ready", },
+      { type: "video", slot: "Video product review", src: "aspect-electric-fire-red-fashion-mask-headpiece-review-video.mp4",
+      alt: "Electric Fire Mask — full review video of the red avant-garde headpiece", },
+      { type: "video", slot: "Hands-on video", src: "aspect-electric-fire-red-fashion-mask-headpiece-hands-on-video.mp4",
+      alt: "Electric Fire Mask — hands-on video showing how the red mask fits the face", },
+      { type: "image", slot: "Front photo, on mannequin", src: "aspect-electric-fire-red-fashion-mask-headpiece-front.jpg",
+      alt: "Electric Fire Mask — red mask worn on display form, front view", },
+      { type: "image", slot: "Side photo 1, on mannequin", src: "aspect-electric-fire-red-fashion-mask-headpiece-side-1.jpg",
+      alt: "Electric Fire Mask — red headpiece worn on display form, side view", },
+      { type: "image", slot: "Side photo 2, on mannequin", src: "aspect-electric-fire-red-fashion-mask-headpiece-side-2.jpg",
+      alt: "Electric Fire Mask — red mask worn on display form, other side view", },
+      { type: "image", slot: "Back photo, on mannequin", src: "aspect-electric-fire-red-fashion-mask-headpiece-back.jpg",
+      alt: "Electric Fire Mask — back view of the red mask construction", },
+      { type: "image", slot: "Inside photo", src: "aspect-electric-fire-red-fashion-mask-headpiece-inside.jpg",
+      alt: "Electric Fire Mask — inside view showing the mask's structure", },
+      { type: "image", slot: "Macro detail 1", src: "aspect-electric-fire-red-fashion-mask-headpiece-detail-1.jpg",
+      alt: "Electric Fire Mask — macro detail of the hand-sculpted red design", },
+      { type: "image", slot: "Macro detail 2", src: "aspect-electric-fire-red-fashion-mask-headpiece-detail-2.jpg",
+      alt: "Electric Fire Mask — close-up detail of the red headpiece texture", },
       {
         type: "text",
         slot: "Brand statement",
-        src: "12-text-slide.jpg",
+        src: "aspect-electric-fire-red-fashion-mask-headpiece-brand-story.jpg",
+        alt: "Electric Fire Mask — one-of-one handmade red fashion mask",
         focusY: 40, // eye-position calibration for THIS photo — see text-slide-template-spec.md
         bullets: [
           "Bends by hand to fit any face.",
@@ -320,7 +388,8 @@ const PRODUCTS = [
       {
         type: "proof",
         slot: "Proof of process",
-        src: "14-proof.jpg", // process photo added 2026-07-28 (Lena, direct upload)
+        src: "aspect-electric-fire-red-fashion-mask-headpiece-handmade-proof.jpg",
+        alt: "Electric Fire Mask — proof of handmade craftsmanship, red mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
         heading: "One of one",
         bodyLines: [
           "Authored.",
@@ -331,7 +400,8 @@ const PRODUCTS = [
       {
         type: "cta",
         slot: "Order CTA",
-        src: "13-cta-hero.jpg",
+        src: "aspect-electric-fire-red-fashion-mask-headpiece-ready-to-ship.jpg",
+        alt: "Electric Fire Mask — ready to ship red mask, festival and red carpet ready",
         ctaTitle: "Ready to ship",
         ctaSub: "Claim it for your look.<br>Make your entrance.",
       },
@@ -349,21 +419,33 @@ const PRODUCTS = [
     metaDescription:
       "Designer fashion avant-garde wine-red wire mask — hand-sculpted, a heart traced in thread. One-of-one piece for gala, red-carpet and dress-code party.",
     media: [
-      { type: "image", slot: "Hero photo", src: "01-hero.jpg" },
-      { type: "video", slot: "Hero video", src: "02-hero-video.mp4" },
-      { type: "video", slot: "Video product review", src: "03-video-review.mp4" },
-      { type: "video", slot: "Hands-on video", src: "04-hands-on.mp4" },
-      { type: "image", slot: "Front photo, on mannequin", src: "05-front-maneken.jpg" },
-      { type: "image", slot: "Side photo 1, on mannequin", src: "06-side-maneken-1.jpg" },
-      { type: "image", slot: "Side photo 2, on mannequin", src: "07-side-maneken-2.jpg" },
-      { type: "image", slot: "Back photo, on mannequin", src: "08-back.jpg" },
-      { type: "image", slot: "Inside photo", src: "09-inside.jpg" },
-      { type: "image", slot: "Macro detail 1", src: "10-macro-1.jpg" },
-      { type: "image", slot: "Macro detail 2", src: "11-macro-2.jpg" },
+      { type: "image", slot: "Hero photo", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-hero.jpg",
+      alt: "Wine Heart Mask — fashion avant-garde wine-red mask for performance and party looks", },
+      { type: "video", slot: "Hero video", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-hero-video.mp4",
+      alt: "Wine Heart Mask — video preview of the wine-red fashion mask, performance-ready", },
+      { type: "video", slot: "Video product review", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-review-video.mp4",
+      alt: "Wine Heart Mask — full review video of the wine-red avant-garde headpiece", },
+      { type: "video", slot: "Hands-on video", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-hands-on-video.mp4",
+      alt: "Wine Heart Mask — hands-on video showing how the wine-red mask fits the face", },
+      { type: "image", slot: "Front photo, on mannequin", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-front.jpg",
+      alt: "Wine Heart Mask — wine-red mask worn on display form, front view", },
+      { type: "image", slot: "Side photo 1, on mannequin", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-side-1.jpg",
+      alt: "Wine Heart Mask — wine-red headpiece worn on display form, side view", },
+      { type: "image", slot: "Side photo 2, on mannequin", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-side-2.jpg",
+      alt: "Wine Heart Mask — wine-red mask worn on display form, other side view", },
+      { type: "image", slot: "Back photo, on mannequin", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-back.jpg",
+      alt: "Wine Heart Mask — back view of the wine-red mask construction", },
+      { type: "image", slot: "Inside photo", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-inside.jpg",
+      alt: "Wine Heart Mask — inside view showing the mask's structure", },
+      { type: "image", slot: "Macro detail 1", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-detail-1.jpg",
+      alt: "Wine Heart Mask — macro detail of the hand-sculpted wine-red design", },
+      { type: "image", slot: "Macro detail 2", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-detail-2.jpg",
+      alt: "Wine Heart Mask — close-up detail of the wine-red headpiece texture", },
       {
         type: "text",
         slot: "Brand statement",
-        src: "12-text-slide.jpg",
+        src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-brand-story.jpg",
+        alt: "Wine Heart Mask — one-of-one handmade wine-red fashion mask",
         focusY: 35, // raised eye level slightly per Lena 2026-07-28 (was 30)
         scale: 2.08, // +15% vs default 1.81, per Lena 2026-07-28
         bullets: [
@@ -376,7 +458,8 @@ const PRODUCTS = [
       {
         type: "proof",
         slot: "Proof of process",
-        src: "14-proof.jpg", // process photo added 2026-07-28 (Lena, direct upload)
+        src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-handmade-proof.jpg",
+        alt: "Wine Heart Mask — proof of handmade craftsmanship, wine-red mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
         heading: "One of one",
         bodyLines: [
           "Authored.",
@@ -387,7 +470,8 @@ const PRODUCTS = [
       {
         type: "cta",
         slot: "Order CTA",
-        src: "13-cta-hero.jpg",
+        src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-ready-to-ship.jpg",
+        alt: "Wine Heart Mask — ready to ship wine-red mask, festival and red carpet ready",
         ctaTitle: "Ready to ship",
         ctaSub: "Claim it for your look.<br>Make your entrance.",
       },

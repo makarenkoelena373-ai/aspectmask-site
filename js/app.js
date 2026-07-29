@@ -122,7 +122,7 @@
       }
       const bodyLines = item.bodyLines || [];
       return `<div class="carousel-slide"><div class="proof-slide">
-        <img src="${bgSrc}" alt="${product.name} — ${item.slot}" loading="lazy" decoding="async" />
+        <img src="${bgSrc}" alt="${item.alt || `${product.name} — ${item.slot}`}" loading="lazy" decoding="async" />
         <div class="proof-slide-scrim"></div>
         <div class="proof-slide-content">
           ${item.heading ? `<p class="proof-slide-heading">${item.heading}</p>` : ""}
@@ -142,7 +142,7 @@
 
     if (item.type === "cta") {
       return `<div class="carousel-slide"><div class="cta-slide">
-        <img src="${src}" alt="${product.name} — ${item.slot}" loading="lazy" decoding="async" />
+        <img src="${src}" alt="${item.alt || `${product.name} — ${item.slot}`}" loading="lazy" decoding="async" />
         <div class="cta-slide-overlay">
           <p class="cta-slide-title">${item.ctaTitle || product.name}</p>
           <p class="cta-slide-sub">${item.ctaSub || "Tap “Order this piece” below to make it yours."}</p>
@@ -159,7 +159,7 @@
         <source src="${src}" type="video/mp4">
       </video></div>`;
     }
-    return `<div class="carousel-slide"><img src="${src}" alt="${product.name} — ${item.slot}" loading="lazy" decoding="async" /></div>`;
+    return `<div class="carousel-slide"><img src="${src}" alt="${item.alt || `${product.name} — ${item.slot}`}" loading="lazy" decoding="async" /></div>`;
   }
 
   // ---------- render product grid ----------
