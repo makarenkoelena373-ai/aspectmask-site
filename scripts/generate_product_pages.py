@@ -190,7 +190,12 @@ def price_to_number(price_str):
 
 
 def build_seo_block(product):
-    url = f"{SITE_ORIGIN}/products/{product['id']}"
+    # Trailing slash matters here: GitHub Pages serves this as a directory
+    # (products/<id>/index.html) and 301-redirects the no-slash URL to the
+    # slash version. Every URL we publish ourselves (canonical, og:url,
+    # sitemap) must be the slash version so nothing we control forces a
+    # redirect hop — see session #12, 2026-07-29 trailing-slash cleanup.
+    url = f"{SITE_ORIGIN}/products/{product['id']}/"
     title = f"{product['name']} — ASPECT | Fashion Avant-Garde Designer Mask"
     # meta description: prefer the explicit metaDescription override (session #11,
     # 2026-07-29 — Lena-approved copy combining product craft details + homepage
@@ -310,7 +315,7 @@ def main():
             f"{SITE_ORIGIN}/assets/products/{product['id']}/{fname}"
             for fname in product.get("image_srcs", [])
         ]
-        url_entries.append((f"{SITE_ORIGIN}/products/{product['id']}", image_urls))
+        url_entries.append((f"{SITE_ORIGIN}/products/{product['id']}/", image_urls))
         print(f"wrote products/{product['id']}/index.html ({len(image_urls)} images in sitemap)")
 
     def render_url_entry(loc, image_urls):
