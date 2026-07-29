@@ -158,10 +158,17 @@
       // offer webm (same filename, .webm) first for browsers that support it, mp4/H.264 as the
       // universally-compatible fallback (Safari/iOS in particular needs the mp4 source)
       const webmSrc = mediaPath(product.id, item.src.replace(/\.mp4$/i, ".webm"));
-      return `<div class="carousel-slide"><video muted loop playsinline autoplay preload="metadata">
-        <source src="${webmSrc}" type="video/webm">
-        <source src="${src}" type="video/mp4">
-      </video></div>`;
+      // NOTE (speed audit, 2026-07-29): <source> tags are deliberately NOT rendered
+      // here — see activateSlideMedia() below. Rendering every video's sources upfront
+      // made all 3 video slides in the 14-slide carousel start downloading (autoplay)
+      // the instant the modal opened, even ones the visitor hadn't scrolled to yet —
+      // PageSpeed Insights measured ~20MB fetched on first paint of a product page,
+      // almost entirely these unseen videos. activateSlideMedia() attaches the real
+      // <source> only for the current slide ± 1 neighbor, so each video still starts
+      // playing itself the moment it's reached (or the slide right before it) — the
+      // visible experience is unchanged, only the network timing is fixed. No change
+      // to picture/video quality, encoding, or card layout.
+      return `<div class="carousel-slide"><video muted loop playsinline preload="none" data-webm="${webmSrc}" data-mp4="${src}"></video></div>`;
     }
     return `<div class="carousel-slide"><img src="${src}" alt="${item.alt || `${product.name} — ${item.slot}`}" loading="lazy" decoding="async" /></div>`;
   }
@@ -249,6 +256,7 @@
     carouselEl.innerHTML = product.media.map((m) => slideHTML(product, m)).join("");
     dotsEl.innerHTML = product.media.map((_, i) => `<span class="${i === 0 ? "active" : ""}"></span>`).join("");
     carouselEl.scrollLeft = 0;
+    activateSlideMedia(0); // load slide 1's video (if any) + preload the next slide, nothing further
     dotsEl.querySelectorAll("span").forEach((dot, i) => {
       dot.addEventListener("click", () => goToSlide(i));
     });
@@ -306,9 +314,40 @@
 
   document.getElementById("modal-close").addEventListener("click", () => closeProduct(true));
 
+  // Attaches the real <source src> (and starts playback) for the video in slide `idx`
+  // and its immediate neighbors, the first time each is reached — see the note in
+  // slideHTML()'s "video" branch above for why this is deferred instead of eager.
+  // Idempotent: already-activated slides are skipped, so this is safe to call on
+  // every scroll tick.
+  function activateSlideMedia(idx) {
+    const slides = carouselEl.querySelectorAll(".carousel-slide");
+    [idx - 1, idx, idx + 1].forEach((i) => {
+      const slide = slides[i];
+      if (!slide) return;
+      const video = slide.querySelector("video[data-mp4]");
+      if (!video || video.dataset.activated) return;
+      video.dataset.activated = "1";
+      if (video.dataset.webm) {
+        const webmSource = document.createElement("source");
+        webmSource.src = video.dataset.webm;
+        webmSource.type = "video/webm";
+        video.appendChild(webmSource);
+      }
+      const mp4Source = document.createElement("source");
+      mp4Source.src = video.dataset.mp4;
+      mp4Source.type = "video/mp4";
+      video.appendChild(mp4Source);
+      video.load();
+      // muted, so autoplay is allowed by browser policy in the vast majority of cases —
+      // still wrapped, since a handful of embedded/in-app browsers can refuse anyway
+      video.play().catch(() => {});
+    });
+  }
+
   carouselEl.addEventListener("scroll", () => {
     const idx = Math.round(carouselEl.scrollLeft / carouselEl.clientWidth);
     dotsEl.querySelectorAll("span").forEach((d, i) => d.classList.toggle("active", i === idx));
+    activateSlideMedia(idx);
 
     // fire slide_view only the first time a given slide index is reached in this
     // viewing (not on every back-and-forth swipe) — gives a clean per-product

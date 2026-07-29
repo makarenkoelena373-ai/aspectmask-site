@@ -27,7 +27,10 @@ const SITE = {
   // background. Replaced 2026-07-27 (previous version was hands+tools on
   // a burgundy background — see hero-banner-hands-OLD.jpg for that one).
   // Portrait 3:4 — css .hero-photo-banner aspect-ratio matches it exactly.
-  heroPhoto: "assets/brand/hero-banner.jpg",
+  // fixed 2026-07-29 (speed audit): was a relative path ("assets/..."), which
+  // resolved wrong (404, failed request) whenever this same shared app.js runs
+  // on a nested /products/<id> page instead of "/" — leading slash fixes it
+  heroPhoto: "/assets/brand/hero-banner.jpg",
 
   heroTitle: "Feel insane.",
   heroSubtitle: "At the event. On camera. Inside out.",
