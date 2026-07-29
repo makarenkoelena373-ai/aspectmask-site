@@ -89,7 +89,17 @@
     return `/products/${id}/`;
   }
 
-  function slideHTML(product, item) {
+  // Returns the loading/fetchpriority attributes for a slide image: the FIRST slide is
+  // what's on screen the instant the modal opens (the LCP candidate for this whole page),
+  // so it must load eagerly and with high priority — loading="lazy" on it was actively
+  // delaying LCP (PageSpeed Insights flagged this exact element, 2026-07-29: "Не
+  // используйте loading=lazy для ресурсов LCP" / "Требуется fetchpriority=high"). Every
+  // other slide keeps loading="lazy" as before, since it's genuinely off-screen at open.
+  function slideImgAttrs(isFirst) {
+    return isFirst ? `fetchpriority="high"` : `loading="lazy" decoding="async"`;
+  }
+
+  function slideHTML(product, item, isFirst) {
     // "text" slides: photo strip up top (src, ~54% of slide height), then the "aspect" watermark,
     // then left-aligned bullets. Redesigned 2026-07-28 — heading/subheading dropped entirely.
     if (item.type === "text") {
@@ -126,7 +136,7 @@
       }
       const bodyLines = item.bodyLines || [];
       return `<div class="carousel-slide"><div class="proof-slide">
-        <img src="${bgSrc}" alt="${item.alt || `${product.name} — ${item.slot}`}" loading="lazy" decoding="async" />
+        <img src="${bgSrc}" alt="${item.alt || `${product.name} — ${item.slot}`}" ${slideImgAttrs(isFirst)} />
         <div class="proof-slide-scrim"></div>
         <div class="proof-slide-content">
           ${item.heading ? `<p class="proof-slide-heading">${item.heading}</p>` : ""}
@@ -146,7 +156,7 @@
 
     if (item.type === "cta") {
       return `<div class="carousel-slide"><div class="cta-slide">
-        <img src="${src}" alt="${item.alt || `${product.name} — ${item.slot}`}" loading="lazy" decoding="async" />
+        <img src="${src}" alt="${item.alt || `${product.name} — ${item.slot}`}" ${slideImgAttrs(isFirst)} />
         <div class="cta-slide-overlay">
           <p class="cta-slide-title">${item.ctaTitle || product.name}</p>
           <p class="cta-slide-sub">${item.ctaSub || "Tap “Order this piece” below to make it yours."}</p>
@@ -170,15 +180,18 @@
       // to picture/video quality, encoding, or card layout.
       return `<div class="carousel-slide"><video muted loop playsinline preload="none" data-webm="${webmSrc}" data-mp4="${src}"></video></div>`;
     }
-    return `<div class="carousel-slide"><img src="${src}" alt="${item.alt || `${product.name} — ${item.slot}`}" loading="lazy" decoding="async" /></div>`;
+    return `<div class="carousel-slide"><img src="${src}" alt="${item.alt || `${product.name} — ${item.slot}`}" ${slideImgAttrs(isFirst)} /></div>`;
   }
 
   // ---------- render product grid ----------
   const grid = document.getElementById("product-grid");
-  grid.innerHTML = PRODUCTS.map((p) => {
+  grid.innerHTML = PRODUCTS.map((p, i) => {
     const cover = p.media.find((m) => m.src) || p.media[0];
+    // Same LCP fix as the carousel's first slide (see slideImgAttrs above): the first
+    // grid card's cover photo is the homepage's own LCP candidate, so it must not be
+    // loading="lazy" — every other card (below the fold on first paint) stays lazy.
     const coverHTML = cover.src
-      ? `<img src="${mediaPath(p.id, cover.src)}" alt="${p.name}" loading="lazy" decoding="async" />`
+      ? `<img src="${mediaPath(p.id, cover.src)}" alt="${p.name}" ${slideImgAttrs(i === 0)} />`
       : `<div class="placeholder-slide"><span class="ph-icon">📷</span><span class="ph-label">${cover.slot}</span></div>`;
     return `
       <div class="card" data-id="${p.id}">
@@ -253,7 +266,7 @@
     // restore on close) in closeProduct() below
     document.title = `${product.name} — ${SITE.brandName}`;
 
-    carouselEl.innerHTML = product.media.map((m) => slideHTML(product, m)).join("");
+    carouselEl.innerHTML = product.media.map((m, i) => slideHTML(product, m, i === 0)).join("");
     dotsEl.innerHTML = product.media.map((_, i) => `<span class="${i === 0 ? "active" : ""}"></span>`).join("");
     carouselEl.scrollLeft = 0;
     activateSlideMedia(0); // load slide 1's video (if any) + preload the next slide, nothing further
