@@ -107,7 +107,10 @@ button { font-family: inherit; cursor: pointer; }
   position: absolute; left: 20px; right: 20px; bottom: 24px;
   text-align: center;
 }
-.hero-photo-overlay-text h1 { font-size: 38px; line-height: 1.1; margin-bottom: 8px; color: var(--fg); }
+/* font-weight 400 (thin, same as .card-name) — per Lena 2026-07-29: the hero
+   headline over the photo was too loud/shouty at the default h1 bold (700).
+   font-size left untouched, only the weight changed. */
+.hero-photo-overlay-text h1 { font-size: 38px; font-weight: 400; line-height: 1.1; margin-bottom: 8px; color: var(--fg); }
 .hero-photo-overlay-text .hero-sub { color: var(--muted); font-size: 15.5px; line-height: 1.4; margin-bottom: 0; }
 
 /* ---------- hero ---------- */
