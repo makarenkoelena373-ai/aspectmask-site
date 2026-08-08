@@ -110,6 +110,28 @@
   }
 
   function slideHTML(product, item, isFirst) {
+    // "fit" slides: full-bleed on-mannequin photo with objection-handling bullets overlaid
+    // at the bottom (fit / comfort / travel). Added 2026-08-08 — replaces the old hero-video
+    // slot (slide 2) per Lena's new 8-slide card sequence, see
+    // slide2-fit-slide-template-spec.md (Claude Project doc). Bullet copy is the same on
+    // every product; the photo crop (scale + transform-origin) is calibrated per product,
+    // same idea as text-slide's focusY — see that spec for how to calibrate a new product.
+    if (item.type === "fit") {
+      const bgSrc = item.src ? mediaPath(product.id, item.src) : null;
+      const bullets = item.bullets || [];
+      const scale = item.scale != null ? item.scale : 1.1;
+      const originX = item.originX != null ? item.originX : 50;
+      const originY = item.originY != null ? item.originY : 100;
+      const photoStyle = ` style="transform:scale(${scale}); transform-origin:${originX}% ${originY}%;"`;
+      return `<div class="carousel-slide"><div class="fit-slide">
+        ${bgSrc ? `<img src="${bgSrc}" alt="${item.alt || `${product.name} — ${item.slot}`}"${photoStyle} ${slideImgAttrs(isFirst)} />` : ""}
+        <div class="fit-slide-scrim"></div>
+        <div class="fit-slide-content">
+          ${bullets.length ? `<ul class="fit-slide-bullets">${bullets.map((b) => `<li><span class="fit-strong">${b.strong}</span><span class="fit-dim">${b.dim}</span></li>`).join("")}</ul>` : ""}
+        </div>
+      </div></div>`;
+    }
+
     // "text" slides: photo strip up top (src, ~54% of slide height), then the "aspect" watermark,
     // then left-aligned bullets. Redesigned 2026-07-28 — heading/subheading dropped entirely.
     if (item.type === "text") {

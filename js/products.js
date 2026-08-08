@@ -74,8 +74,19 @@ const PRODUCTS = [
     media: [
       { type: "image", slot: "Hero photo", src: "aspect-ruby-dune-red-fashion-mask-headpiece-hero.jpg",
       alt: "Ruby Dune Mask — fashion avant-garde red mask for performance and party looks", },
-      { type: "video", slot: "Hero video", src: "aspect-ruby-dune-red-fashion-mask-headpiece-hero-video.mp4",
-      alt: "Ruby Dune Mask — video preview of the red fashion mask, performance-ready", },
+      {
+        type: "fit",
+        slot: "Fit + objections",
+        src: "aspect-ruby-dune-red-fashion-mask-headpiece-front.jpg",
+        alt: "Ruby Dune Mask — worn on display form, fit and comfort details",
+        scale: 1.13, originX: 50, originY: 100, // per-photo calibration — see slide2-fit-slide-template-spec.md
+        bullets: [
+          { strong: "Fit any face", dim: ": bends by hand." },
+          { strong: "Lightweight", dim: ": wear it all night." },
+          { strong: "Travels easily", dim: ": box&nbsp;included." },
+          { strong: "Soft", dim: ": against your skin, not wire." },
+        ],
+      },
       { type: "video", slot: "Video product review", src: "aspect-ruby-dune-red-fashion-mask-headpiece-review-video.mp4",
       alt: "Ruby Dune Mask — full review video of the red avant-garde headpiece", },
       { type: "video", slot: "Hands-on video", src: "aspect-ruby-dune-red-fashion-mask-headpiece-hands-on-video.mp4",
@@ -143,8 +154,19 @@ const PRODUCTS = [
     media: [
       { type: "image", slot: "Hero photo", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-hero.jpg",
       alt: "Black Bird Eye Mask — fashion avant-garde black mask for performance and party looks", },
-      { type: "video", slot: "Hero video", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-hero-video.mp4",
-      alt: "Black Bird Eye Mask — video preview of the black fashion mask, performance-ready", },
+      {
+        type: "fit",
+        slot: "Fit + objections",
+        src: "aspect-black-bird-eye-black-fashion-mask-headpiece-front.jpg",
+        alt: "Black Bird Eye Mask — worn on display form, fit and comfort details",
+        scale: 1.15, originX: 50, originY: 100, // per-photo calibration — see slide2-fit-slide-template-spec.md
+        bullets: [
+          { strong: "Fit any face", dim: ": bends by hand." },
+          { strong: "Lightweight", dim: ": wear it all night." },
+          { strong: "Travels easily", dim: ": box&nbsp;included." },
+          { strong: "Soft", dim: ": against your skin, not wire." },
+        ],
+      },
       { type: "video", slot: "Video product review", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-review-video.mp4",
       alt: "Black Bird Eye Mask — full review video of the black avant-garde headpiece", },
       { type: "video", slot: "Hands-on video", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-hands-on-video.mp4",
@@ -212,8 +234,19 @@ const PRODUCTS = [
     media: [
       { type: "image", slot: "Hero photo", src: "aspect-black-fire-black-fashion-mask-headpiece-hero.jpg",
       alt: "Black Fire Mask — fashion avant-garde black mask for performance and party looks", },
-      { type: "video", slot: "Hero video", src: "aspect-black-fire-black-fashion-mask-headpiece-hero-video.mp4",
-      alt: "Black Fire Mask — video preview of the black fashion mask, performance-ready", },
+      {
+        type: "fit",
+        slot: "Fit + objections",
+        src: "aspect-black-fire-black-fashion-mask-headpiece-front.jpg",
+        alt: "Black Fire Mask — worn on display form, fit and comfort details",
+        scale: 1.08, originX: 50, originY: 135, // per-photo calibration — see slide2-fit-slide-template-spec.md
+        bullets: [
+          { strong: "Fit any face", dim: ": bends by hand." },
+          { strong: "Lightweight", dim: ": wear it all night." },
+          { strong: "Travels easily", dim: ": box&nbsp;included." },
+          { strong: "Soft", dim: ": against your skin, not wire." },
+        ],
+      },
       { type: "video", slot: "Video product review", src: "aspect-black-fire-black-fashion-mask-headpiece-review-video.mp4",
       alt: "Black Fire Mask — full review video of the black avant-garde headpiece", },
       { type: "video", slot: "Hands-on video", src: "aspect-black-fire-black-fashion-mask-headpiece-hands-on-video.mp4",
@@ -282,8 +315,19 @@ const PRODUCTS = [
     media: [
       { type: "image", slot: "Hero photo", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-hero.jpg",
       alt: "Deep Ocean Mask — fashion avant-garde blue mask for performance and party looks", },
-      { type: "video", slot: "Hero video", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-hero-video.mp4",
-      alt: "Deep Ocean Mask — video preview of the blue fashion mask, performance-ready", },
+      {
+        type: "fit",
+        slot: "Fit + objections",
+        src: "aspect-deep-ocean-blue-fashion-mask-headpiece-front.jpg",
+        alt: "Deep Ocean Mask — worn on display form, fit and comfort details",
+        scale: 1.16, originX: 50, originY: 85, // per-photo calibration — see slide2-fit-slide-template-spec.md
+        bullets: [
+          { strong: "Fit any face", dim: ": bends by hand." },
+          { strong: "Lightweight", dim: ": wear it all night." },
+          { strong: "Travels easily", dim: ": box&nbsp;included." },
+          { strong: "Soft", dim: ": against your skin, not wire." },
+        ],
+      },
       { type: "video", slot: "Video product review", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-review-video.mp4",
       alt: "Deep Ocean Mask — full review video of the blue avant-garde headpiece", },
       { type: "video", slot: "Hands-on video", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-hands-on-video.mp4",
@@ -352,8 +396,19 @@ const PRODUCTS = [
     media: [
       { type: "image", slot: "Hero photo", src: "aspect-electric-fire-red-fashion-mask-headpiece-hero.jpg",
       alt: "Electric Fire Mask — fashion avant-garde red mask for performance and party looks", },
-      { type: "video", slot: "Hero video", src: "aspect-electric-fire-red-fashion-mask-headpiece-hero-video.mp4",
-      alt: "Electric Fire Mask — video preview of the red fashion mask, performance-ready", },
+      {
+        type: "fit",
+        slot: "Fit + objections",
+        src: "aspect-electric-fire-red-fashion-mask-headpiece-front.jpg",
+        alt: "Electric Fire Mask — worn on display form, fit and comfort details",
+        scale: 1.07, originX: 50, originY: 100, // per-photo calibration — see slide2-fit-slide-template-spec.md
+        bullets: [
+          { strong: "Fit any face", dim: ": bends by hand." },
+          { strong: "Lightweight", dim: ": wear it all night." },
+          { strong: "Travels easily", dim: ": box&nbsp;included." },
+          { strong: "Soft", dim: ": against your skin, not wire." },
+        ],
+      },
       { type: "video", slot: "Video product review", src: "aspect-electric-fire-red-fashion-mask-headpiece-review-video.mp4",
       alt: "Electric Fire Mask — full review video of the red avant-garde headpiece", },
       { type: "video", slot: "Hands-on video", src: "aspect-electric-fire-red-fashion-mask-headpiece-hands-on-video.mp4",
@@ -421,8 +476,19 @@ const PRODUCTS = [
     media: [
       { type: "image", slot: "Hero photo", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-hero.jpg",
       alt: "Wine Heart Mask — fashion avant-garde wine-red mask for performance and party looks", },
-      { type: "video", slot: "Hero video", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-hero-video.mp4",
-      alt: "Wine Heart Mask — video preview of the wine-red fashion mask, performance-ready", },
+      {
+        type: "fit",
+        slot: "Fit + objections",
+        src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-front.jpg",
+        alt: "Wine Heart Mask — worn on display form, fit and comfort details",
+        scale: 1.27, originX: 110, originY: 100, // per-photo calibration — see slide2-fit-slide-template-spec.md
+        bullets: [
+          { strong: "Fit any face", dim: ": bends by hand." },
+          { strong: "Lightweight", dim: ": wear it all night." },
+          { strong: "Travels easily", dim: ": box&nbsp;included." },
+          { strong: "Soft", dim: ": against your skin, not wire." },
+        ],
+      },
       { type: "video", slot: "Video product review", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-review-video.mp4",
       alt: "Wine Heart Mask — full review video of the wine-red avant-garde headpiece", },
       { type: "video", slot: "Hands-on video", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-hands-on-video.mp4",
@@ -488,7 +554,17 @@ const PRODUCTS = [
     description: "One-of-one hand-sculpted piece — no two Aspect masks are ever the same.",
     media: [
       { type: "image", slot: "Hero photo", src: null },
-      { type: "video", slot: "Hero video", src: null },
+      // fit-slide copy is APPROVED and identical for every product — only change `src` (this
+      // product's own front/on-mannequin photo) and the scale/originX/originY calibration
+      // (per-photo, like text-slide's focusY — see slide2-fit-slide-template-spec.md, Claude
+      // project doc, for how to calibrate a new photo). Do not edit bullets.
+      { type: "fit", slot: "Fit + objections", src: null, scale: 1.1, originX: 50, originY: 100,
+        bullets: [
+          { strong: "Fit any face", dim: ": bends by hand." },
+          { strong: "Lightweight", dim: ": wear it all night." },
+          { strong: "Travels easily", dim: ": box&nbsp;included." },
+          { strong: "Soft", dim: ": against your skin, not wire." },
+        ] },
       { type: "video", slot: "Video product review", src: null },
       { type: "video", slot: "Hands-on video", src: null },
       { type: "image", slot: "Front photo, on mannequin", src: null },
