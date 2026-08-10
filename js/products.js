@@ -11,11 +11,16 @@
       the site will show a labeled placeholder instead of breaking.
    5. Save the file. That's it — the new card appears automatically.
 
-   CAROUSEL SLIDE ORDER (updated 2026-07-28):
-    1. image — Hero photo
-    2. video — Hero video
-    3. video — Video product review
-    4. video — Hands-on video (table → hands → on face)
+   CAROUSEL SLIDE ORDER (updated 2026-08-10 — target 8-slide sequence, in progress; see
+   Claude project doc "product-card-slide-sequence-v2-decision.md" for the full roadmap):
+    1. image — Hero photo — unchanged
+    2. fit   — Head-on-mannequin photo + objection-handling bullets (fit/comfort/travel) —
+               replaced the old "Hero video" slot 2026-08-08 (see `type: "fit"` below)
+    3. proof — proof-of-process slide ("One of one") — moved here from its old spot right
+               before the CTA, 2026-08-10 (see `type: "proof"` below)
+    4. video — Hands-on video (table → hands → on face). NOTE: the old "Video product
+               review" slide that used to sit here was REMOVED entirely 2026-08-10 per Lena
+               — do not re-add it.
     5. image — Front photo, on mannequin
     6. image — Side photo 1, on mannequin
     7. image — Side photo 2, on mannequin
@@ -23,8 +28,12 @@
     9. image — Inside photo
     10-11. image — Macro / detail photos (2-3 of them)
     12. text  — brand statement slide (no heading/subheading anymore — see `type: "text"` below)
-    13. proof — proof-of-process slide, right after the text slide (see `type: "proof"` below)
-    14. cta   — hero photo + overlay copy, nudges toward the Order button
+    13. cta   — hero photo + overlay copy, nudges toward the Order button
+
+   STILL PENDING from the target 8-slide sequence (not yet built — see the project doc above):
+   moving the early CTA to position 4, collapsing the 4-angle photos (side1/side2/back/inside)
+   into a single collage slide (rebuilt per product), and a differently-worded final CTA
+   ("one of one, gone" theme) at the very end.
 
    SLIDE TYPES:
    - { type: "image", slot, src }                — a normal photo
@@ -87,8 +96,18 @@ const PRODUCTS = [
           { strong: "Soft", dim: ": against your skin, not wire." },
         ],
       },
-      { type: "video", slot: "Video product review", src: "aspect-ruby-dune-red-fashion-mask-headpiece-review-video.mp4",
-      alt: "Ruby Dune Mask — full review video of the red avant-garde headpiece", },
+      {
+        type: "proof",
+        slot: "Proof of process",
+        src: "aspect-ruby-dune-red-fashion-mask-headpiece-handmade-proof.jpg",
+        alt: "Ruby Dune Mask — proof of handmade craftsmanship, red mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
+        heading: "One of one",
+        bodyLines: [
+          "Authored.",
+          "Hand-sculptured.",
+          "Once one is claimed, it's gone for good",
+        ],
+      },
       { type: "video", slot: "Hands-on video", src: "aspect-ruby-dune-red-fashion-mask-headpiece-hands-on-video.mp4",
       alt: "Ruby Dune Mask — hands-on video showing how the red mask fits the face", },
       { type: "image", slot: "Front photo, on mannequin", src: "aspect-ruby-dune-red-fashion-mask-headpiece-front.jpg",
@@ -116,18 +135,6 @@ const PRODUCTS = [
           "Lightweight. Wear it all night.",
           "Travels easily — weighs next to nothing, box&nbsp;included.",
           "Soft against your skin, not wire.",
-        ],
-      },
-      {
-        type: "proof",
-        slot: "Proof of process",
-        src: "aspect-ruby-dune-red-fashion-mask-headpiece-handmade-proof.jpg",
-        alt: "Ruby Dune Mask — proof of handmade craftsmanship, red mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
-        heading: "One of one",
-        bodyLines: [
-          "Authored.",
-          "Hand-sculptured.",
-          "Once one is claimed, it's gone for good",
         ],
       },
       {
@@ -167,8 +174,18 @@ const PRODUCTS = [
           { strong: "Soft", dim: ": against your skin, not wire." },
         ],
       },
-      { type: "video", slot: "Video product review", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-review-video.mp4",
-      alt: "Black Bird Eye Mask — full review video of the black avant-garde headpiece", },
+      {
+        type: "proof",
+        slot: "Proof of process",
+        src: "aspect-black-bird-eye-black-fashion-mask-headpiece-handmade-proof.jpg",
+        alt: "Black Bird Eye Mask — proof of handmade craftsmanship, black mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
+        heading: "One of one",
+        bodyLines: [
+          "Authored.",
+          "Hand-sculptured.",
+          "Once one is claimed, it's gone for good",
+        ],
+      },
       { type: "video", slot: "Hands-on video", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-hands-on-video.mp4",
       alt: "Black Bird Eye Mask — hands-on video showing how the black mask fits the face", },
       { type: "image", slot: "Front photo, on mannequin", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-front.jpg",
@@ -196,18 +213,6 @@ const PRODUCTS = [
           "Lightweight. Wear it all night.",
           "Travels easily — weighs next to nothing, box&nbsp;included.",
           "Soft against your skin, not wire.",
-        ],
-      },
-      {
-        type: "proof",
-        slot: "Proof of process",
-        src: "aspect-black-bird-eye-black-fashion-mask-headpiece-handmade-proof.jpg",
-        alt: "Black Bird Eye Mask — proof of handmade craftsmanship, black mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
-        heading: "One of one",
-        bodyLines: [
-          "Authored.",
-          "Hand-sculptured.",
-          "Once one is claimed, it's gone for good",
         ],
       },
       {
@@ -247,8 +252,18 @@ const PRODUCTS = [
           { strong: "Soft", dim: ": against your skin, not wire." },
         ],
       },
-      { type: "video", slot: "Video product review", src: "aspect-black-fire-black-fashion-mask-headpiece-review-video.mp4",
-      alt: "Black Fire Mask — full review video of the black avant-garde headpiece", },
+      {
+        type: "proof",
+        slot: "Proof of process",
+        src: "aspect-black-fire-black-fashion-mask-headpiece-handmade-proof.jpg",
+        alt: "Black Fire Mask — proof of handmade craftsmanship, black mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
+        heading: "One of one",
+        bodyLines: [
+          "Authored.",
+          "Hand-sculptured.",
+          "Once one is claimed, it's gone for good",
+        ],
+      },
       { type: "video", slot: "Hands-on video", src: "aspect-black-fire-black-fashion-mask-headpiece-hands-on-video.mp4",
       alt: "Black Fire Mask — hands-on video showing how the black mask fits the face", },
       { type: "image", slot: "Front photo, on mannequin", src: "aspect-black-fire-black-fashion-mask-headpiece-front.jpg",
@@ -277,18 +292,6 @@ const PRODUCTS = [
           "Lightweight. Wear it all night.",
           "Travels easily — weighs next to nothing, box&nbsp;included.",
           "Soft against your skin, not wire.",
-        ],
-      },
-      {
-        type: "proof",
-        slot: "Proof of process",
-        src: "aspect-black-fire-black-fashion-mask-headpiece-handmade-proof.jpg",
-        alt: "Black Fire Mask — proof of handmade craftsmanship, black mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
-        heading: "One of one",
-        bodyLines: [
-          "Authored.",
-          "Hand-sculptured.",
-          "Once one is claimed, it's gone for good",
         ],
       },
       {
@@ -328,8 +331,18 @@ const PRODUCTS = [
           { strong: "Soft", dim: ": against your skin, not wire." },
         ],
       },
-      { type: "video", slot: "Video product review", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-review-video.mp4",
-      alt: "Deep Ocean Mask — full review video of the blue avant-garde headpiece", },
+      {
+        type: "proof",
+        slot: "Proof of process",
+        src: "aspect-deep-ocean-blue-fashion-mask-headpiece-handmade-proof.jpg",
+        alt: "Deep Ocean Mask — proof of handmade craftsmanship, blue mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
+        heading: "One of one",
+        bodyLines: [
+          "Authored.",
+          "Hand-sculptured.",
+          "Once one is claimed, it's gone for good",
+        ],
+      },
       { type: "video", slot: "Hands-on video", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-hands-on-video.mp4",
       alt: "Deep Ocean Mask — hands-on video showing how the blue mask fits the face", },
       { type: "image", slot: "Front photo, on mannequin", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-front.jpg",
@@ -358,18 +371,6 @@ const PRODUCTS = [
           "Lightweight. Wear it all night.",
           "Travels easily — weighs next to nothing, box&nbsp;included.",
           "Soft against your skin, not wire.",
-        ],
-      },
-      {
-        type: "proof",
-        slot: "Proof of process",
-        src: "aspect-deep-ocean-blue-fashion-mask-headpiece-handmade-proof.jpg",
-        alt: "Deep Ocean Mask — proof of handmade craftsmanship, blue mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
-        heading: "One of one",
-        bodyLines: [
-          "Authored.",
-          "Hand-sculptured.",
-          "Once one is claimed, it's gone for good",
         ],
       },
       {
@@ -409,8 +410,18 @@ const PRODUCTS = [
           { strong: "Soft", dim: ": against your skin, not wire." },
         ],
       },
-      { type: "video", slot: "Video product review", src: "aspect-electric-fire-red-fashion-mask-headpiece-review-video.mp4",
-      alt: "Electric Fire Mask — full review video of the red avant-garde headpiece", },
+      {
+        type: "proof",
+        slot: "Proof of process",
+        src: "aspect-electric-fire-red-fashion-mask-headpiece-handmade-proof.jpg",
+        alt: "Electric Fire Mask — proof of handmade craftsmanship, red mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
+        heading: "One of one",
+        bodyLines: [
+          "Authored.",
+          "Hand-sculptured.",
+          "Once one is claimed, it's gone for good",
+        ],
+      },
       { type: "video", slot: "Hands-on video", src: "aspect-electric-fire-red-fashion-mask-headpiece-hands-on-video.mp4",
       alt: "Electric Fire Mask — hands-on video showing how the red mask fits the face", },
       { type: "image", slot: "Front photo, on mannequin", src: "aspect-electric-fire-red-fashion-mask-headpiece-front.jpg",
@@ -438,18 +449,6 @@ const PRODUCTS = [
           "Lightweight. Wear it all night.",
           "Travels easily — weighs next to nothing, box&nbsp;included.",
           "Soft against your skin, not wire.",
-        ],
-      },
-      {
-        type: "proof",
-        slot: "Proof of process",
-        src: "aspect-electric-fire-red-fashion-mask-headpiece-handmade-proof.jpg",
-        alt: "Electric Fire Mask — proof of handmade craftsmanship, red mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
-        heading: "One of one",
-        bodyLines: [
-          "Authored.",
-          "Hand-sculptured.",
-          "Once one is claimed, it's gone for good",
         ],
       },
       {
@@ -489,8 +488,18 @@ const PRODUCTS = [
           { strong: "Soft", dim: ": against your skin, not wire." },
         ],
       },
-      { type: "video", slot: "Video product review", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-review-video.mp4",
-      alt: "Wine Heart Mask — full review video of the wine-red avant-garde headpiece", },
+      {
+        type: "proof",
+        slot: "Proof of process",
+        src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-handmade-proof.jpg",
+        alt: "Wine Heart Mask — proof of handmade craftsmanship, wine-red mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
+        heading: "One of one",
+        bodyLines: [
+          "Authored.",
+          "Hand-sculptured.",
+          "Once one is claimed, it's gone for good",
+        ],
+      },
       { type: "video", slot: "Hands-on video", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-hands-on-video.mp4",
       alt: "Wine Heart Mask — hands-on video showing how the wine-red mask fits the face", },
       { type: "image", slot: "Front photo, on mannequin", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-front.jpg",
@@ -519,18 +528,6 @@ const PRODUCTS = [
           "Lightweight. Wear it all night.",
           "Travels easily — weighs next to nothing, box&nbsp;included.",
           "Soft against your skin, not wire.",
-        ],
-      },
-      {
-        type: "proof",
-        slot: "Proof of process",
-        src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-handmade-proof.jpg",
-        alt: "Wine Heart Mask — proof of handmade craftsmanship, wine-red mask in progress", // process photo added 2026-07-28 (Lena, direct upload)
-        heading: "One of one",
-        bodyLines: [
-          "Authored.",
-          "Hand-sculptured.",
-          "Once one is claimed, it's gone for good",
         ],
       },
       {
@@ -565,7 +562,17 @@ const PRODUCTS = [
           { strong: "Travels easily", dim: ": box&nbsp;included." },
           { strong: "Soft", dim: ": against your skin, not wire." },
         ] },
-      { type: "video", slot: "Video product review", src: null },
+      // proof-slide copy is APPROVED and identical for every product — only change `src`
+      // (a full-bleed photo proving the piece is genuinely hand-made — a process shot: hands,
+      // tools, work-in-progress). Full spec: Claude project doc "proof-slide-template-spec.md".
+      // Moved to position 3 (right after the fit-slide) 2026-08-10 per Lena — "Video product
+      // review" slide was dropped entirely from the sequence at the same time.
+      { type: "proof", slot: "Proof of process", src: null, heading: "One of one",
+        bodyLines: [
+          "Authored.",
+          "Hand-sculptured.",
+          "Once one is claimed, it's gone for good",
+        ] },
       { type: "video", slot: "Hands-on video", src: null },
       { type: "image", slot: "Front photo, on mannequin", src: null },
       { type: "image", slot: "Side photo 1, on mannequin", src: null },
@@ -585,15 +592,6 @@ const PRODUCTS = [
           "Lightweight. Wear it all night.",
           "Travels easily — weighs next to nothing, box&nbsp;included.",
           "Soft against your skin, not wire.",
-        ] },
-      // proof-slide copy is APPROVED and identical for every product — only change `src`
-      // (a full-bleed photo proving the piece is genuinely hand-made — a process shot: hands,
-      // tools, work-in-progress). Full spec: Claude project doc "proof-slide-template-spec.md".
-      { type: "proof", slot: "Proof of process", src: null, heading: "One of one",
-        bodyLines: [
-          "Authored.",
-          "Hand-sculptured.",
-          "Once one is claimed, it's gone for good",
         ] },
       // cta-slide copy is APPROVED and identical for every product — only change `src`
       // (a photo of THIS product's mask; the bottom third gets covered by a graphite
