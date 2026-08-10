@@ -124,10 +124,10 @@ const PRODUCTS = [
       alt: "Ruby Dune Mask — back view of the red mask construction", },
       { type: "image", slot: "Inside photo", src: "aspect-ruby-dune-red-fashion-mask-headpiece-inside.jpg",
       alt: "Ruby Dune Mask — inside view showing the mask's structure", },
-      { type: "image", slot: "Macro detail 1", src: "aspect-ruby-dune-red-fashion-mask-headpiece-detail-1.jpg",
-      alt: "Ruby Dune Mask — macro detail of the hand-sculpted red design", },
-      { type: "image", slot: "Macro detail 2", src: "aspect-ruby-dune-red-fashion-mask-headpiece-detail-2.jpg",
-      alt: "Ruby Dune Mask — close-up detail of the red headpiece texture", },
+      // Macro slide, consolidated to ONE photo 2026-08-10 per Lena (was two separate
+      // "Macro detail 1/2" slides) — see product-card-slide-sequence-v2-decision.md, slide 5.
+      { type: "image", slot: "Macro detail", src: "aspect-ruby-dune-red-fashion-mask-headpiece-detail-1.jpg",
+      alt: "Ruby Dune Mask — macro detail of the hand-sculpted red design, wire-wrapped joints", },
       {
         type: "text",
         slot: "Brand statement",
@@ -202,10 +202,10 @@ const PRODUCTS = [
       alt: "Black Bird Eye Mask — back view of the black mask construction", },
       { type: "image", slot: "Inside photo", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-inside.jpg",
       alt: "Black Bird Eye Mask — inside view showing the mask's structure", },
-      { type: "image", slot: "Macro detail 1", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-detail-1.jpg",
-      alt: "Black Bird Eye Mask — macro detail of the hand-sculpted black design", },
-      { type: "image", slot: "Macro detail 2", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-detail-2.jpg",
-      alt: "Black Bird Eye Mask — close-up detail of the black headpiece texture", },
+      // Macro slide, consolidated to ONE photo 2026-08-10 per Lena (was two separate
+      // "Macro detail 1/2" slides) — see product-card-slide-sequence-v2-decision.md, slide 5.
+      { type: "image", slot: "Macro detail", src: "aspect-black-bird-eye-black-fashion-mask-headpiece-detail-2.jpg",
+      alt: "Black Bird Eye Mask — macro detail of the hand-sculpted black design, wire-wrapped joints", },
       {
         type: "text",
         slot: "Brand statement",
@@ -280,10 +280,10 @@ const PRODUCTS = [
       alt: "Black Fire Mask — back view of the black mask construction", },
       { type: "image", slot: "Inside photo", src: "aspect-black-fire-black-fashion-mask-headpiece-inside.jpg",
       alt: "Black Fire Mask — inside view showing the mask's structure", },
-      { type: "image", slot: "Macro detail 1", src: "aspect-black-fire-black-fashion-mask-headpiece-detail-1.jpg",
-      alt: "Black Fire Mask — macro detail of the hand-sculpted black design", },
-      { type: "image", slot: "Macro detail 2", src: "aspect-black-fire-black-fashion-mask-headpiece-detail-2.jpg",
-      alt: "Black Fire Mask — close-up detail of the black headpiece texture", },
+      // Macro slide, consolidated to ONE photo 2026-08-10 per Lena (was two separate
+      // "Macro detail 1/2" slides) — see product-card-slide-sequence-v2-decision.md, slide 5.
+      { type: "image", slot: "Macro detail", src: "aspect-black-fire-black-fashion-mask-headpiece-detail-2.jpg",
+      alt: "Black Fire Mask — macro detail of the hand-sculpted black design, wire-wrapped joints", },
       {
         type: "text",
         slot: "Brand statement",
@@ -359,10 +359,10 @@ const PRODUCTS = [
       alt: "Deep Ocean Mask — back view of the blue mask construction", },
       { type: "image", slot: "Inside photo", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-inside.jpg",
       alt: "Deep Ocean Mask — inside view showing the mask's structure", },
-      { type: "image", slot: "Macro detail 1", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-detail-1.jpg",
-      alt: "Deep Ocean Mask — macro detail of the hand-sculpted blue design", },
-      { type: "image", slot: "Macro detail 2", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-detail-2.jpg",
-      alt: "Deep Ocean Mask — close-up detail of the blue headpiece texture", },
+      // Macro slide, consolidated to ONE photo 2026-08-10 per Lena (was two separate
+      // "Macro detail 1/2" slides) — see product-card-slide-sequence-v2-decision.md, slide 5.
+      { type: "image", slot: "Macro detail", src: "aspect-deep-ocean-blue-fashion-mask-headpiece-detail-2.jpg",
+      alt: "Deep Ocean Mask — macro detail of the hand-sculpted blue design, wire-wrapped joints", },
       {
         type: "text",
         slot: "Brand statement",
@@ -438,10 +438,10 @@ const PRODUCTS = [
       alt: "Electric Fire Mask — back view of the red mask construction", },
       { type: "image", slot: "Inside photo", src: "aspect-electric-fire-red-fashion-mask-headpiece-inside.jpg",
       alt: "Electric Fire Mask — inside view showing the mask's structure", },
-      { type: "image", slot: "Macro detail 1", src: "aspect-electric-fire-red-fashion-mask-headpiece-detail-1.jpg",
-      alt: "Electric Fire Mask — macro detail of the hand-sculpted red design", },
-      { type: "image", slot: "Macro detail 2", src: "aspect-electric-fire-red-fashion-mask-headpiece-detail-2.jpg",
-      alt: "Electric Fire Mask — close-up detail of the red headpiece texture", },
+      // Macro slide, consolidated to ONE photo 2026-08-10 per Lena (was two separate
+      // "Macro detail 1/2" slides) — see product-card-slide-sequence-v2-decision.md, slide 5.
+      { type: "image", slot: "Macro detail", src: "aspect-electric-fire-red-fashion-mask-headpiece-detail-1.jpg",
+      alt: "Electric Fire Mask — macro detail of the hand-sculpted red design, wire-wrapped joints", },
       {
         type: "text",
         slot: "Brand statement",
@@ -516,10 +516,10 @@ const PRODUCTS = [
       alt: "Wine Heart Mask — back view of the wine-red mask construction", },
       { type: "image", slot: "Inside photo", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-inside.jpg",
       alt: "Wine Heart Mask — inside view showing the mask's structure", },
-      { type: "image", slot: "Macro detail 1", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-detail-1.jpg",
-      alt: "Wine Heart Mask — macro detail of the hand-sculpted wine-red design", },
-      { type: "image", slot: "Macro detail 2", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-detail-2.jpg",
-      alt: "Wine Heart Mask — close-up detail of the wine-red headpiece texture", },
+      // Macro slide, consolidated to ONE photo 2026-08-10 per Lena (was two separate
+      // "Macro detail 1/2" slides) — see product-card-slide-sequence-v2-decision.md, slide 5.
+      { type: "image", slot: "Macro detail", src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-detail-1.jpg",
+      alt: "Wine Heart Mask — macro detail of the hand-sculpted wine-red design, wire-wrapped joints", },
       {
         type: "text",
         slot: "Brand statement",
@@ -583,8 +583,12 @@ const PRODUCTS = [
       { type: "image", slot: "Side photo 2, on mannequin", src: null },
       { type: "image", slot: "Back photo, on mannequin", src: null },
       { type: "image", slot: "Inside photo", src: null },
-      { type: "image", slot: "Macro detail 1", src: null },
-      { type: "image", slot: "Macro detail 2", src: null },
+      // Macro slide — ONE strong close-up shot per product, picked from your available detail
+      // photos (favor the crop that most clearly shows the hand-wrapped wire at the thread
+      // joints, and fills the 3:4 carousel frame without empty margins). Consolidated from two
+      // separate "Macro detail 1/2" slides to one 2026-08-10 — see slide 5 in
+      // product-card-slide-sequence-v2-decision.md.
+      { type: "image", slot: "Macro detail", src: null },
       // text-slide copy is APPROVED and identical for every product — only change `src`
       // (a photo of THIS product's mask, cropped/zoomed per text-slide-template-spec.md
       // so the eyes read clearly in the top third). Do not edit bullets. No heading/subheading
