@@ -54,13 +54,17 @@
                                                      photo proving the piece is hand-made — process shot,
                                                      full-bleed). Full spec in the Claude project doc
                                                      "proof-slide-template-spec.md".
-   - { type: "cta",   slot, src, ctaTitle, ctaSub } — template APPROVED 2026-07-22.
-                                                     ctaTitle/ctaSub are the SAME on every
-                                                     product ("Ready to ship" / "Claim it for
-                                                     your look. Make your entrance."). `src`
-                                                     is the ONLY thing that changes per product.
-                                                     Full spec in the Claude project doc
-                                                     "cta-slide-template-spec.md".
+   - { type: "cta",   slot, src, ctaTitle, ctaSub } — template APPROVED 2026-07-22, copy
+                                                     UPDATED 2026-08-10. ctaTitle/ctaSub are
+                                                     the SAME on every product ("Only one
+                                                     exists." / "First to claim it, wears it.
+                                                     No identical piece will ever be made
+                                                     again."). `src` is the ONLY thing that
+                                                     changes per product. Title font-size
+                                                     30px (was 38px), sub 17px (was 19.5px) —
+                                                     see .cta-slide-title/.cta-slide-sub in
+                                                     css/style.css. Full spec in the Claude
+                                                     project doc "cta-slide-template-spec.md".
    ========================================================================= */
 
 const PRODUCTS = [
@@ -142,8 +146,8 @@ const PRODUCTS = [
         slot: "Order CTA",
         src: "aspect-ruby-dune-red-fashion-mask-headpiece-ready-to-ship.jpg",
         alt: "Ruby Dune Mask — ready to ship red mask, festival and red carpet ready",
-        ctaTitle: "Ready to ship",
-        ctaSub: "Claim it for your look.<br>Make your entrance.",
+        ctaTitle: "Only one exists.",
+        ctaSub: "First to claim it, wears it.<br>No identical piece will ever be made again.",
       },
     ],
   },
@@ -220,8 +224,8 @@ const PRODUCTS = [
         slot: "Order CTA",
         src: "aspect-black-bird-eye-black-fashion-mask-headpiece-ready-to-ship.jpg",
         alt: "Black Bird Eye Mask — ready to ship black mask, festival and red carpet ready",
-        ctaTitle: "Ready to ship",
-        ctaSub: "Claim it for your look.<br>Make your entrance.",
+        ctaTitle: "Only one exists.",
+        ctaSub: "First to claim it, wears it.<br>No identical piece will ever be made again.",
       },
     ],
   },
@@ -299,8 +303,8 @@ const PRODUCTS = [
         slot: "Order CTA",
         src: "aspect-black-fire-black-fashion-mask-headpiece-ready-to-ship.jpg",
         alt: "Black Fire Mask — ready to ship black mask, festival and red carpet ready",
-        ctaTitle: "Ready to ship",
-        ctaSub: "Claim it for your look.<br>Make your entrance.",
+        ctaTitle: "Only one exists.",
+        ctaSub: "First to claim it, wears it.<br>No identical piece will ever be made again.",
       },
     ],
   },
@@ -378,8 +382,8 @@ const PRODUCTS = [
         slot: "Order CTA",
         src: "aspect-deep-ocean-blue-fashion-mask-headpiece-ready-to-ship.jpg",
         alt: "Deep Ocean Mask — ready to ship blue mask, festival and red carpet ready",
-        ctaTitle: "Ready to ship",
-        ctaSub: "Claim it for your look.<br>Make your entrance.",
+        ctaTitle: "Only one exists.",
+        ctaSub: "First to claim it, wears it.<br>No identical piece will ever be made again.",
       },
     ],
   },
@@ -456,8 +460,8 @@ const PRODUCTS = [
         slot: "Order CTA",
         src: "aspect-electric-fire-red-fashion-mask-headpiece-ready-to-ship.jpg",
         alt: "Electric Fire Mask — ready to ship red mask, festival and red carpet ready",
-        ctaTitle: "Ready to ship",
-        ctaSub: "Claim it for your look.<br>Make your entrance.",
+        ctaTitle: "Only one exists.",
+        ctaSub: "First to claim it, wears it.<br>No identical piece will ever be made again.",
       },
     ],
   },
@@ -535,8 +539,8 @@ const PRODUCTS = [
         slot: "Order CTA",
         src: "aspect-wine-heart-wine-red-fashion-mask-headpiece-ready-to-ship.jpg",
         alt: "Wine Heart Mask — ready to ship wine-red mask, festival and red carpet ready",
-        ctaTitle: "Ready to ship",
-        ctaSub: "Claim it for your look.<br>Make your entrance.",
+        ctaTitle: "Only one exists.",
+        ctaSub: "First to claim it, wears it.<br>No identical piece will ever be made again.",
       },
     ],
   },
@@ -597,9 +601,14 @@ const PRODUCTS = [
       // (a photo of THIS product's mask; the bottom third gets covered by a graphite
       // gradient + text, so keep the piece's key visual detail in the top two-thirds
       // of the frame). Full spec: Claude project doc "cta-slide-template-spec.md".
+      // Copy updated 2026-08-10 per Lena — dropped "Ready to ship" as the headline (that
+      // phrase now belongs on the still-unbuilt final CTA slide, target position 8, as a
+      // small caption) in favor of urgency/scarcity copy. This slide is currently the LAST
+      // slide in the carousel (target position 4 in the new 8-slide sequence — physical
+      // reorder is still pending, see product-card-slide-sequence-v2-decision.md).
       { type: "cta", slot: "Order CTA", src: null,
-        ctaTitle: "Ready to ship",
-        ctaSub: "Claim it for your look.<br>Make your entrance." },
+        ctaTitle: "Only one exists.",
+        ctaSub: "First to claim it, wears it.<br>No identical piece will ever be made again." },
     ],
   },
   ------------------------------------------------------------------------ */
