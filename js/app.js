@@ -196,6 +196,20 @@
       </div></div>`;
     }
 
+    // "finalcta" slide: slide 8 in the target sequence — very last slide, "one of one, gone"
+    // theme, with a small "ready to ship today" caption. Same photo/overlay structure as
+    // "cta" (see above), reuses .cta-slide-title/.cta-slide-sub, adds .finalcta-slide-caption.
+    if (item.type === "finalcta") {
+      return `<div class="carousel-slide"><div class="cta-slide">
+        <img src="${src}" alt="${item.alt || `${product.name} — ${item.slot}`}" ${slideImgAttrs(isFirst)} />
+        <div class="cta-slide-overlay">
+          <p class="cta-slide-title">${item.ctaTitle || product.name}</p>
+          <p class="cta-slide-sub">${item.ctaSub || ""}</p>
+          ${item.caption ? `<p class="finalcta-slide-caption">${item.caption}</p>` : ""}
+        </div>
+      </div></div>`;
+    }
+
     if (item.type === "video") {
       // offer webm (same filename, .webm) first for browsers that support it, mp4/H.264 as the
       // universally-compatible fallback (Safari/iOS in particular needs the mp4 source)
