@@ -346,6 +346,10 @@ button { font-family: inherit; cursor: pointer; }
 .footer-brand { height: 30px; width: auto; margin: 0 auto 10px; filter: invert(1); }
 .footer-line { color: var(--muted); font-size: 12.5px; margin-bottom: 10px; }
 .footer-ig { display: inline-block; font-size: 12.5px; color: var(--accent-text); font-weight: 600; }
+/* privacy-policy link, added 2026-08-17 (Pinterest API registration required a published
+   policy URL) — small/muted, sits below the IG handle so it doesn't compete visually */
+.footer-legal { margin: 14px 0 0; }
+.footer-legal a { color: var(--muted); font-size: 11px; text-decoration: underline; text-underline-offset: 2px; }
 
 /* ---------- modal (product detail) ---------- */
 .modal {
