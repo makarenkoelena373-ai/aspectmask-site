@@ -6,6 +6,9 @@
     <image:image><image:loc>https://aspectmask.com/assets/brand/og-cover.jpg</image:loc></image:image>
   </url>
   <url>
+    <loc>https://aspectmask.com/privacy/</loc>
+  </url>
+  <url>
     <loc>https://aspectmask.com/products/ruby-dune/</loc>
     <image:image><image:loc>https://aspectmask.com/assets/products/ruby-dune/aspect-ruby-dune-red-fashion-mask-headpiece-hero.jpg</image:loc></image:image>
     <image:image><image:loc>https://aspectmask.com/assets/products/ruby-dune/aspect-ruby-dune-red-fashion-mask-headpiece-front.jpg</image:loc></image:image>
