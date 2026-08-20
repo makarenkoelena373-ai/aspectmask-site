@@ -52,6 +52,14 @@
       product_id: currentProduct ? currentProduct.id : null,
     }, true);
   });
+  const customOrderLink = document.getElementById("custom-order-ig-link");
+  if (customOrderLink) {
+    customOrderLink.href = igLink();
+    customOrderLink.addEventListener("click", () => {
+      track("contact_click", { source: "custom_order_section" });
+      fbTrack("Contact", { source: "custom_order_section" }, true);
+    });
+  }
 
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const saveDataEnabled = Boolean(navigator.connection?.saveData);
@@ -123,6 +131,7 @@
       archiveLightbox.classList.add("open");
       archiveLightbox.setAttribute("aria-hidden", "false");
       track("archive_piece_open", { piece_name: piece.name });
+      fbTrack("ArchivePieceOpen", { piece_name: piece.name }, false);
     });
   } else {
     document.querySelector(".archive-section")?.setAttribute("hidden", "");

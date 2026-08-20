@@ -21,6 +21,33 @@ const products = window.ASPECT_PRODUCTS || [];
 const productById = new Map(products.map((product) => [product.id, product]));
 const maskById = new Map(MASKS.map((mask) => [mask.id, mask]));
 
+// ---------- GA4 + Meta Pixel event tracking ----------
+// Mirrors the track()/fbTrack() pattern from js/app.js — this page loads standalone
+// (no app.js), so the base gtag/fbq snippets live in try-on/index.html's <head> and
+// these are local guard wrappers so a blocked/missing script never breaks the page.
+function track(name, params) {
+  if (typeof window.gtag === "function") {
+    window.gtag("event", name, params || {});
+  }
+}
+function fbTrack(name, params, isStandard) {
+  if (typeof window.fbq === "function") {
+    window.fbq(isStandard ? "track" : "trackCustom", name, params || {});
+  }
+}
+
+// try_on_session_duration — how long a visitor stayed on the try-on page. Sent once,
+// on whichever fires first: tab hidden (visibilitychange) or page unload (pagehide).
+const tryOnSessionStart = Date.now();
+let tryOnDurationSent = false;
+function sendTryOnSessionDuration() {
+  if (tryOnDurationSent) return;
+  tryOnDurationSent = true;
+  const seconds = Math.round((Date.now() - tryOnSessionStart) / 1000);
+  track("try_on_session_duration", { seconds, last_mask_id: selectedMask?.id });
+  fbTrack("TryOnSessionDuration", { seconds, last_mask_id: selectedMask?.id }, false);
+}
+
 const canvas = document.getElementById("camera-canvas");
 const ctx = canvas.getContext("2d", { alpha: true });
 const app = document.getElementById("try-on-app");
@@ -213,7 +240,13 @@ function buildPicker() {
   `).join("");
 
   picker.querySelectorAll(".mask-option").forEach((button) => {
-    button.addEventListener("click", () => selectMask(button.dataset.maskId));
+    button.addEventListener("click", () => {
+      selectMask(button.dataset.maskId);
+      // Only fires on an actual user click in the picker — the initial mask set from
+      // the ?mask= URL param (or the default) is not a "selection" the visitor made.
+      track("try_on_mask_selected", { mask_id: button.dataset.maskId });
+      fbTrack("TryOnMaskSelected", { mask_id: button.dataset.maskId }, false);
+    });
   });
 }
 
@@ -437,6 +470,8 @@ async function startCamera() {
     if (playResult?.catch) playResult.catch(() => {});
 
     permissionCard.hidden = true;
+    track("try_on_camera_enabled", { mask_id: selectedMask?.id });
+    fbTrack("TryOnCameraEnabled", { mask_id: selectedMask?.id }, false);
     captureButton.disabled = true;
     hint.textContent = "Starting camera…";
     hint.hidden = false;
@@ -748,7 +783,10 @@ async function copyAllFitValues() {
 
 buildPicker();
 const requestedMask = new URLSearchParams(location.search).get("mask");
-selectMask(maskById.has(requestedMask) ? requestedMask : MASKS[0].id);
+const initialMaskId = maskById.has(requestedMask) ? requestedMask : MASKS[0].id;
+selectMask(initialMaskId);
+track("try_on_page_view", { initial_mask_id: initialMaskId });
+fbTrack("TryOnPageView", { initial_mask_id: initialMaskId }, false);
 
 startButton.addEventListener("click", startCamera);
 selfieCameraButton?.addEventListener("click", openSelfieCamera);
@@ -790,9 +828,13 @@ window.addEventListener("storage", (event) => {
   }
 });
 document.addEventListener("visibilitychange", () => {
-  if (document.hidden) resetCameraPrompt();
+  if (document.hidden) {
+    resetCameraPrompt();
+    sendTryOnSessionDuration();
+  }
 });
 window.addEventListener("pagehide", () => {
   stopCamera();
   cameraChannel?.close();
+  sendTryOnSessionDuration();
 });
