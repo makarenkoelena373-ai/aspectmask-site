@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="Try every available ASPECT mask live with your camera. The camera stays on your device." />
+  <meta name="theme-color" content="#030208" />
+  <title>Online Mask Try-On — ASPECT</title>
+  <link rel="icon" type="image/png" href="/assets/brand/logo.png" />
+  <link rel="stylesheet" href="/css/try-on.css?v=20260820a" />
+</head>
+<body>
+  <main class="try-on" id="try-on-app">
+    <canvas class="camera-canvas" id="camera-canvas" aria-label="Live camera preview with a virtual mask"></canvas>
+    <video id="camera-video" autoplay playsinline muted disablepictureinpicture aria-hidden="true"></video>
+    <input id="selfie-input" type="file" accept="image/*" capture="user" hidden />
+
+    <header class="try-on-header">
+      <a class="round-control" id="try-on-close" href="/" aria-label="Close virtual try-on">&#10005;</a>
+      <img class="try-on-logo" src="/assets/brand/logo.png" alt="ASPECT" />
+      <button class="round-control" id="capture-btn" type="button" aria-label="Take a photo" disabled>
+        <span class="capture-icon" aria-hidden="true"></span>
+      </button>
+    </header>
+
+    <div class="tracking-hint" id="tracking-hint" hidden>Move into the frame and look straight ahead</div>
+
+    <section class="permission-card" id="permission-card">
+      <p class="eyebrow">Online try-on · <span id="try-on-mask-count">6 masks</span></p>
+      <h1>Try every ASPECT.</h1>
+      <p class="permission-copy">Choose any available mask below, then see it live. Your camera stays on this device — nothing is uploaded or saved by ASPECT.</p>
+      <p class="android-camera-note" id="android-camera-note" hidden>
+        Android: close other camera apps and floating bubbles before enabling the camera.
+      </p>
+      <button class="start-camera-btn" id="start-camera-btn" type="button">enable camera</button>
+      <p class="permission-note">Best in portrait mode, facing a window.</p>
+    </section>
+
+    <section class="try-on-error" id="try-on-error" hidden>
+      <h2 id="try-on-error-title">Camera unavailable</h2>
+      <p id="try-on-error-copy">Check camera permission in your browser and try again.</p>
+      <button id="selfie-error-btn" type="button">open Android camera</button>
+      <button class="secondary-camera-btn" id="retry-camera-btn" type="button">retry live camera</button>
+      <a href="/">return to the collection</a>
+    </section>
+
+    <footer class="mask-dock" id="mask-dock" aria-label="Choose a mask">
+      <div class="mask-name-row">
+        <p id="selected-mask-name" aria-live="polite">Ruby Dune Mask</p>
+        <span id="mask-availability">6 masks available</span>
+      </div>
+      <div class="mask-picker" id="mask-picker"></div>
+      <button class="fit-toggle" id="fit-toggle" type="button" aria-expanded="false">adjust mask fit</button>
+      <section class="fit-panel" id="fit-panel" aria-label="Adjust mask fit" hidden>
+        <label class="fit-control" for="fit-scale">
+          <span>size</span>
+          <output id="fit-scale-value" for="fit-scale">100%</output>
+          <input id="fit-scale" type="range" min="70" max="160" step="1" value="100" />
+        </label>
+        <label class="fit-control" for="fit-x">
+          <span>left / right</span>
+          <output id="fit-x-value" for="fit-x">0</output>
+          <input id="fit-x" type="range" min="-40" max="40" step="1" value="0" />
+        </label>
+        <label class="fit-control" for="fit-y">
+          <span>up / down</span>
+          <output id="fit-y-value" for="fit-y">0</output>
+          <input id="fit-y" type="range" min="-40" max="40" step="1" value="0" />
+        </label>
+        <p class="fit-values" id="fit-values">scale ×1.00 · x 0.00 · y 0.00</p>
+        <div class="fit-actions">
+          <button id="fit-save" type="button">save this mask</button>
+          <button id="fit-reset" type="button">reset</button>
+          <button id="fit-copy" type="button">copy all values</button>
+        </div>
+        <p class="fit-status" id="fit-status" aria-live="polite"></p>
+      </section>
+      <p class="prototype-note">Front-view prototype. Turn slowly for the best fit.</p>
+    </footer>
+  </main>
+
+  <script src="/js/products.js?v=20260817a"></script>
+  <script type="module" src="/js/try-on.js?v=20260820d"></script>
+</body>
+</html>
