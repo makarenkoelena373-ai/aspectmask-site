@@ -85,11 +85,20 @@ src="https://www.facebook.com/tr?id=1063506702684823&ev=PageView&noscript=1"
 
 <link rel="icon" type="image/png" href="/assets/brand/logo.png">
 
-<!-- Gilroy is self-hosted (assets/brand/fonts/) and loaded via @font-face in css/style.css — no external font request needed -->
-
-<link rel="stylesheet" href="/css/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/css/style.css?v=20260817a" />
+<noscript><style>body.is-loading{overflow:auto}.site-loader{display:none!important}.site-header{opacity:1!important}</style></noscript>
 </head>
-<body>
+<body class="is-loading">
+
+<div class="site-loader" id="site-loader" role="status" aria-label="Loading ASPECT">
+  <div class="site-loader-inner">
+    <img class="site-loader-logo" src="/assets/brand/logo.png" alt="ASPECT" fetchpriority="high" />
+    <span class="site-loader-line" aria-hidden="true"><span></span></span>
+  </div>
+</div>
 
 <!-- ============================================================
      NOSCRIPT-SEO BLOCK — regenerated per-page by scripts/generate_product_pages.py.
@@ -110,8 +119,11 @@ src="https://www.facebook.com/tr?id=1063506702684823&ev=PageView&noscript=1"
 </noscript>
 <!-- NOSCRIPT-SEO:END -->
 
-<!-- Header removed per Lena 2026-07-27 — page now opens straight into the
-     hero photo, no bar/logo above it. -->
+<!-- Fixed brand veil: the logo stays visible while the background fades into
+     the page instead of creating a separate, heavy navigation bar. -->
+<header class="site-header" aria-label="ASPECT MASK">
+  <img class="header-logo" src="/assets/brand/logo.png" alt="ASPECT MASK" fetchpriority="high" />
+</header>
 
 <!-- ============ HERO ============ -->
 <!-- Title/subtitle overlaid on the photo (bottom, over a gradient scrim) —
@@ -142,15 +154,76 @@ src="https://www.facebook.com/tr?id=1063506702684823&ev=PageView&noscript=1"
   </div>
 </section>
 
+<!-- ============ SOLD ARCHIVE ============ -->
+<section class="archive-section" aria-labelledby="archive-title">
+  <div class="wrap">
+    <p class="section-kicker">Sold · never repeated</p>
+    <h2 class="section-title" id="archive-title">The Archive.</h2>
+    <p class="section-intro">Past one-of-one pieces. Each existed once, found its person, and will never be reproduced.</p>
+    <div class="archive-grid" id="archive-grid"></div>
+    <button class="archive-more" id="archive-more" type="button" hidden>Explore the full archive</button>
+  </div>
+</section>
+
+<!-- ============ INDUSTRY PROOF ============ -->
+<section class="as-seen-section" aria-labelledby="as-seen-title">
+  <div class="wrap">
+    <p class="section-kicker">On stage · on screen · in print</p>
+    <h2 class="section-title" id="as-seen-title">As Seen.</h2>
+    <p class="section-intro">ASPECT pieces in editorials, runway shows, music videos and live performances.</p>
+    <div class="as-seen-track">
+      <a class="as-seen-card" data-proof="Flanelle Magazine" href="https://www.instagram.com/p/DJenuvNxWD0/?img_index=6" target="_blank" rel="noopener"><img src="/assets/as-seen/flanelle-magazine.webp" alt="ASPECT featured by Flanelle Magazine" loading="lazy" decoding="async" /><span class="as-seen-shade"></span><span class="as-seen-type">Fashion editorial</span><strong>Flanelle Magazine</strong><span class="as-seen-open">View feature ↗</span></a>
+      <a class="as-seen-card" data-proof="Bali KUDETA 2025" href="https://www.instagram.com/reel/DN21obE5G4-/" target="_blank" rel="noopener"><img src="/assets/as-seen/bali-kudeta-runway.webp" alt="ASPECT masks on the Bali KUDETA 2025 runway" loading="lazy" decoding="async" /><span class="as-seen-shade"></span><span class="as-seen-type">Fashion runway</span><strong>Bali · KUDETA 2025</strong><span class="as-seen-open">Watch runway ↗</span></a>
+      <a class="as-seen-card" data-proof="Million-view music video" href="https://www.instagram.com/reel/DJtINxZPEMQ/" target="_blank" rel="noopener"><img src="/assets/as-seen/million-view-music-video.webp" alt="ASPECT mask in a music video with over one million views" loading="lazy" decoding="async" /><span class="as-seen-shade"></span><span class="as-seen-type">Music video</span><strong>1M+ views</strong><span class="as-seen-open">Watch clip ↗</span></a>
+      <a class="as-seen-card" data-proof="Tata Shapran music video" href="https://www.instagram.com/reel/DKpziN2vFIx/" target="_blank" rel="noopener"><img src="/assets/as-seen/tata-shapran-music-video.webp" alt="Tata Shapran wearing an ASPECT mask" loading="lazy" decoding="async" /><span class="as-seen-shade"></span><span class="as-seen-type">Artist collaboration</span><strong>Tata Shapran</strong><span class="as-seen-open">Watch clip ↗</span></a>
+      <a class="as-seen-card" data-proof="MOTION stage performance" href="https://www.instagram.com/reel/DOC1vN9Es4z/" target="_blank" rel="noopener"><img src="/assets/as-seen/motion-stage-performance.webp" alt="ASPECT masks in the MOTION stage performance" loading="lazy" decoding="async" /><span class="as-seen-shade"></span><span class="as-seen-type">Dance performance</span><strong>MOTION</strong><span class="as-seen-open">Watch stage ↗</span></a>
+      <a class="as-seen-card" data-proof="Mikhail Talanov stage look" href="https://www.instagram.com/reel/DawcR3Qz6if/" target="_blank" rel="noopener"><img src="/assets/as-seen/mikhail-talanov-stage.webp" alt="Musician Mikhail Talanov in an ASPECT stage look" loading="lazy" decoding="async" /><span class="as-seen-shade"></span><span class="as-seen-type">Stage look</span><strong>Mikhail Talanov</strong><span class="as-seen-open">Watch performance ↗</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT THE ARTIST ============ -->
+<section class="artist-section" aria-labelledby="artist-title">
+  <div class="wrap">
+    <div class="artist-media">
+      <video id="artist-video" muted loop playsinline preload="none"
+        poster="/assets/products/ruby-dune/aspect-ruby-dune-red-fashion-mask-headpiece-handmade-proof.jpg"
+        aria-label="ASPECT mask being shaped and shown by hand">
+        <source src="/assets/products/ruby-dune/aspect-ruby-dune-red-fashion-mask-headpiece-hands-on-video.webm" type="video/webm" />
+        <source src="/assets/products/ruby-dune/aspect-ruby-dune-red-fashion-mask-headpiece-hands-on-video.mp4" type="video/mp4" />
+      </video>
+      <span class="artist-media-label">Made by hand · Never repeated</span>
+    </div>
+    <div class="artist-copy">
+      <p class="section-kicker">About the artist</p>
+      <h2 class="section-title" id="artist-title">Not manufactured.<br />Authored.</h2>
+      <p>ASPECT is built around a simple idea: a mask should not hide you. It should reveal a version of you that people cannot ignore.</p>
+      <p>Every piece is sculpted by hand over several days. The flexible structure, wrapped details and final silhouette are formed individually — without moulds, mass production or repeats.</p>
+      <p>That is why each mask has its own character and its own price. You are not buying an accessory from a production line. You are claiming the only existing version of an artist’s idea.</p>
+      <div class="artist-facts" aria-label="What makes every ASPECT mask unique">
+        <div><strong>1 of 1</strong><span>Only one exists</span></div>
+        <div><strong>Several days</strong><span>Of manual work</span></div>
+        <div><strong>Hand-sculpted</strong><span>From first line to final fit</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ FOOTER ============ -->
 <footer class="site-footer">
   <div class="wrap">
     <img class="footer-brand" src="/assets/brand/logo.png" alt="ASPECT MASK" />
     <p class="footer-line">Handmade in one copy. Ships worldwide.</p>
     <a id="footer-ig-link" href="#" target="_blank" rel="noopener" class="footer-ig">@aspect.mask</a>
-    <p class="footer-legal"><a href="/privacy/">Privacy Policy</a></p>
+    <a class="footer-privacy" href="/privacy/">Privacy</a>
   </div>
 </footer>
+
+<div class="archive-lightbox" id="archive-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Archive piece">
+  <button class="archive-lightbox-close" id="archive-lightbox-close" type="button" aria-label="Close archive image">×</button>
+  <img id="archive-lightbox-image" src="" alt="" />
+  <p id="archive-lightbox-name"></p>
+</div>
 
 <!-- ============ PRODUCT MODAL ============ -->
 <div class="modal" id="product-modal" aria-hidden="true">
@@ -168,6 +241,11 @@ src="https://www.facebook.com/tr?id=1063506702684823&ev=PageView&noscript=1"
         <p class="modal-price" id="modal-price"></p>
         <button class="btn btn-order" id="order-btn">order this unique piece</button>
       </div>
+
+      <button class="btn btn-try-on" id="try-on-btn" type="button">
+        <span class="try-on-dot" aria-hidden="true"></span>
+        try it on with your camera <span class="try-on-beta">beta</span>
+      </button>
 
       <h3 id="modal-name"></h3>
       <p class="modal-tagline" id="modal-tagline"></p>
@@ -234,8 +312,9 @@ src="https://www.facebook.com/tr?id=1063506702684823&ev=PageView&noscript=1"
      (observed 2026-07-28: stale copy served for several minutes after a fresh commit even
      though the origin already had the new content) — bump ?v= on every app.js/config.js
      change so visitors always get the current file instead of waiting out the CDN cache -->
-<script src="/js/config.js?v=20260729a"></script>
-<script src="/js/products.js?v=20260810d"></script>
-<script src="/js/app.js?v=20260808a"></script>
+<script src="/js/config.js?v=20260817a"></script>
+<script src="/js/products.js?v=20260817a"></script>
+<script src="/js/archive-data.js?v=20260817a"></script>
+<script src="/js/app.js?v=20260817a"></script>
 </body>
 </html>
