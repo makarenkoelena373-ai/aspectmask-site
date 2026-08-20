@@ -65,7 +65,10 @@ def parse_products():
     # (id: "your-product-id") is harmless to include/exclude either way
     # since it's filtered out below by checking inStock is not explicitly
     # false and id isn't the placeholder.
-    array_match = re.search(r"const PRODUCTS\s*=\s*\[(.*)\];\s*$", text, re.S)
+    # PRODUCTS is followed by a small browser-facing alias used by the AR
+    # try-on page, so the array no longer has to be the final statement in
+    # the file. Stop at its own closing `];` instead of anchoring to EOF.
+    array_match = re.search(r"const PRODUCTS\s*=\s*\[(.*?)\];", text, re.S)
     if not array_match:
         print("ERROR: could not find `const PRODUCTS = [...]` in js/products.js", file=sys.stderr)
         sys.exit(1)
@@ -304,13 +307,10 @@ def main():
 
     # (url, [image_urls]) pairs — homepage has no per-product images list here,
     # its own hero image is added separately below.
-    #
-    # NOTE (2026-08-17): static pages that aren't products (e.g. /privacy/)
-    # are NOT tracked here, so this script currently drops them from
-    # sitemap.xml on every regeneration. After running this script, re-check
-    # sitemap.xml and manually re-add any static-page <url> entries (see git
-    # history for the /privacy/ entry as an example) before deploying.
-    url_entries = [(f"{SITE_ORIGIN}/", [f"{SITE_ORIGIN}/assets/brand/og-cover.jpg"])]
+    url_entries = [
+        (f"{SITE_ORIGIN}/", [f"{SITE_ORIGIN}/assets/brand/og-cover.jpg"]),
+        (f"{SITE_ORIGIN}/privacy/", []),
+    ]
     for product in products:
         page = replace_between(base_html, SEO_START, SEO_END, build_seo_block(product))
         page = replace_between(page, NOSCRIPT_START, NOSCRIPT_END, build_noscript_block(product))
