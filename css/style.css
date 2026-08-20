@@ -31,14 +31,14 @@
   --bg: #030208;
   --bg-card: #111016;
   --fg: #e9eef2;
-  --muted: #798582;
-  --accent: #591b20;       /* brand wine/burgundy — use for fills, buttons, borders */
-  --accent-text: #a88f94;  /* burgundy lightened for legible small text/labels on black */
-  --accent-bright: #9c2e3a; /* brand wine/burgundy, brightened — for the one high-stakes "order" button only */
+  --muted: #b8c0be;
+  --accent: #74192b;       /* deep premium burgundy */
+  --accent-text: #d65a6d;  /* brighter crimson for prices and small accents */
+  --accent-bright: #ca2d47; /* high-intent crimson-burgundy CTA */
   --line: #232329;
-  --radius: 2px;
-  --font-display: "Gilroy", "Poppins", sans-serif;
-  --font-body: "Gilroy", "Inter", sans-serif;
+  --radius: 5px;
+  --font-display: "Elms Sans", "Gilroy", sans-serif;
+  --font-body: "Elms Sans", "Gilroy", sans-serif;
   --maxw: 560px; /* mobile-first single column max width, feels good on desktop too */
 }
 
@@ -59,23 +59,63 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 img, video { display: block; max-width: 100%; }
 button { font-family: inherit; cursor: pointer; }
 
+/* ---------- branded loading screen ---------- */
+body.is-loading { overflow: hidden; }
+.site-loader {
+  position: fixed; z-index: 9999; inset: 0; display: grid; place-items: center;
+  background: var(--bg); opacity: 1; visibility: visible;
+  transition: opacity .78s cubic-bezier(.22,.61,.36,1), visibility .78s step-end;
+}
+body.is-ready .site-loader { opacity: 0; visibility: hidden; pointer-events: none; }
+.site-loader-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.site-loader-logo {
+  width: 126px; height: auto; filter: invert(1); opacity: .92;
+  animation: loader-breathe 1.8s ease-in-out infinite;
+}
+.site-loader-line { width: 94px; height: 1px; overflow: hidden; background: rgba(233,238,242,.12); }
+.site-loader-line span {
+  display: block; width: 44%; height: 100%; background: var(--accent-bright);
+  animation: loader-line 1.25s cubic-bezier(.65,0,.35,1) infinite;
+}
+@keyframes loader-breathe { 0%,100% { opacity:.58; transform:scale(.985); } 50% { opacity:1; transform:scale(1); } }
+@keyframes loader-line { 0% { transform:translateX(-110%); } 100% { transform:translateX(340%); } }
+
+/* Elements receive these classes from app.js only after the loading screen
+   has finished, so entrance motion never runs invisibly behind the loader. */
+html.motion-enabled .reveal-item {
+  opacity: 0; filter: blur(5px); transform: translateY(26px);
+  transition: opacity .9s cubic-bezier(.22,.61,.36,1), transform .9s cubic-bezier(.22,.61,.36,1), filter .9s ease;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+html.motion-enabled .reveal-item.is-revealed { opacity: 1; filter: blur(0); transform: translateY(0); }
+
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
 
 /* ---------- header ---------- */
 .site-header {
-  position: sticky; top: 0; z-index: 20;
-  background: rgba(10,10,10,0.9);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--line);
+  position: fixed; z-index: 60; top: 0; left: 0; right: 0;
+  height: clamp(136px, 20svh, 190px);
+  display: flex; justify-content: center; align-items: flex-start;
+  padding-top: calc(env(safe-area-inset-top) + 16px);
+  background: linear-gradient(to bottom,
+    rgba(3,2,8,.44) 0%,
+    rgba(3,2,8,.38) 22%,
+    rgba(3,2,8,.27) 43%,
+    rgba(3,2,8,.13) 66%,
+    rgba(3,2,8,.04) 84%,
+    rgba(3,2,8,0) 100%);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity .8s .12s cubic-bezier(.22,.61,.36,1), transform .8s .12s cubic-bezier(.22,.61,.36,1);
 }
-.header-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
-.logo { height: 20px; width: auto; filter: invert(1); } /* source artwork is black-on-transparent; inverted to show white on our dark bg */
-.header-ig {
-  font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
-  border: 1px solid var(--line); padding: 7px 12px; border-radius: var(--radius);
-  color: var(--fg);
+.header-logo {
+  width: 83px; height: auto;
+  filter: invert(1);
+  opacity: .94;
+  transform: translateZ(0);
 }
-.header-ig:active { border-color: var(--accent-text); }
+body.is-loading .site-header { opacity: 0; transform: translateY(-8px); }
+body.is-ready .site-header { opacity: 1; transform: translateY(0); }
 
 /* ---------- hero photo banner ---------- */
 /* Photo banner with title/subtitle overlaid at the bottom over a gradient
@@ -85,13 +125,18 @@ button { font-family: inherit; cursor: pointer; }
   width: 100%;
   max-width: 900px; /* keeps the banner from ballooning in height on wide desktop windows — mobile is the real target */
   margin: 0 auto;
-  aspect-ratio: 9 / 10; /* ~half of a standard mobile screen height (390x844) — crops top/bottom of hero-banner.jpg symmetrically via object-fit:cover below, no stretching/distortion */
+  aspect-ratio: 3 / 4; /* matches the native vertical video and gives the mobile opening more presence */
+  max-height: 100svh;
   background: var(--bg-card);
-  border-bottom: 1px solid var(--line);
   overflow: hidden;
 }
 .hero-photo-img-slot { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
-.hero-photo-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-photo-frame {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+  opacity: 0; transform: scale(1.02); transition: opacity 1.15s ease, transform 5s ease;
+}
+.hero-photo-frame.is-active { opacity: 1; transform: scale(1); }
+.hero-video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .hero-photo-placeholder-label {
   font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--muted);
@@ -99,12 +144,12 @@ button { font-family: inherit; cursor: pointer; }
 /* Gradient scrim — guarantees the white overlay text stays readable no
    matter what's in that part of the photo, even if the crop changes later. */
 .hero-photo-scrim {
-  position: absolute; left: 0; right: 0; bottom: 0; height: 55%;
-  background: linear-gradient(to bottom, rgba(3,2,8,0) 0%, rgba(3,2,8,0.75) 65%, rgba(3,2,8,0.92) 100%);
+  position: absolute; z-index: 1; left: 0; right: 0; bottom: -1px; height: 72%;
+  background: linear-gradient(to bottom, rgba(3,2,8,0) 0%, rgba(3,2,8,.12) 28%, rgba(3,2,8,.72) 68%, #030208 100%);
   pointer-events: none;
 }
 .hero-photo-overlay-text {
-  position: absolute; left: 20px; right: 20px; bottom: 24px;
+  position: absolute; z-index: 2; left: 20px; right: 20px; bottom: 42px;
   text-align: center;
 }
 /* font-weight 400 (thin, same as .card-name) — per Lena 2026-07-29: the hero
@@ -116,7 +161,13 @@ button { font-family: inherit; cursor: pointer; }
 /* ---------- hero ---------- */
 /* bottom padding trimmed 2026-07-27 per Lena — catalog cards should follow
    right after the "Only 6 pieces exist now:" heading, not after a big gap. */
-.hero { padding: 28px 0 18px; text-align: left; }
+.hero { position: relative; z-index: 3; margin-top: -2px; padding: 30px 0 18px; text-align: left; background: var(--bg); }
+
+body.is-ready .hero-video,
+body.is-ready .hero-photo-frame.is-active { animation: hero-settle 1.35s cubic-bezier(.22,.61,.36,1) both; }
+body.is-ready .hero-photo-overlay-text { animation: hero-copy-in 1s .22s cubic-bezier(.22,.61,.36,1) both; }
+@keyframes hero-settle { from { opacity:.35; transform:scale(1.035); } to { opacity:1; transform:scale(1); } }
+@keyframes hero-copy-in { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
 
 .hero-wear-for-heading {
   font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
@@ -171,44 +222,78 @@ button { font-family: inherit; cursor: pointer; }
    not sit behind a section break. */
 .catalog { padding: 10px 0 60px; }
 
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
 /* flex column + height:100% (2026-07-27) — grid rows already stretch items
    to equal height, but content (product name length, etc.) varied inside,
    so the "View piece" buttons landed at different heights per card. Flex
    column here + margin-top:auto on .card-btn pins the button to the
    bottom of every card, regardless of how much text is above it. */
 .card {
-  background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--bg-card); border: 0; border-radius: var(--radius);
   overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: rgba(233,238,242,0.15);
   display: flex; flex-direction: column; height: 100%;
+  box-shadow: 0 20px 46px rgba(0,0,0,.32);
 }
 .card-media { position: relative; width: 100%; aspect-ratio: 3/4; overflow: hidden; }
-.card-media img { width: 100%; height: 100%; object-fit: cover; }
+.card-photo {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transform: scale(1.015); transition: opacity 1.05s ease, transform 4.5s ease;
+}
+.card-photo.is-active { opacity: 1; transform: scale(1); }
+.card-photo-scrim {
+  position: absolute; z-index: 1; inset: auto 0 0; height: 58%; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(3,2,8,0) 0%, rgba(3,2,8,.48) 38%, rgba(3,2,8,.94) 76%, #030208 100%);
+}
 .card-badge {
   position: absolute; top: 8px; left: 8px; background: rgba(10,10,10,0.75);
   color: var(--accent-text); font-size: 9.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
   padding: 4px 7px; border-radius: 2px; border: 1px solid var(--line);
 }
-.card-info { padding: 12px 12px 14px; display: flex; flex-direction: column; flex: 1; }
+.card-info {
+  position: absolute; z-index: 2; left: 0; right: 0; bottom: 0;
+  padding: 50px 12px 12px; display: flex; flex-direction: column;
+}
 /* Tagline removed from the grid preview 2026-07-27 per Lena (still shown in
    the product modal, just not on the card thumbnail) — name sits right on
    top of price now, tight gap (no reserved 2-line space anymore: all 6
    current names fit on one line, and the button still pins to the bottom
    of each card via flex + margin-top:auto, so a future longer name that
    wraps to 2 lines won't break alignment within its own row). */
-.card-name { font-family: var(--font-display); font-weight: 400; font-size: 14px; line-height: 1.3; margin-bottom: 4px; min-height: 18px; }
+.card-name { font-family: var(--font-display); font-weight: 400; font-size: 20px; line-height: 1.2; margin-bottom: 4px; min-height: 24px; }
 /* font-weight 400 — our Gilroy has only Regular(400)/Medium(500)/Heavy(700)
    loaded, no lighter "thin" cut exists, so Regular is as light as this can
    get without adding a new font file. */
-.card-price { font-size: 13px; font-weight: 400; color: var(--accent-text); margin-bottom: 8px; }
-/* Outline only, no fill — 2026-07-27 per Lena: a solid white button was
-   pulling too much attention off the product photo itself; the whole card
-   is already tappable, so the button just needs to read clearly, not shout. */
+.card-price {
+  font-size: 15px; font-weight: 500; color: #e05a6d; margin-bottom: 10px;
+  letter-spacing: .025em; text-shadow: 0 0 22px rgba(202,45,71,.34);
+}
 .card-btn {
-  width: 100%; text-align: center; font-size: 11px; padding: 10px;
-  border: 1px solid var(--fg); background: transparent; color: var(--fg);
+  position: relative; overflow: hidden; isolation: isolate;
+  width: 100%; text-align: center; font-size: 12px; padding: 12px;
+  border: 0; color: #fff;
+  background: linear-gradient(108deg, #711526 0%, #a51f36 34%, #d43b55 48%, #b7243d 62%, #771627 100%);
+  background-size: 240% 100%;
   border-radius: var(--radius); font-weight: 500; letter-spacing: 0.06em; text-transform: none;
-  margin-top: auto;
+  margin-top: 2px; box-shadow: inset 0 1px 0 rgba(255,255,255,.13), 0 12px 28px rgba(183,36,61,.28);
+  animation: card-cta-sheen 6.2s cubic-bezier(.45,0,.2,1) infinite;
+  transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+}
+.card-btn:active { transform: scale(.985); filter: brightness(1.08); }
+@media (hover: hover) { .card-btn:hover { filter: brightness(1.07); box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 15px 34px rgba(202,45,71,.34); } }
+@keyframes card-cta-sheen {
+  0%, 20% { background-position: 100% 50%; }
+  58%, 100% { background-position: 0% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-loader-logo,
+  .site-loader-line span,
+  .card-btn { animation: none; }
+  .hero-photo-frame,
+  .card-photo { transition: none; transform: none; }
+  body.is-ready .hero-video,
+  body.is-ready .hero-photo-frame.is-active,
+  body.is-ready .hero-photo-overlay-text { animation: none; }
 }
 
 /* ---------- media placeholder (used when a photo/video file is missing) ---------- */
@@ -322,34 +407,149 @@ button { font-family: inherit; cursor: pointer; }
 .cta-slide-title {
   font-family: var(--font-display); font-weight: 400; font-size: 30px; line-height: 1.05;
   color: var(--fg); margin-bottom: 10px; width: 100%; text-align: center;
-} /* not bold — same weight as the product name, per Lena 2026-07-28 (was 700).
-     Shrunk 38px -> 30px (-20%) 2026-08-10 per Lena, for the new urgency-copy
-     CTA slide ("Only one exists.") — leaves breathing room left/right of the
-     shorter title. */
+} /* not bold — same weight as the product name, per Lena 2026-07-28 (was 700) */
 .cta-slide-sub {
   font-family: var(--font-body); font-size: 17px; line-height: 1.3; color: var(--accent-text);
   font-weight: 400; text-align: center;
-} /* shrunk 19.5px -> 17px 2026-08-10 per Lena, to match the smaller title */
-
-/* ---------- final-cta slide (slide 8, target sequence) — "one of one, gone" theme,
-   added 2026-08-10 per Lena. Reuses the exact cta-slide photo/overlay structure —
-   only the copy differs, plus a small "ready to ship today" caption under the sub.
-   Prototyped on Ruby Dune first for approval before building for all products —
-   see product-card-slide-sequence-v2-decision.md, slide 8. ---------- */
+}
 .finalcta-slide-caption {
-  font-family: var(--font-body); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase;
-  color: var(--muted); font-weight: 500; text-align: center; margin-top: 10px;
+  margin-top: 11px; color: rgba(233,238,242,.68); font-size: 10.5px;
+  font-weight: 500; letter-spacing: .09em; text-transform: uppercase; text-align: center;
 }
 
+/* ---------- archive + industry proof ---------- */
+.section-kicker {
+  margin-bottom: 10px; color: var(--accent-text); font-size: 10px; font-weight: 600;
+  letter-spacing: .16em; text-transform: uppercase;
+}
+.section-title {
+  font-family: var(--font-display); font-size: 32px; font-weight: 400; line-height: 1.08;
+  letter-spacing: -.01em; color: var(--fg);
+}
+.section-note { margin-top: 10px; color: var(--muted); font-size: 10.5px; line-height: 1.45; }
+.section-intro { max-width: 420px; margin-top: 12px; color: #cbd0d0; font-size: 14px; line-height: 1.55; }
+.archive-section { padding: 68px 0 72px; background: #030208; }
+.archive-grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px;
+  margin-top: 28px;
+}
+.archive-piece {
+  position: relative; width: 100%; aspect-ratio: 3 / 4; margin: 0; padding: 0;
+  display: block; overflow: hidden; border: 0; border-radius: var(--radius);
+  background: #0e0c11; color: var(--fg); text-align: left;
+}
+.archive-piece[hidden] { display: none; }
+.archive-piece img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.2,.8,.2,1); }
+.archive-piece::after { content: ""; position: absolute; inset: 48% 0 0; background: linear-gradient(transparent, rgba(2,1,5,.82)); }
+.archive-piece span { position: absolute; z-index: 1; left: 7px; right: 7px; bottom: 7px; font-size: 8px; line-height: 1.2; letter-spacing: .06em; text-transform: uppercase; }
+.archive-piece:active img { transform: scale(1.025); }
+.archive-more {
+  display: block; width: 100%; margin-top: 18px; padding: 15px 18px; border: 0; border-radius: var(--radius);
+  background: linear-gradient(110deg, #7d1525, #c22f43, #7d1525); background-size: 220% 100%;
+  color: #fff; font: 600 12px/1 var(--font-body); letter-spacing: .08em; text-transform: uppercase;
+  animation: card-cta-sheen 5s ease-in-out infinite;
+}
+.archive-more[hidden] { display: none; }
+.as-seen-section { padding: 68px 0 72px; overflow: hidden; background: linear-gradient(180deg, #030208, #12080d); }
+.as-seen-track {
+  display: flex; gap: 10px; margin-top: 28px; padding-right: 20px;
+  overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory;
+  scrollbar-width: none; touch-action: pan-x pan-y;
+}
+.as-seen-track::-webkit-scrollbar { display: none; }
+.as-seen-card {
+  position: relative; flex: 0 0 82%; aspect-ratio: 4 / 5; overflow: hidden; scroll-snap-align: start;
+  padding: 0; border: 0; border-radius: var(--radius); background: #17121a; color: #fff; text-align: left;
+}
+.as-seen-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2,.8,.2,1); }
+.as-seen-card:active img { transform: scale(1.025); }
+.as-seen-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(2,1,5,.05), rgba(2,1,5,.1) 45%, rgba(2,1,5,.94)); }
+.as-seen-type, .as-seen-card strong, .as-seen-open { position: absolute; z-index: 1; left: 17px; right: 17px; }
+.as-seen-type { top: 16px; color: #f2c8ce; font-size: 9px; letter-spacing: .15em; text-transform: uppercase; }
+.as-seen-card strong { bottom: 42px; font: 400 25px/1.05 var(--font-display); }
+.as-seen-open { bottom: 17px; color: rgba(255,255,255,.72); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+
+.as-seen-modal {
+  position: fixed; z-index: 90; inset: 0; display: none; flex-direction: column;
+  align-items: center; justify-content: center; gap: 12px; padding: 54px 14px 18px;
+  background: rgba(2,1,5,.97); overscroll-behavior: contain;
+}
+.as-seen-modal.open { display: flex; }
+.as-seen-modal iframe {
+  display: block; width: min(100%, 540px); height: min(760px, calc(100svh - 112px));
+  border: 0; border-radius: var(--radius); background: #fff;
+}
+.as-seen-modal-close {
+  position: absolute; top: max(12px, env(safe-area-inset-top)); right: 14px;
+  width: 40px; height: 40px; border: 0; border-radius: 50%;
+  background: rgba(255,255,255,.1); color: #fff; font-size: 25px;
+}
+.as-seen-instagram-link { color: rgba(255,255,255,.68); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+body.as-seen-modal-open { overflow: hidden; }
+
+.sticky-try-on {
+  position: fixed; z-index: 45; left: 50%; bottom: calc(12px + env(safe-area-inset-bottom));
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px;
+  width: min(calc(100% - 24px), 520px); min-height: 62px; padding: 10px 15px;
+  border: 1px solid rgba(233,238,242,.25); border-radius: 9px;
+  background: rgba(16,10,15,.93); color: var(--fg); box-shadow: 0 15px 42px rgba(0,0,0,.48);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translate(-50%, calc(100% + 28px));
+  transition: opacity .3s ease, transform .38s cubic-bezier(.22,.61,.36,1), visibility .3s step-end;
+}
+.sticky-try-on.is-visible {
+  opacity: 1; visibility: visible; pointer-events: auto; transform: translate(-50%, 0);
+  transition: opacity .3s ease, transform .38s cubic-bezier(.22,.61,.36,1), visibility 0s;
+}
+.sticky-try-on-pulse {
+  width: 13px; height: 13px; border-radius: 50%; background: var(--accent-bright);
+  box-shadow: 0 0 0 6px rgba(202,45,71,.16);
+}
+.sticky-try-on-copy { display: flex; min-width: 0; flex-direction: column; }
+.sticky-try-on-copy strong { font-size: 13px; font-weight: 500; line-height: 1.25; letter-spacing: .015em; }
+.sticky-try-on-copy small { margin-top: 2px; color: rgba(233,238,242,.58); font-size: 9px; letter-spacing: .055em; text-transform: uppercase; }
+.sticky-try-on-arrow { color: var(--accent-text); font-size: 22px; line-height: 1; }
+body.is-loading .sticky-try-on { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.archive-lightbox { position: fixed; z-index: 80; inset: 0; display: none; align-items: center; justify-content: center; padding: 54px 18px 30px; background: rgba(2,1,5,.96); }
+.archive-lightbox.open { display: flex; flex-direction: column; }
+.archive-lightbox img { max-width: 100%; max-height: calc(100vh - 125px); border-radius: var(--radius); object-fit: contain; }
+.archive-lightbox p { margin-top: 13px; color: #e9edef; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+.archive-lightbox-close { position: absolute; top: max(14px, env(safe-area-inset-top)); right: 14px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgba(255,255,255,.1); color: #fff; font-size: 25px; }
+
+/* ---------- about the artist ---------- */
+.artist-section { padding: 0 0 72px; background: #12080d; }
+.artist-media {
+  position: relative; aspect-ratio: 3 / 4; overflow: hidden;
+  border-radius: var(--radius); background: var(--bg-card);
+}
+.artist-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.artist-media::after {
+  content: ""; position: absolute; inset: auto 0 0; height: 36%; pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(3,2,8,.78));
+}
+.artist-media-label {
+  position: absolute; z-index: 1; left: 16px; right: 16px; bottom: 15px;
+  color: var(--fg); font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+}
+.artist-copy { padding-top: 34px; }
+.artist-copy > p:not(.section-kicker):not(.section-note) {
+  margin-top: 18px; color: #d4d9d8; font-size: 15px; line-height: 1.65;
+}
+.artist-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 28px; }
+.artist-facts div {
+  min-height: 94px; padding: 13px 10px; border-top: 2px solid var(--accent-bright);
+  border-radius: 0 0 var(--radius) var(--radius); background: rgba(3,2,8,.58);
+}
+.artist-facts strong { display: block; color: var(--fg); font-size: 13px; font-weight: 500; line-height: 1.2; }
+.artist-facts span { display: block; margin-top: 8px; color: var(--muted); font-size: 10px; line-height: 1.35; }
 /* ---------- footer ---------- */
 .site-footer { border-top: 1px solid var(--line); padding: 34px 0 46px; text-align: center; }
 .footer-brand { height: 30px; width: auto; margin: 0 auto 10px; filter: invert(1); }
 .footer-line { color: var(--muted); font-size: 12.5px; margin-bottom: 10px; }
 .footer-ig { display: inline-block; font-size: 12.5px; color: var(--accent-text); font-weight: 600; }
-/* privacy-policy link, added 2026-08-17 (Pinterest API registration required a published
-   policy URL) — small/muted, sits below the IG handle so it doesn't compete visually */
-.footer-legal { margin: 14px 0 0; }
-.footer-legal a { color: var(--muted); font-size: 11px; text-decoration: underline; text-underline-offset: 2px; }
+.footer-privacy { display: inline-block; margin-left: 16px; color: var(--muted); font-size: 11px; text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- modal (product detail) ---------- */
 .modal {
@@ -401,6 +601,25 @@ button { font-family: inherit; cursor: pointer; }
   transition: opacity .15s ease;
 } /* not bold, not caps — per Lena 2026-07-28 (was font-weight:700, text-transform:uppercase) */
 .btn-order:active { opacity: 0.75; }
+
+/* Camera try-on entry point. Kept visually separate from the purchase CTA:
+   this is an experimental product tool, not the primary conversion action. */
+.btn-try-on {
+  width: 100%; margin: -4px 0 20px; padding: 13px 16px; gap: 9px;
+  border: 1px solid rgba(233,238,242,.32); background: rgba(233,238,242,.055);
+  color: var(--fg); font-size: 11px; font-weight: 500; letter-spacing: .045em;
+  text-transform: none;
+}
+.btn-try-on:active { background: rgba(233,238,242,.1); }
+.try-on-dot {
+  width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto;
+  background: #8fa69f; box-shadow: 0 0 0 4px rgba(143,166,159,.13);
+}
+.try-on-beta {
+  margin-left: 2px; padding: 2px 5px; border: 1px solid var(--line);
+  color: var(--accent-text); font-size: 8px; line-height: 1; letter-spacing: .08em;
+  text-transform: uppercase;
+}
 
 /* level 2: product name */
 .modal-body h3 { font-size: 21px; font-weight: 400; margin-bottom: 4px; }
@@ -491,5 +710,9 @@ button { font-family: inherit; cursor: pointer; }
   .hero h1 { font-size: 38px; }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .sticky-try-on { transition: none; }
+}
+
 /* Respect safe areas on iOS */
-.site-header, .site-footer { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+.site-footer { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
