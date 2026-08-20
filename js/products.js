@@ -525,3 +525,7 @@ const PRODUCTS = [
   },
   ------------------------------------------------------------------------ */
 ];
+
+// Expose the catalog to the standalone camera try-on page. The storefront keeps
+// using the lexical PRODUCTS binding; this alias prevents duplicated product data.
+window.ASPECT_PRODUCTS = PRODUCTS;

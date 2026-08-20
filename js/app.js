@@ -53,9 +53,19 @@
     }, true);
   });
 
-  if (SITE.heroPhoto) {
-    document.getElementById("hero-photo-img-slot").innerHTML =
-      `<img src="${SITE.heroPhoto}" alt="Model wearing an ASPECT mask — eyes visible through the design" />`;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const saveDataEnabled = Boolean(navigator.connection?.saveData);
+  if (!prefersReducedMotion) document.documentElement.classList.add("motion-enabled");
+  const heroMediaSlot = document.getElementById("hero-photo-img-slot");
+
+  if (SITE.heroVideoMp4 && !prefersReducedMotion && !saveDataEnabled) {
+    heroMediaSlot.innerHTML = `<video class="hero-video" autoplay muted loop playsinline preload="auto" poster="${SITE.heroPhoto || ""}" aria-label="Model wearing an ASPECT mask">
+      ${SITE.heroVideoWebm ? `<source src="${SITE.heroVideoWebm}" type="video/webm" />` : ""}
+      <source src="${SITE.heroVideoMp4}" type="video/mp4" />
+    </video>`;
+  } else if (SITE.heroPhoto) {
+    heroMediaSlot.innerHTML =
+      `<img class="hero-photo-frame is-active" src="${SITE.heroPhoto}" alt="Model wearing an ASPECT mask — eyes visible through the design" />`;
   }
   // else: leave the CSS placeholder (photo not shot yet) as-is
 
@@ -70,6 +80,90 @@
 
   document.getElementById("order-title").textContent = SITE.orderPopupTitle;
   document.getElementById("order-explainer").textContent = SITE.orderPopupExplainer;
+
+  const artistVideo = document.getElementById("artist-video");
+  if (artistVideo && "IntersectionObserver" in window && !prefersReducedMotion && !saveDataEnabled) {
+    const artistVideoObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) artistVideo.play().catch(() => {});
+        else artistVideo.pause();
+      });
+    }, { threshold: 0.45 });
+    artistVideoObserver.observe(artistVideo);
+  }
+
+  // ---------- sold archive + verified industry proof ----------
+  const archiveItems = Array.isArray(window.ASPECT_ARCHIVE) ? window.ASPECT_ARCHIVE : [];
+  const archiveGrid = document.getElementById("archive-grid");
+  const archiveLightbox = document.getElementById("archive-lightbox");
+  const archiveLightboxImage = document.getElementById("archive-lightbox-image");
+  const archiveLightboxName = document.getElementById("archive-lightbox-name");
+
+  function closeArchiveLightbox() {
+    archiveLightbox?.classList.remove("open");
+    archiveLightbox?.setAttribute("aria-hidden", "true");
+    if (archiveLightboxImage) archiveLightboxImage.src = "";
+  }
+
+  if (archiveGrid && archiveItems.length) {
+    archiveGrid.innerHTML = archiveItems.map((piece, index) => `
+      <button class="archive-piece" type="button" data-archive-index="${index}">
+        <img src="${piece.src}" width="${piece.width}" height="${piece.height}" alt="${piece.name}, a sold one-of-one ASPECT mask" loading="lazy" decoding="async" />
+        <span>${piece.name}</span>
+      </button>`).join("");
+
+    archiveGrid.addEventListener("click", (event) => {
+      const button = event.target.closest(".archive-piece");
+      if (!button) return;
+      const piece = archiveItems[Number(button.dataset.archiveIndex)];
+      if (!piece) return;
+      archiveLightboxImage.src = piece.src;
+      archiveLightboxImage.alt = `${piece.name}, a sold one-of-one ASPECT mask`;
+      archiveLightboxName.textContent = `${piece.name} · sold`;
+      archiveLightbox.classList.add("open");
+      archiveLightbox.setAttribute("aria-hidden", "false");
+      track("archive_piece_open", { piece_name: piece.name });
+    });
+  } else {
+    document.querySelector(".archive-section")?.setAttribute("hidden", "");
+  }
+
+  document.getElementById("archive-lightbox-close")?.addEventListener("click", closeArchiveLightbox);
+  archiveLightbox?.addEventListener("click", (event) => {
+    if (event.target === archiveLightbox) closeArchiveLightbox();
+  });
+  const asSeenModal = document.getElementById("as-seen-modal");
+  const asSeenEmbed = document.getElementById("as-seen-embed");
+  const asSeenInstagramLink = document.getElementById("as-seen-instagram-link");
+
+  function closeAsSeenModal() {
+    asSeenModal?.classList.remove("open");
+    asSeenModal?.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("as-seen-modal-open");
+    if (asSeenEmbed) asSeenEmbed.src = "";
+  }
+
+  document.querySelectorAll(".as-seen-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      if (asSeenEmbed && asSeenModal) {
+        asSeenEmbed.src = card.dataset.embed;
+        asSeenEmbed.title = `${card.dataset.proof} on Instagram`;
+        asSeenInstagramLink.href = card.dataset.instagramUrl;
+        asSeenModal.classList.add("open");
+        asSeenModal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("as-seen-modal-open");
+      }
+      track("as_seen_open", { proof_name: card.dataset.proof });
+      fbTrack("AsSeenOpen", { proof_name: card.dataset.proof }, false);
+    });
+  });
+  document.getElementById("as-seen-modal-close")?.addEventListener("click", closeAsSeenModal);
+  asSeenModal?.addEventListener("click", (event) => {
+    if (event.target === asSeenModal) closeAsSeenModal();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && asSeenModal?.classList.contains("open")) closeAsSeenModal();
+  });
 
   // ---------- helpers ----------
   // Root-absolute so it resolves the same whether the current page is "/"
@@ -196,11 +290,10 @@
       </div></div>`;
     }
 
-    // "finalcta" slide: slide 8 in the target sequence — very last slide, "one of one, gone"
-    // theme, with a small "ready to ship today" caption. Same photo/overlay structure as
-    // "cta" (see above), reuses .cta-slide-title/.cta-slide-sub, adds .finalcta-slide-caption.
+    // Analytics-led final slide from Lena's 8-slide sequence. It shares the
+    // early CTA layout and adds one quiet shipping reassurance at the end.
     if (item.type === "finalcta") {
-      return `<div class="carousel-slide"><div class="cta-slide">
+      return `<div class="carousel-slide"><div class="cta-slide finalcta-slide">
         <img src="${src}" alt="${item.alt || `${product.name} — ${item.slot}`}" ${slideImgAttrs(isFirst)} />
         <div class="cta-slide-overlay">
           <p class="cta-slide-title">${item.ctaTitle || product.name}</p>
@@ -231,26 +324,108 @@
 
   // ---------- render product grid ----------
   const grid = document.getElementById("product-grid");
+  const cardImageSets = new Map(PRODUCTS.map((product) => [
+    product.id,
+    product.media
+      .filter((item) => item.src && item.type !== "video")
+      .map((item) => mediaPath(product.id, item.src)),
+  ]));
+
   grid.innerHTML = PRODUCTS.map((p, i) => {
-    const cover = p.media.find((m) => m.src) || p.media[0];
-    // Same LCP fix as the carousel's first slide (see slideImgAttrs above): the first
-    // grid card's cover photo is the homepage's own LCP candidate, so it must not be
-    // loading="lazy" — every other card (below the fold on first paint) stays lazy.
+    const cover = p.media.find((m) => m.src && m.type !== "video") || p.media[0];
+    // All six initial covers are loaded behind the branded opening screen. This is a
+    // deliberately small payload compared with the full galleries, and guarantees
+    // that scrolling never reveals an empty product card after the site appears.
+    const coverAttrs = i === 0
+      ? `fetchpriority="high" loading="eager" decoding="async"`
+      : `fetchpriority="low" loading="eager" decoding="async"`;
     const coverHTML = cover.src
-      ? `<img src="${mediaPath(p.id, cover.src)}" alt="${p.name}" ${slideImgAttrs(i === 0)} />`
+      ? `<img class="card-photo is-active" src="${mediaPath(p.id, cover.src)}" alt="${p.name}" ${coverAttrs} />
+         <img class="card-photo" alt="" aria-hidden="true" loading="lazy" decoding="async" />`
       : `<div class="placeholder-slide"><span class="ph-icon">📷</span><span class="ph-label">${cover.slot}</span></div>`;
     return `
       <div class="card" data-id="${p.id}">
         <div class="card-media">
           ${coverHTML}
-        </div>
-        <div class="card-info">
-          <p class="card-name">${p.name}</p>
-          ${p.price ? `<p class="card-price">${p.price}</p>` : ""}
-          <button class="card-btn" type="button">view piece</button>
+          <div class="card-photo-scrim" aria-hidden="true"></div>
+          <div class="card-info">
+            <p class="card-name">${p.name}</p>
+            ${p.price ? `<p class="card-price">${p.price}</p>` : ""}
+            <button class="card-btn" type="button">view piece</button>
+          </div>
         </div>
       </div>`;
   }).join("");
+
+  // Cross-fade through every photo while the card is visible. Only the next
+  // photo is loaded, keeping the mobile homepage light despite the full
+  // editorial gallery behind each piece.
+  function activateCardImageCycles() {
+    if (prefersReducedMotion || saveDataEnabled || !("IntersectionObserver" in window)) return;
+    const cardCycleStates = new WeakMap();
+
+    function stopCardCycle(card) {
+      const state = cardCycleStates.get(card);
+      if (!state) return;
+      state.visible = false;
+      window.clearTimeout(state.timer);
+    }
+
+    function startCardCycle(card, order) {
+      const images = cardImageSets.get(card.dataset.id) || [];
+      if (images.length < 2) return;
+
+      let state = cardCycleStates.get(card);
+      if (!state) {
+        state = { activeLayer: 0, index: 0, timer: 0, visible: false, busy: false };
+        cardCycleStates.set(card, state);
+      }
+      if (state.visible) return;
+      state.visible = true;
+
+      const scheduleNext = (delay = 3000) => {
+        window.clearTimeout(state.timer);
+        state.timer = window.setTimeout(async () => {
+          if (!state.visible || state.busy) return;
+          state.busy = true;
+          state.index = (state.index + 1) % images.length;
+
+          const layers = card.querySelectorAll(".card-photo");
+          const current = layers[state.activeLayer];
+          const nextLayerIndex = state.activeLayer === 0 ? 1 : 0;
+          const next = layers[nextLayerIndex];
+          next.src = images[state.index];
+
+          try { await next.decode(); } catch (_error) {}
+          if (!state.visible) {
+            state.busy = false;
+            return;
+          }
+
+          next.classList.add("is-active");
+          current.classList.remove("is-active");
+          state.activeLayer = nextLayerIndex;
+          state.busy = false;
+          scheduleNext();
+        }, delay);
+      };
+
+      scheduleNext(2500 + order * 220);
+    }
+
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const order = Number(entry.target.dataset.cardOrder || 0);
+        if (entry.isIntersecting) startCardCycle(entry.target, order);
+        else stopCardCycle(entry.target);
+      });
+    }, { threshold: 0.2 });
+
+    grid.querySelectorAll(".card").forEach((card, order) => {
+      card.dataset.cardOrder = String(order);
+      cardObserver.observe(card);
+    });
+  }
 
   grid.querySelectorAll(".card").forEach((card) => {
     card.addEventListener("click", () => {
@@ -372,6 +547,40 @@
   }
 
   document.getElementById("modal-close").addEventListener("click", () => closeProduct(true));
+
+  document.getElementById("try-on-btn").addEventListener("click", () => {
+    if (!currentProduct) return;
+    track("try_on_click", {
+      product_id: currentProduct.id,
+      product_name: currentProduct.name,
+      source: "product_modal",
+    });
+    fbTrack("TryOnClick", {
+      product_id: currentProduct.id,
+      product_name: currentProduct.name,
+    }, false);
+    location.href = `/try-on/?mask=${encodeURIComponent(currentProduct.id)}`;
+  });
+
+  const stickyTryOn = document.getElementById("sticky-try-on");
+  let stickyTryOnFrame = 0;
+
+  function updateStickyTryOn() {
+    stickyTryOnFrame = 0;
+    stickyTryOn?.classList.toggle("is-visible", window.scrollY > 180);
+  }
+
+  function scheduleStickyTryOnUpdate() {
+    if (stickyTryOnFrame) return;
+    stickyTryOnFrame = requestAnimationFrame(updateStickyTryOn);
+  }
+
+  stickyTryOn?.addEventListener("click", () => {
+    track("try_on_click", { source: "sticky_home_cta" });
+    fbTrack("TryOnClick", { source: "sticky_home_cta" }, false);
+  });
+  window.addEventListener("scroll", scheduleStickyTryOnUpdate, { passive: true });
+  updateStickyTryOn();
 
   // Attaches the real <source src> (and starts playback) for the video in slide `idx`
   // and its immediate neighbors, the first time each is reached — see the note in
@@ -588,4 +797,86 @@
     copyField.setAttribute("readonly", "readonly");
     done();
   }
+
+  // ---------- polished opening + scroll reveals ----------
+  function waitForImage(image) {
+    if (!image || (image.complete && image.naturalWidth > 0)) return Promise.resolve();
+    return new Promise((resolve) => {
+      image.addEventListener("load", resolve, { once: true });
+      image.addEventListener("error", resolve, { once: true });
+    });
+  }
+
+  function waitForVideo(video) {
+    if (!video || video.readyState >= 3) return Promise.resolve();
+    return new Promise((resolve) => {
+      video.addEventListener("canplay", resolve, { once: true });
+      video.addEventListener("error", resolve, { once: true });
+    });
+  }
+
+  function prepareRevealAnimations() {
+    const targets = [
+      document.querySelector(".hero .wrap"),
+      ...document.querySelectorAll(".card"),
+      document.querySelector(".archive-section .section-kicker"),
+      document.querySelector(".archive-section .section-title"),
+      document.querySelector(".archive-section .section-intro"),
+      ...document.querySelectorAll(".archive-piece"),
+      document.querySelector(".as-seen-section .section-kicker"),
+      document.querySelector(".as-seen-section .section-title"),
+      document.querySelector(".as-seen-section .section-intro"),
+      ...document.querySelectorAll(".as-seen-card"),
+      document.querySelector(".artist-media"),
+      document.querySelector(".artist-copy"),
+      document.querySelector(".site-footer"),
+    ].filter(Boolean);
+
+    targets.forEach((target) => target.classList.add("reveal-item"));
+    document.querySelectorAll(".as-seen-card").forEach((card, index) => {
+      card.style.setProperty("--reveal-delay", `${index * 90}ms`);
+    });
+
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      return () => targets.forEach((target) => target.classList.add("is-revealed"));
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-revealed");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6%" });
+
+    return () => targets.forEach((target) => observer.observe(target));
+  }
+
+  async function revealSiteWhenReady() {
+    const loader = document.getElementById("site-loader");
+    const startRevealAnimations = prepareRevealAnimations();
+    const criticalImages = [
+      ...document.querySelectorAll(".hero-photo-frame.is-active, .card-photo.is-active"),
+      document.querySelector("#modal-carousel .carousel-slide:first-child img"),
+    ].filter(Boolean);
+    const heroVideo = document.querySelector(".hero-video");
+    const fontReady = document.fonts?.ready || Promise.resolve();
+    const visualReady = Promise.all([
+      fontReady,
+      waitForVideo(heroVideo),
+      ...criticalImages.map(waitForImage),
+    ]);
+    const failsafe = new Promise((resolve) => window.setTimeout(resolve, 7500));
+    const minimumBrandMoment = new Promise((resolve) => window.setTimeout(resolve, 650));
+
+    await Promise.all([minimumBrandMoment, Promise.race([visualReady, failsafe])]);
+    document.body.classList.remove("is-loading");
+    document.body.classList.add("is-ready");
+    loader?.setAttribute("aria-hidden", "true");
+    activateCardImageCycles();
+    requestAnimationFrame(startRevealAnimations);
+    window.setTimeout(() => { if (loader) loader.hidden = true; }, 900);
+  }
+
+  revealSiteWhenReady();
 })();
