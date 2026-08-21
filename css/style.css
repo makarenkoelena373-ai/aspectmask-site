@@ -430,15 +430,18 @@ body.is-ready .hero-photo-overlay-text { animation: hero-copy-in 1s .22s cubic-b
 .section-intro { max-width: 420px; margin-top: 12px; color: #cbd0d0; font-size: 14px; line-height: 1.55; }
 .archive-section { padding: 68px 0 72px; background: #030208; }
 .custom-order-section {
-  padding: 64px 0 68px; text-align: center;
+  padding: 0 0 68px; text-align: center;
   background: linear-gradient(180deg, #030208, #1a0a10 55%, #030208);
 }
-.custom-order-section .wrap { display: flex; flex-direction: column; align-items: center; }
+.custom-order-section .wrap { display: flex; flex-direction: column; align-items: center; padding-top: 32px; }
 .custom-order-section .section-intro { text-align: center; }
-.custom-order-photo {
-  width: 100%; aspect-ratio: 1400 / 765; object-fit: cover;
-  border-radius: var(--radius); margin-bottom: 22px;
-}
+/* Full-bleed edge-to-edge — sits outside .wrap so it isn't capped by the
+   560px content column, matching the hero photo banner treatment. Plain
+   width:100%/height:auto (no aspect-ratio/object-fit) so the real 1400x765
+   horizontal frame always shows in full, never cropped, at whatever height
+   its width naturally works out to. Capped at 900px on wide desktop so it
+   doesn't balloon in height, same cap as .hero-photo-banner. */
+.custom-order-photo { display: block; width: 100%; max-width: 900px; height: auto; margin: 0 auto; }
 .custom-order-btn { margin-top: 22px; }
 .archive-grid {
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px;
