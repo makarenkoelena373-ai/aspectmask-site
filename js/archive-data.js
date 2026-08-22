@@ -4,7 +4,7 @@ window.ASPECT_ARCHIVE = [
   { name: "Black half", src: "/assets/archive/black-half.webp", width: 960, height: 1200 },
   { name: "Dark chaos", src: "/assets/archive/dark-chaos.webp", width: 766, height: 1148 },
   { name: "Dusty pink aspect", src: "/assets/archive/dusty-pink-aspect.webp", width: 675, height: 1200 },
-  { name: "fuchsia plant", src: "/assets/archive/fuchsia-plant.webp", width: 900, height: 1200 },
+  { name: "Black cat", src: "/assets/archive/black-cat.webp", width: 900, height: 1200 },
   { name: "Grey touch", src: "/assets/archive/grey-touch.webp", width: 960, height: 1200 },
   { name: "Red aspect", src: "/assets/archive/red-aspect.webp", width: 675, height: 1200 },
   { name: "red bird eye", src: "/assets/archive/red-bird-eye.webp", width: 675, height: 1200 },
